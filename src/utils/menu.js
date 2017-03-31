@@ -53,6 +53,19 @@ module.exports = [
     ],
   },
   {
+    key: 'BusinessComponent',
+    name: 'BusinessComponent',
+    icon: 'laptop',
+    clickable: false,
+    child: [
+      {
+        key: 'selectModal',
+        name: 'selectModal',
+        icon: 'bars',
+      }
+    ],
+  },
+  {
     key: 'chart',
     name: 'Recharts',
     icon: 'code-o',

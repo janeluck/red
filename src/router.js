@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react'
-import { Router } from 'dva/router'
+import React, {PropTypes} from 'react'
+import {Router} from 'dva/router'
 import App from './routes/app'
 
 const cached = {}
@@ -10,7 +10,7 @@ const registerModel = (app, model) => {
   }
 }
 
-const Routers = function ({ history, app }) {
+const Routers = function ({history, app}) {
   const routes = [
     {
       path: '/',
@@ -18,11 +18,19 @@ const Routers = function ({ history, app }) {
       getIndexRoute (nextState, cb) {
         require.ensure([], require => {
           registerModel(app, require('./models/dashboard'))
-          cb(null, { component: require('./routes/dashboard/') })
+          cb(null, {component: require('./routes/dashboard/')})
         }, 'dashboard')
       },
       childRoutes: [
         {
+          path: 'BusinessComponent/selectModal',
+          name: 'BusinessComponent/selectModal',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              cb(null, require('./routes/BusinessComponent/selectModal'))
+            }, 'BusinessComponent-selectModal')
+          },
+        }, {
           path: 'dashboard',
           name: 'dashboard',
           getComponent (nextState, cb) {
@@ -133,7 +141,7 @@ const Routers = function ({ history, app }) {
     },
   ]
 
-  return <Router history={history} routes={routes} />
+  return <Router history={history} routes={routes}/>
 }
 
 Routers.propTypes = {

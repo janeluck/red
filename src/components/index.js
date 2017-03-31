@@ -3,6 +3,7 @@ import DropOption from './DropOption'
 import Iconfont from './Iconfont'
 import Search from './Search'
 import Editor from './Editor'
+import businessComponents from './businessComponents'
 import * as Layout from './Layout/index.js'
 
 import layer from './layer'
@@ -15,4 +16,5 @@ export {
   Search,
   Editor,
   layer,
- }
+  businessComponents
+}
