@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './index.less'
 import Mock from 'mockjs'
-import { request, config } from '../../utils'
+import {request, config} from '../../utils'
 import {
   Row,
   Col,
@@ -77,10 +77,15 @@ const requestOptions = [
       cityCode: '01010101',
     },
     desc: 'cross-domain request by yahoo\'s yql',
-  }]
+  },
+  {
+    url: `${location.origin}/api/deptTree`,
+    desc: 'intercept request by mock.js',
+    method: 'get',
+  },]
 
 export default class RequestPage extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       currntRequest: requestOptions[0],
@@ -88,13 +93,14 @@ export default class RequestPage extends React.Component {
       result: '',
     }
   }
-  componentDidMount () {
+
+  componentDidMount() {
     this.handleRequest()
   }
 
   handleRequest = () => {
-    const { currntRequest } = this.state
-    const { desc, ...requestParams } = currntRequest
+    const {currntRequest} = this.state
+    const {desc, ...requestParams} = currntRequest
     this.setState({
       ...this.state,
       result: <div key="sending">
@@ -104,9 +110,11 @@ export default class RequestPage extends React.Component {
         params:{currntRequest.data ? JSON.stringify(currntRequest.data) : 'null'}<br />
       </div>,
     })
-    request({ ...requestParams }).then((data) => {
+    request({...requestParams}).then((data) => {
       const state = this.state
-      state.result = [this.state.result, <div key="complete"><div>请求完成</div>{JSON.stringify(data)}</div>]
+      state.result = [this.state.result, <div key="complete">
+        <div>请求完成</div>
+        {JSON.stringify(data)}</div>]
       this.setState(state)
     })
   }
@@ -116,20 +124,20 @@ export default class RequestPage extends React.Component {
     const curretUrl = value.split('?')[0]
     const curretMethod = value.split('?')[1]
     const currntItem = requestOptions.filter(item => {
-      const { method = 'get' } = item
+      const {method = 'get'} = item
       return curretUrl === item.url && curretMethod === method
     })
     state.currntRequest = currntItem[0]
     this.setState(state)
   }
 
-  render () {
+  render() {
     const colProps = {
       lg: 12,
       md: 24,
     }
-    const { result, currntRequest } = this.state
-    const { method = 'get' } = currntRequest
+    const {result, currntRequest} = this.state
+    const {method = 'get'} = currntRequest
 
     return (
       <div className="content-inner">
@@ -143,8 +151,8 @@ export default class RequestPage extends React.Component {
                   width: '100%',
                   flex: 1,
                 }} defaultValue={`${method.toLocaleUpperCase()}   ${requestOptions[0].url}`}
-                  size="large"
-                  onChange={this.handeleURLChange}
+                        size="large"
+                        onChange={this.handeleURLChange}
                 >
                   {requestOptions.map((item, index) => {
                     const m = item.method || 'get'
@@ -153,12 +161,13 @@ export default class RequestPage extends React.Component {
                     </Select.Option>)
                   })}
                 </Select>
-                <Button type="primary" style={{ width: 100, marginLeft: 16 }} onClick={this.handleRequest}>发送</Button>
+                <Button type="primary" style={{width: 100, marginLeft: 16}} onClick={this.handleRequest}>发送</Button>
               </div>
               <div className={styles.params}>
                 <div className={styles.label}>Params：</div>
-                <Input disabled value={currntRequest.data ? JSON.stringify(currntRequest.data) : 'null'} size="large" style={{ width: 200 }} placeholder="null" />
-                <div style={{ flex: 1, marginLeft: 16 }}>{currntRequest.desc}</div>
+                <Input disabled value={currntRequest.data ? JSON.stringify(currntRequest.data) : 'null'} size="large"
+                       style={{width: 200}} placeholder="null"/>
+                <div style={{flex: 1, marginLeft: 16}}>{currntRequest.desc}</div>
               </div>
               <div className={styles.result}>
                 {result}
