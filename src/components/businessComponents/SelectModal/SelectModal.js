@@ -54,7 +54,11 @@ class SelectModal extends React.Component {
     const that = this
     reqwest({
       url: location.origin + '/api/personList',
-      type: 'json'
+      type: 'json',
+      method: 'post',
+      data: {
+        id
+      }
     }).then(data=> {
       that.setState({
         users: data.data
