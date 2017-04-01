@@ -100,7 +100,7 @@ module.exports = {
       success: true, data: Mock.mock({
         'users|0-10': [
           {
-            "ID|+1": deptID * 10  ,
+            "ID|+1": deptID * 10,
             "Name": "@cname",
             Avatar () {
               return Mock.Random.image('20x20', Mock.Random.color(), '#757575', 'png', this.Name.substr(0, 1))
@@ -110,5 +110,24 @@ module.exports = {
       })['users']
     })
   },
+
+  'POST /api/searchUser' (req, res) {
+    const randomNumber = Mock.Random.integer(1, 1000)
+    res.json({
+      rs: true, data: Mock.mock({
+
+        'list|0-10': [
+          {
+            "ID|+1": randomNumber,
+            "Name": "@cname",
+            Avatar () {
+              return Mock.Random.image('20x20', Mock.Random.color(), '#757575', 'png', this.Name.substr(0, 1))
+            },
+          }
+        ]
+      })
+    })
+  }
+
 
 }

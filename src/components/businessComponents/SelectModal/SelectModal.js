@@ -67,6 +67,58 @@ class SelectModal extends React.Component {
   }
 
 
+  keywordChange = (e) => {
+    this.setState({
+      keyword: e.target.value
+    })
+  }
+
+  search = ()=> {
+    const that = this
+    const keyword = that.state.keyword.replace(/(^\s*)|(\s*$)/g, "")
+
+    if (keyword == '') return
+    that.setState({
+      loading: true,
+      selectedKeys: []
+    }, ()=> {
+      reqwest({
+        url: location.origin + '/api/searchUser',
+        type: 'json',
+        method: 'post',
+        data: {
+          keyword
+        }
+      }).then(function (data) {
+
+        if (data.rs) {
+          // Immutable会把Number类型的键值转为String, 避免混淆, ID写入的时候统一转为String类型
+          const users = data.data.list && data.data.list.map(user=> {
+              user.ID = user.ID + ''
+              return user
+            })
+          that.setState({
+            loading: false,
+            users: users
+          })
+        } else {
+          Modal.error({
+            title: '出错了',
+            content: data.error
+          });
+        }
+      })
+        .fail(function (err, msg) {
+          Modal.error({
+            title: '出错了',
+            content: '服务器错误，请联系管理员',
+          });
+        })
+    })
+
+  }
+
+
   onSelect = (selectedKeys, e) => {
     //selected: bool, selectedNodes, node, event
     const id = e.node.props.eventKey
@@ -113,7 +165,7 @@ class SelectModal extends React.Component {
   render() {
 
 
-    const {deptTree, users, $$checkedList} = this.state
+    const {deptTree, users, $$checkedList, keyword} = this.state
     const checkedList = [...$$checkedList.values()]
     const userids = users.map(user=>user.ID)
 
@@ -133,8 +185,12 @@ class SelectModal extends React.Component {
             {/*--搜索栏--*/}
             <div>
               <span>搜索人员:</span>
-              <Input style={{width: 200}}/>
-              <Button type="primary">搜索</Button>
+
+
+              <Input style={{width: 200}} onPressEnter={this.search} value={keyword}
+                     onChange={this.keywordChange}/>
+
+              <Button type="primary" onClick={this.search}>搜 索</Button>
 
             </div>
             {/*--搜索栏--*/}
@@ -220,13 +276,13 @@ class SelectModal extends React.Component {
 }
 
 
-/*
- SelectModal.propTypes = {
- onMenuClick: PropTypes.func,
- menuOptions: PropTypes.array.isRequired,
- buttonStyle: PropTypes.object,
- dropdownProps: PropTypes.object,
- }
- */
+SelectModal.propTypes = {
+  multiple: PropTypes.bool,
+  /*onMenuClick: PropTypes.func,
+   menuOptions: PropTypes.array.isRequired,
+   buttonStyle: PropTypes.object,
+   dropdownProps: PropTypes.object,*/
+}
+
 
 export default SelectModal
