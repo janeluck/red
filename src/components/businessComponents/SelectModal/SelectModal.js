@@ -129,11 +129,11 @@ class SelectModal extends React.Component {
 
   checkChange = (user, e)=> {
     const checked = e.target.checked
+    const {multiple}= this.props
 
     const $$checkedList = this.state.$$checkedList
     this.setState({
-      $$checkedList: checked ? $$checkedList.set(user.ID, user) : $$checkedList.delete(user.ID)
-
+      $$checkedList: checked ? (multiple ? $$checkedList : Immutable.Map())['set'](user.ID, user) : $$checkedList.delete(user.ID)
     })
   }
 
@@ -162,12 +162,26 @@ class SelectModal extends React.Component {
 
   }
 
+
+  onOk = () => {
+    const {$$checkedList} = this.state
+    const {multiple} = this.props
+
+    this.props.onChange && this.props.onChange(multiple ? [...$$checkedList.values()] : $$checkedList.first())
+
+  }
+  onClose = () => {
+    this.props.onClose()
+  }
+
   render() {
 
 
     const {deptTree, users, $$checkedList, keyword} = this.state
+    const {multiple} = this.props
     const checkedList = [...$$checkedList.values()]
     const userids = users.map(user=>user.ID)
+
 
     return (
       <div>
@@ -237,10 +251,12 @@ class SelectModal extends React.Component {
                 <div>人员</div>
 
                 <div>
-                  <div>
+
+                  {multiple ? (<div>
                     <Checkbox onChange={this.toogleCheckAll}
                               checked={userids.length != 0 && Immutable.Set(userids).isSubset(Immutable.Set($$checkedList.keys()))}/>全选
-                  </div>
+                  </div>) : null}
+
                   <ul>
                     {users.map(user=><li key={user.ID}>
                       <Checkbox onChange={this.checkChange.bind(this, user)}
@@ -283,6 +299,11 @@ SelectModal.propTypes = {
    buttonStyle: PropTypes.object,
    dropdownProps: PropTypes.object,*/
 }
+
+
+SelectModal.defaultProps = {
+  multiple: true
+};
 
 
 export default SelectModal
