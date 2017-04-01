@@ -167,11 +167,11 @@ class SelectModal extends React.Component {
     const {$$checkedList} = this.state
     const {multiple} = this.props
 
-    this.props.onChange && this.props.onChange(multiple ? [...$$checkedList.values()] : $$checkedList.first())
+    this.props.onOk && this.props.onOk(multiple ? [...$$checkedList.values()] : $$checkedList.first())
 
   }
-  onClose = () => {
-    this.props.onClose()
+  onCancel = () => {
+    this.props.onCancel && this.props.onCancel()
   }
 
   render() {
@@ -294,8 +294,9 @@ class SelectModal extends React.Component {
 
 SelectModal.propTypes = {
   multiple: PropTypes.bool,
-  /*onMenuClick: PropTypes.func,
-   menuOptions: PropTypes.array.isRequired,
+  onOk: PropTypes.func,
+  onCancel: PropTypes.func,
+  /* menuOptions: PropTypes.array.isRequired,
    buttonStyle: PropTypes.object,
    dropdownProps: PropTypes.object,*/
 }
