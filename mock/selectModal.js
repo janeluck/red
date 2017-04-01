@@ -8,22 +8,80 @@ import mockStorge from '../src/utils/mockStorge'
 let dataKey = mockStorge('SelectModal', Mock.mock({
 
   'Name': '全公司',
-  'ID': '112',
-  'Code': '001',
-  'Children|100': [
+  'ID': '0',
+  'Code': '000001',
+  'StopFlag': '0',
+  'Children|5': [
     {
-      'id|+1': 1,
-      name: '@cname',
-      nickName: '@last',
-      phone: /^1[34578]\d{9}$/,
-      'age|11-99': 1,
-      address: '@county(true)',
-      isMale: '@boolean',
-      email: '@email',
-      createTime: '@datetime',
-      avatar () {
-        return Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', this.nickName.substr(0, 1))
-      },
+      'ID|+1': 1,
+      Name: '@cword(5, 7)',
+      //nickName: '@last',
+      Code: /^[123456789]\d{6}$/,
+      StopFlag: '0',
+      'Children|5': [
+        {
+          'ID|+1': 11,
+          Name: '@cword(2, 5)',
+          //nickName: '@last',
+          Code: /^[123456789]\d{6}$/,
+          StopFlag: '0',
+          'Children': [
+
+            {
+              'ID|+1': 111,
+              Name: '@cword(5, 7)',
+              //nickName: '@last',
+              Code: /^[123456789]\d{6}$/,
+              StopFlag: '0',
+              'Children|5': [
+                {
+                  'ID|+1': 222,
+                  Name: '@cword(5, 7)',
+                  //nickName: '@last',
+                  Code: /^[123456789]\d{6}$/,
+                  StopFlag: '0',
+                },
+
+
+              ]
+            },
+
+ {
+          'ID|+1': 33,
+          Name: '@cword(2, 5)',
+          //nickName: '@last',
+          Code: /^[123456789]\d{6}$/,
+          StopFlag: '0',
+          'Children|5': [
+
+            {
+              'ID|+1': 333,
+              Name: '@cword(5, 7)',
+              //nickName: '@last',
+              Code: /^[123456789]\d{6}$/,
+              StopFlag: '0',
+              'Children|5': [
+                {
+                  'ID|+1': 444,
+                  Name: '@cword(5, 7)',
+                  //nickName: '@last',
+                  Code: /^[123456789]\d{6}$/,
+                  StopFlag: '1',
+                },
+
+
+              ]
+            },
+
+
+          ]
+        },
+          ]
+        },
+
+
+
+      ]
     },
 
   ],
