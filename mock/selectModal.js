@@ -108,7 +108,19 @@ module.exports = {
 
   'GET /api/personList' (req, res) {
 
-    res.json({success: true, data: users})
+    res.json({
+      success: true, data: Mock.mock({
+        'users|0-20': [
+          {
+            "ID|+1": 1,
+            "Name": "@cname",
+            Avatar () {
+              return Mock.Random.image('100x100', Mock.Random.color(), '#757575', 'png', this.Name.substr(0, 1))
+            },
+          }
+        ]
+      })['users']
+    })
   },
 
 }
