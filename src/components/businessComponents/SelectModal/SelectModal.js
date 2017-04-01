@@ -21,7 +21,6 @@ class SelectModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
       loading: false,
       selectedDeptID: '',
       deptTree: {
@@ -30,7 +29,8 @@ class SelectModal extends React.Component {
       },
       users: [],
       keyword: '',
-      selectedKeys: []
+      $$checkedList: Immutable.Map(),
+
     }
   }
 
@@ -74,10 +74,49 @@ class SelectModal extends React.Component {
 
   }
 
+
+  checkChange = (user, e)=> {
+    const checked = e.target.checked
+
+    const $$checkedList = this.state.$$checkedList
+    this.setState({
+      $$checkedList: checked ? $$checkedList.set(user.ID, user) : $$checkedList.delete(user.ID)
+
+    })
+  }
+
+  deleteCheckedUser = (ID, e) => {
+
+    const $$checkedList = this.state.$$checkedList
+    this.setState({
+      $$checkedList: $$checkedList.delete(ID)
+    })
+  }
+
+  toogleCheckAll = (e)=> {
+    const checked = e.target.checked
+
+    const {$$checkedList, users} = this.state
+
+    const userids = users.map(user=>user.ID)
+    const $$usersGroup = Immutable.Map(users.map(user => [user.ID, user]))
+
+
+    this.setState({
+      $$checkedList: checked ? $$checkedList.merge($$usersGroup) : $$checkedList.filter((obj, keyName)=> userids.indexOf(keyName) < 0)
+
+    })
+
+
+  }
+
   render() {
 
 
-    const {deptTree, users} = this.state
+    const {deptTree, users, $$checkedList} = this.state
+    const checkedList = [...$$checkedList.values()]
+    const userids = users.map(user=>user.ID)
+
     return (
       <div>
 
@@ -105,7 +144,14 @@ class SelectModal extends React.Component {
             <div>
               <div>已选择</div>
               <div>
+                <ul>
 
+
+                  {checkedList.map(checkedUser => (<li key={checkedUser.ID}><img
+                    src={checkedUser.Avatar}/><strong >{checkedUser.Name}</strong><span
+                    className=""
+                    onClick={this.deleteCheckedUser.bind(this, checkedUser.ID)}>x</span></li>))}
+                </ul>
               </div>
 
             </div>
@@ -135,17 +181,21 @@ class SelectModal extends React.Component {
                 <div>人员</div>
 
                 <div>
+                  <div>
+                    <Checkbox onChange={this.toogleCheckAll}
+                              checked={userids.length != 0 && Immutable.Set(userids).isSubset(Immutable.Set($$checkedList.keys()))}/>全选
+                  </div>
+                  <ul>
+                    {users.map(user=><li key={user.ID}>
+                      <Checkbox onChange={this.checkChange.bind(this, user)}
+                                checked={$$checkedList.has(user.ID)}/>
+                      <img src={user.Avatar} alt=""/>
+                      {user.Name}
 
-                    <ul>
-                      {users.map(user=><li key={user.ID}>
-                        <Checkbox />
-                        <img src={user.Avatar} alt=""/>
-                        {user.Name}
 
+                    </li>)}
 
-                        </li>)}
-
-                    </ul>
+                  </ul>
 
 
                 </div>
