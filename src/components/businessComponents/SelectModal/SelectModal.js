@@ -2,7 +2,7 @@
  * Created by janeluck on 3/31/17.
  */
 import React, {PropTypes} from 'react'
-import {Modal, Input, Button, Tree, Checkbox} from 'antd'
+import {Modal, Input, Button, Tree, Checkbox, Spin} from 'antd'
 import Immutable from 'immutable'
 import reqwest from 'reqwest'
 
@@ -21,8 +21,7 @@ class SelectModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
-      selectedDeptID: '',
+      loading: true,
       deptTree: {
         Name: '',
         ID: 0
@@ -30,7 +29,6 @@ class SelectModal extends React.Component {
       users: [],
       keyword: '',
       $$checkedList: Immutable.Map(),
-
     }
   }
 
@@ -40,28 +38,36 @@ class SelectModal extends React.Component {
 
   getDeptTree = () => {
     const that = this
+
     reqwest({
       url: location.origin + '/api/deptTree',
       type: 'json'
     }).then(data=> {
       that.setState({
-        deptTree: data.data
+        deptTree: data.data,
+        loading: false
       })
     })
   }
 
   getList = (id) => {
     const that = this
-    reqwest({
-      url: location.origin + '/api/personList',
-      type: 'json',
-      method: 'post',
-      data: {
-        id
-      }
-    }).then(data=> {
-      that.setState({
-        users: data.data
+    that.setState({
+      loading: true
+
+    }, ()=> {
+      reqwest({
+        url: location.origin + '/api/personList',
+        type: 'json',
+        method: 'post',
+        data: {
+          id
+        }
+      }).then(data=> {
+        that.setState({
+          users: data.data,
+          loading: false
+        })
       })
     })
   }
@@ -79,8 +85,7 @@ class SelectModal extends React.Component {
 
     if (keyword == '') return
     that.setState({
-      loading: true,
-      selectedKeys: []
+      loading: true
     }, ()=> {
       reqwest({
         url: location.origin + '/api/searchUser',
@@ -177,7 +182,7 @@ class SelectModal extends React.Component {
   render() {
 
 
-    const {deptTree, users, $$checkedList, keyword} = this.state
+    const {deptTree, users, $$checkedList, keyword, loading} = this.state
     const {multiple} = this.props
     const checkedList = [...$$checkedList.values()]
     const userids = users.map(user=>user.ID)
@@ -194,97 +199,101 @@ class SelectModal extends React.Component {
           onCancel={this.onClose}
         >
 
-          <div>
 
-            {/*--搜索栏--*/}
+          <Spin spinning={loading}>
             <div>
-              <span>搜索人员:</span>
 
-
-              <Input style={{width: 200}} onPressEnter={this.search} value={keyword}
-                     onChange={this.keywordChange}/>
-
-              <Button type="primary" onClick={this.search}>搜 索</Button>
-
-            </div>
-            {/*--搜索栏--*/}
-
-
-            {/*--已选择--*/}
-            <div>
-              <div>已选择</div>
+              {/*--搜索栏--*/}
               <div>
-                <ul>
+                <span>搜索人员:</span>
 
 
-                  {checkedList.map(checkedUser => (<li key={checkedUser.ID}><img
-                    src={checkedUser.Avatar}/><strong >{checkedUser.Name}</strong><span
-                    className=""
-                    onClick={this.deleteCheckedUser.bind(this, checkedUser.ID)}>x</span></li>))}
-                </ul>
-              </div>
+                <Input style={{width: 200}} onPressEnter={this.search} value={keyword}
+                       onChange={this.keywordChange}/>
 
-            </div>
-            {/*--已选择--*/}
-
-
-            {/*--部门人员双栏--*/}
-
-            <div>
-              <div>
-                <div>部门</div>
-                <div>
-
-                  <Tree
-                    onSelect={this.onSelect}
-
-                  >
-                    {generatorTree(deptTree)}
-                  </Tree>
-
-
-                </div>
+                <Button type="primary" onClick={this.search}>搜 索</Button>
 
               </div>
+              {/*--搜索栏--*/}
 
+
+              {/*--已选择--*/}
               <div>
-                <div>人员</div>
-
+                <div>已选择</div>
                 <div>
-
-                  {multiple ? (<div>
-                    <Checkbox onChange={this.toogleCheckAll}
-                              checked={userids.length != 0 && Immutable.Set(userids).isSubset(Immutable.Set($$checkedList.keys()))}/>全选
-                  </div>) : null}
-
                   <ul>
-                    {users.map(user=><li key={user.ID}>
-                      <Checkbox onChange={this.checkChange.bind(this, user)}
-                                checked={$$checkedList.has(user.ID)}/>
-                      <img src={user.Avatar} alt=""/>
-                      {user.Name}
 
 
-                    </li>)}
-
+                    {checkedList.map(checkedUser => (<li key={checkedUser.ID}><img
+                      src={checkedUser.Avatar}/><strong >{checkedUser.Name}</strong><span
+                      onClick={this.deleteCheckedUser.bind(this, checkedUser.ID)}>x</span></li>))}
                   </ul>
+                </div>
 
+              </div>
+              {/*--已选择--*/}
+
+
+              {/*--部门人员双栏--*/}
+
+              <div>
+                <div>
+                  <div>部门</div>
+                  <div>
+
+                    <Tree
+                      onSelect={this.onSelect}
+
+                    >
+                      {generatorTree(deptTree)}
+                    </Tree>
+
+
+                  </div>
 
                 </div>
+
+                <div>
+                  <div>人员</div>
+
+                  <div>
+
+                    {multiple && userids.length ? (<div>
+                      <Checkbox onChange={this.toogleCheckAll}
+                                checked={userids.length != 0 && Immutable.Set(userids).isSubset(Immutable.Set($$checkedList.keys()))}/>全选
+                    </div>) : null}
+
+                    <ul>
+                      {users.map(user=><li key={user.ID}>
+                        <Checkbox onChange={this.checkChange.bind(this, user)}
+                                  checked={$$checkedList.has(user.ID)}/>
+                        <img src={user.Avatar} alt={user.Name}/>
+                        {user.Name}
+
+
+                      </li>)}
+
+                    </ul>
+
+
+                  </div>
+                </div>
+
+
+              </div>
+              {/*--部门人员双栏--*/}
+
+
+              <div>
+
+
               </div>
 
 
             </div>
-            {/*--部门人员双栏--*/}
+          </Spin>
 
 
-            <div>
-
-
-            </div>
-
-
-          </div>
         </Modal>
       </div>
     );
