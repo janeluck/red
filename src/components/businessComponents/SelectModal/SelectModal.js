@@ -66,7 +66,8 @@ class SelectModal extends React.Component {
       }).then(data=> {
         that.setState({
           users: data.data,
-          loading: false
+          loading: false,
+          keyword: ''
         })
       })
     })
