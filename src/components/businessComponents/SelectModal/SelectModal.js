@@ -139,7 +139,7 @@ class SelectModal extends React.Component {
                     <ul>
                       {users.map(user=><li key={user.ID}>
                         <Checkbox />
-
+                        <img src={user.Avatar} alt=""/>
                         {user.Name}
 
 
