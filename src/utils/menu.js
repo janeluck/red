@@ -13,6 +13,10 @@ module.exports = [
     key: 'request',
     name: 'Request',
     icon: 'api',
+  }, {
+    key: 'FunctionProgram',
+    name: 'FunctionProgram',
+    icon: 'tool',
   },
   {
     key: 'UIElement',
