@@ -13,6 +13,29 @@ const lameCSV = (str) => {
     return table
   }, [])
 }
+
+const lyricSegment = (n) => {
+  return _.chain([])
+    .push(n + 'bottles of beer on the wall')
+    .push(n + 'bottles of beer')
+    .push('Take one down, pass it around')
+    .tap(lyrics => {
+      if (n > 1)
+        lyrics.push((n - 1) + 'bottles of beer on the wall')
+      else
+        lyrics.push('No more bottles of beer on the wall')
+    })
+}
+
+// 鬼畜歌词生成器^_^
+const song = (start, end, lyricGen) => {
+  return _.reduce(_.range(start, end, -1), function (acc, n) {
+      return acc.concat(lyricGen(n))
+    }, []
+  )
+}
+
+
 const str = 'name,age,hair\nMerble,35,red\nBob,64,blonde'
 const FP = () => <div>
   <div>string: {str}</div>
@@ -23,7 +46,7 @@ const FP = () => <div>
     <tbody>
 
     {lameCSV(str).map((tr, i) => <tr key={i}>{tr.map((td, j) => <td key={j}>{td}</td>)}</tr>)}
-
+    {song(99, 0, lyricSegment)}
     </tbody>
   </table>
 </div>
