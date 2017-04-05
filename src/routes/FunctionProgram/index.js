@@ -49,6 +49,10 @@ const FP = () => <div>
     {song(99, 0, lyricSegment)}
     </tbody>
   </table>
+  <div>
+    {_.map({a: 1, b: 2}, _.identity)}
+
+  </div>
 </div>
 
 export default FP
