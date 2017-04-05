@@ -62,6 +62,13 @@ function F() {
 
 // todo: lodash中的谓词函数
 
+// 反转谓词
+const complement = function (pred) {
+  return function () {
+    return !pred.apply(null, _.toArray(arguments))
+  }
+}
+
 
 const FP = () => <div>
   <div>string: {str}</div>
@@ -78,6 +85,7 @@ const FP = () => <div>
   <div>
     {_.map({a: 1, b: 2}, _.identity)}
     {[allOf(T, T), anyOf(T, F), allOf(T, F), anyOf(F, F), anyOf(T, T)]}
+    {_.fliter(['a', 'b', 1, 3, 'c'], complement(_.isNumber))}
   </div>
 </div>
 
