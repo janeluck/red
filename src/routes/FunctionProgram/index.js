@@ -5,6 +5,9 @@ import React from 'react'
 import {Icon} from 'antd'
 import _ from 'lodash'
 
+const str = 'name,age,hair\nMerble,35,red\nBob,64,blonde'
+
+
 const lameCSV = (str) => {
   return _.reduce(str.split('\n'), function (table, row) {
     table.push(_.map(row.split(','), function (c) {
@@ -36,7 +39,25 @@ const song = (start, end, lyricGen) => {
 }
 
 
-const str = 'name,age,hair\nMerble,35,red\nBob,64,blonde'
+const anyOf = () => {
+  return _.reduceRight(arguments, function (truth, f) {
+    return truth || f()
+  }, false)
+}
+const allOf = () => {
+  return _.reduceRight(arguments, function (truth, f) {
+    return truth && f()
+  }, true)
+}
+
+function T() {
+  return true
+}
+function F() {
+  return false
+}
+
+
 const FP = () => <div>
   <div>string: {str}</div>
 
@@ -51,7 +72,7 @@ const FP = () => <div>
   </table>
   <div>
     {_.map({a: 1, b: 2}, _.identity)}
-
+    {[allOf(T, T), anyOf(T, F), allOf(T, F), anyOf(F, F), anyOf(T, T)]}
   </div>
 </div>
 
