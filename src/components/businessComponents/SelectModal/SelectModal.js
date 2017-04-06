@@ -5,6 +5,7 @@ import React, {PropTypes} from 'react'
 import {Modal, Input, Button, Tree, Checkbox, Spin} from 'antd'
 import Immutable from 'immutable'
 import reqwest from 'reqwest'
+import styles from './SelectModal.less'
 
 
 const TreeNode = Tree.TreeNode
@@ -202,7 +203,7 @@ class SelectModal extends React.Component {
 
 
           <Spin spinning={loading}>
-            <div>
+            <div className={styles.wrap}>
 
               {/*--搜索栏--*/}
               <div>
