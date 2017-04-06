@@ -44,6 +44,7 @@ const anyOf = () => {
     return truth || f()
   }, false)
 }
+
 const allOf = () => {
   return _.reduceRight(arguments, function (truth, f) {
     return truth && f()
@@ -58,8 +59,6 @@ function F() {
 }
 
 
-
-
 // todo: lodash中的谓词函数
 
 // 反转谓词
@@ -70,22 +69,25 @@ const complement = function (pred) {
 }
 
 
+//[anyOf(T, F), allOf(T, F), anyOf(F, F), anyOf(T, T)]
+
 const FP = () => <div>
   <div>string: {str}</div>
 
-
-  <div>   {lameCSV(str)}</div>
   <table>
     <tbody>
 
     {lameCSV(str).map((tr, i) => <tr key={i}>{tr.map((td, j) => <td key={j}>{td}</td>)}</tr>)}
-    {song(99, 0, lyricSegment)}
+
     </tbody>
   </table>
+
+  <div>   {lameCSV(str)}</div>
+  {song(99, 0, lyricSegment)}
   <div>
     {_.map({a: 1, b: 2}, _.identity)}
-    {[allOf(T, T), anyOf(T, F), allOf(T, F), anyOf(F, F), anyOf(T, T)]}
-    {_.fliter(['a', 'b', 1, 3, 'c'], complement(_.isNumber))}
+    {}
+    {_.filter(['a', 'b', 1, 3, 'c'], complement(_.isNumber))}
   </div>
 </div>
 
