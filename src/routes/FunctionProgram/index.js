@@ -2,7 +2,6 @@
  * Created by jane on 02/04/2017.
  */
 import React from 'react'
-import {Icon} from 'antd'
 import _ from 'lodash'
 
 const str = 'name,age,hair\nMerble,35,red\nBob,64,blonde'

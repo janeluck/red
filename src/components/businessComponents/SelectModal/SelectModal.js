@@ -194,6 +194,7 @@ class SelectModal extends React.Component {
       <div>
 
         <Modal
+          width={514}
           title={"选择人员"}
           visible={true}
           onOk={this.onOk}
@@ -206,7 +207,7 @@ class SelectModal extends React.Component {
             <div className={styles.wrap}>
 
               {/*--搜索栏--*/}
-              <div>
+              <div className={styles.searchBar}>
                 <span>搜索人员:</span>
 
 
@@ -220,7 +221,7 @@ class SelectModal extends React.Component {
 
 
               {/*--已选择--*/}
-              <div>
+              <div className="styles.selectedResult">
                 <div>已选择</div>
                 <div>
                   <ul>
@@ -238,10 +239,10 @@ class SelectModal extends React.Component {
 
               {/*--部门人员双栏--*/}
 
-              <div>
-                <div>
+              <div className={styles.selectWrap}>
+                <div className={styles.selectDept}>
                   <div>部门</div>
-                  <div>
+                  <div className={styles.deptTreeWrap}>
 
                     <Tree
                       onSelect={this.onSelect}
@@ -255,7 +256,7 @@ class SelectModal extends React.Component {
 
                 </div>
 
-                <div>
+                <div className={styles.selectPerson}>
                   <div>人员</div>
 
                   <div>
@@ -265,7 +266,7 @@ class SelectModal extends React.Component {
                                 checked={userids.length != 0 && Immutable.Set(userids).isSubset(Immutable.Set($$checkedList.keys()))}/>全选
                     </div>) : null}
 
-                    <ul>
+                    <ul className={styles.personListWrap}>
                       {users.map(user=><li key={user.ID}>
                         <Checkbox onChange={this.checkChange.bind(this, user)}
                                   checked={$$checkedList.has(user.ID)}/>
