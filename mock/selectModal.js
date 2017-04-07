@@ -98,7 +98,7 @@ module.exports = {
     const deptID = Number(req.body.slice(3))
     res.json({
       success: true, data: Mock.mock({
-        'users|0-10': [
+        'users|0-30': [
           {
             "ID|+1": deptID * 10,
             "Name": "@cname",
