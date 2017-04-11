@@ -6,7 +6,17 @@
  */
 import React from 'react'
 
-import {Table, Row, Col, Card, Select} from 'antd'
+import {Row, Col, Select, Modal} from 'antd'
+const Option = Select.Option;
+
+const children = [];
+for (let i = 10; i < 36; i++) {
+  children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+}
+
+function handleChange(value) {
+  console.log(`selected ${value}`);
+}
 
 class SelectModalPage extends React.Component {
   constructor(props) {
@@ -31,12 +41,33 @@ class SelectModalPage extends React.Component {
 
     return (<div className="content-inner">
 
-      <h2 style={{margin: '16px 0'}}>选人选部门组件demo</h2>
+      <h2 style={{margin: '16px 0'}}>antd component demo</h2>
       <Row>
         <Col lg={18} md={24}>
 
+
         </Col>
+
       </Row>
+
+      <div>
+        <Modal visible={true}>
+          <div id="selectWrap">
+            <Select
+              labelInValue
+              multiple
+              mode="multiple"
+              style={{width: '100%'}}
+              placeholder="Please select"
+
+              onChange={handleChange}
+              getPopupContainer = {()=> document.getElementById('selectWrap')}
+            >
+              {children}
+            </Select>
+          </div>
+        </Modal>
+      </div>
     </div>)
   }
 }
