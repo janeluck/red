@@ -31,6 +31,14 @@ const Routers = function ({history, app}) {
             }, 'BusinessComponent-selectModal')
           },
         }, {
+          path: 'BusinessComponent/antdSelect',
+          name: 'BusinessComponent/antdSelect',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              cb(null, require('./routes/BusinessComponent/antdSelect'))
+            }, 'BusinessComponent-antdSelect')
+          },
+        }, {
           path: 'dashboard',
           name: 'dashboard',
           getComponent (nextState, cb) {

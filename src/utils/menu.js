@@ -66,6 +66,11 @@ module.exports = [
         key: 'selectModal',
         name: 'selectModal',
         icon: 'bars',
+      },
+      {
+        key: 'antdSelect',
+        name: 'antdSelect',
+        icon: 'arrow-down',
       }
     ],
   },
