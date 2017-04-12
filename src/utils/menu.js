@@ -71,6 +71,11 @@ module.exports = [
         key: 'antdSelect',
         name: 'antdSelect',
         icon: 'arrow-down',
+      },
+      {
+        key: 'formTemplate',
+        name: 'formTemplate',
+        icon: 'file-text',
       }
     ],
   },

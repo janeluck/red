@@ -38,6 +38,14 @@ const Routers = function ({history, app}) {
               cb(null, require('./routes/BusinessComponent/antdSelect'))
             }, 'BusinessComponent-antdSelect')
           },
+        },{
+          path: 'BusinessComponent/formTemplate',
+          name: 'BusinessComponent/formTemplate',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              cb(null, require('./routes/BusinessComponent/formTemplate'))
+            }, 'BusinessComponent-formTemplate')
+          },
         }, {
           path: 'dashboard',
           name: 'dashboard',
