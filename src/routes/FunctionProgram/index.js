@@ -67,6 +67,10 @@ const complement = function (pred) {
   }
 }
 
+var zoo = {
+  name: 'awesome',
+  scale: 'max'
+}
 
 //[anyOf(T, F), allOf(T, F), anyOf(F, F), anyOf(T, T)]
 
@@ -87,6 +91,13 @@ const FP = () => <div>
     {_.map({a: 1, b: 2}, _.identity)}
     {}
     {_.filter(['a', 'b', 1, 3, 'c'], complement(_.isNumber))}
+    {/*
+     {_.pluck([{Name: 'jane', ID: 0},{Name: 'janeluck', ID: 1},{Name: 'jack', ID: 2},], 'Name')}
+
+     {
+     _.pairs(zoo)
+     }
+     */}
   </div>
 </div>
 
