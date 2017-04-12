@@ -101,6 +101,13 @@ const FP = () => <div>
      _.pairs(zoo)
      }
      */}
+
+     {/*
+
+     where, findWhere
+     SQL
+
+     */}
   </div>
 </div>
 
