@@ -92,6 +92,7 @@ const FP = () => <div>
     {}
     {_.filter(['a', 'b', 1, 3, 'c'], complement(_.isNumber))}
     {/*
+    todo： 假的lodash？木有这几个方法。。。
      {_.pluck([{Name: 'jane', ID: 0},{Name: 'janeluck', ID: 1},{Name: 'jack', ID: 2},], 'Name')}
 
      {
