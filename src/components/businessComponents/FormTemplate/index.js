@@ -13,25 +13,24 @@ const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
 /*
-注: AttrType值对应的字段属性
-1. 数值型
-3. 金额
-4. 单行文本型
-6. 多行文本型
-8. Email，此次不校验，与单行文本型同样方法处理
-9. URL，此次不校验，与单行文本型同样方法处理
-10. Phone，此次不校验，与单行文本型同样方法处理
-11. 布尔型.（可以参照是否重点客户字段的展示）
-12. 单选
-13. 下拉(12,13目前都按照下拉选择的方式处理)
-14. 多选
-15. 日期类型
-16. 日期时间类型(15,16目前按一种类型处理)
-17. 图片类型(该类型值为对象，分别是ThumbPath缩略图和ImgPath大图两个元素)
-18. ID.要结合自定义属性的IsDispView使用， 当IsDispView=0时，表示该字段不   显示，否则,该字段返回值是数组，或者对象.（目前有OwnerID和RelUsers两个字段,目前先按照原有处理方式处理）
-93. AddressList类型，在新增和编辑界面，要加上地区(State, City, District)三个关联枚举字段和公司地址(Address, Lng, Lat)
-*/
-
+ 注: AttrType值对应的字段属性
+ 1. 数值型
+ 3. 金额
+ 4. 单行文本型
+ 6. 多行文本型
+ 8. Email，此次不校验，与单行文本型同样方法处理
+ 9. URL，此次不校验，与单行文本型同样方法处理
+ 10. Phone，此次不校验，与单行文本型同样方法处理
+ 11. 布尔型.（可以参照是否重点客户字段的展示）
+ 12. 单选
+ 13. 下拉(12,13目前都按照下拉选择的方式处理)
+ 14. 多选
+ 15. 日期类型
+ 16. 日期时间类型(15,16目前按一种类型处理)
+ 17. 图片类型(该类型值为对象，分别是ThumbPath缩略图和ImgPath大图两个元素)
+ 18. ID.要结合自定义属性的IsDispView使用， 当IsDispView=0时，表示该字段不   显示，否则,该字段返回值是数组，或者对象.（目前有OwnerID和RelUsers两个字段,目前先按照原有处理方式处理）
+ 93. AddressList类型，在新增和编辑界面，要加上地区(State, City, District)三个关联枚举字段和公司地址(Address, Lng, Lat)
+ */
 
 
 class FormTemplate extends React.Component {
@@ -52,15 +51,60 @@ class FormTemplate extends React.Component {
      }*/
 
     renderFormItem = (item) => {
+        const {getFieldDecorator} = this.props.form;
         // attrType 可为String, Number类型。 传入的时候统一处理为Number
-        const {AttrType} = item
+        const {AttrType, Label} = item
         switch (AttrType) {
             case 1:
-                return <InputNumber />
+                return (
+                    <FormItem
+                        label={Label}
+                        hasFeedback
+                    >
+                        <InputNumber />
+                    </FormItem>)
                 break;
-            case 2:
+            case 3:
+                return <InputNumber
+                    //defaultValue={1000}
+                    formatter={value => `$ ${value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+                    parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                    onChange={onChange}
+                />
+                break;
+            case 4:
+                return <Input/>
+                break;
+            case 5:
+                return <Input type='textarea'/>
+            case 8:
+                return ( <FormItem
+                    label={Label}
+                    hasFeedback
+                >
+                    {getFieldDecorator('email', {
+                        rules: [{
+                            type: 'email', message: 'The input is not valid E-mail!',
+                        }, {
+                            required: true, message: 'Please input your E-mail!',
+                        }],
+                    })(
+                        <Input />
+                    )}
+                </FormItem>)
+                break;
+            case 9:
+                return ( <FormItem
+                     label={Label}
+                >
+                    {getFieldDecorator('phone', {
+                        rules: [{required: true, message: 'Please input your phone number!'}],
+                    })(
+                        <Input addonBefore={prefixSelector}/>
+                    )}
+                </FormItem>)
+                break;
 
-                break;
         }
 
     }
