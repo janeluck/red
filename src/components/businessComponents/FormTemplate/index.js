@@ -12,6 +12,28 @@ const Option = Select.Option;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
+/*
+注: AttrType值对应的字段属性
+1. 数值型
+3. 金额
+4. 单行文本型
+6. 多行文本型
+8. Email，此次不校验，与单行文本型同样方法处理
+9. URL，此次不校验，与单行文本型同样方法处理
+10. Phone，此次不校验，与单行文本型同样方法处理
+11. 布尔型.（可以参照是否重点客户字段的展示）
+12. 单选
+13. 下拉(12,13目前都按照下拉选择的方式处理)
+14. 多选
+15. 日期类型
+16. 日期时间类型(15,16目前按一种类型处理)
+17. 图片类型(该类型值为对象，分别是ThumbPath缩略图和ImgPath大图两个元素)
+18. ID.要结合自定义属性的IsDispView使用， 当IsDispView=0时，表示该字段不   显示，否则,该字段返回值是数组，或者对象.（目前有OwnerID和RelUsers两个字段,目前先按照原有处理方式处理）
+93. AddressList类型，在新增和编辑界面，要加上地区(State, City, District)三个关联枚举字段和公司地址(Address, Lng, Lat)
+*/
+
+
+
 class FormTemplate extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
@@ -21,15 +43,25 @@ class FormTemplate extends React.Component {
             }
         });
     }
-/*    normFile = (e) => {
-        console.log('Upload event:', e);
-        if (Array.isArray(e)) {
-            return e;
-        }
-        return e && e.fileList;
-    }*/
+    /*    normFile = (e) => {
+     console.log('Upload event:', e);
+     if (Array.isArray(e)) {
+     return e;
+     }
+     return e && e.fileList;
+     }*/
 
-    renderFormItem = () => {
+    renderFormItem = (item) => {
+        // attrType 可为String, Number类型。 传入的时候统一处理为Number
+        const {AttrType} = item
+        switch (AttrType) {
+            case 1:
+                return <InputNumber />
+                break;
+            case 2:
+
+                break;
+        }
 
     }
 
@@ -196,14 +228,12 @@ class FormTemplate extends React.Component {
 }
 
 
-
 FormTemplate.propTypes = {
     onSubmit: PropTypes.func,
 }
 
 
-FormTemplate.defaultProps = {
-};
+FormTemplate.defaultProps = {};
 
 
 export default Form.create()(FormTemplate)
