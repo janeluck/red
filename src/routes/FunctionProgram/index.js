@@ -6,7 +6,6 @@ import _ from 'lodash'
 
 const str = 'name,age,hair\nMerble,35,red\nBob,64,blonde'
 
-
 const lameCSV = (str) => {
   return _.reduce(str.split('\n'), function (table, row) {
     table.push(_.map(row.split(','), function (c) {
@@ -94,7 +93,7 @@ const FP = () => <div>
 
     {console.log(_.defaults({Age: 22}, {Name: 'lolita'}))}
     {/*
-     todo： 假的lodash？木有这几个方法。。。
+     underscore有的方法, lodash不包括
      {_.pluck([{Name: 'jane', ID: 0},{Name: 'janeluck', ID: 1},{Name: 'jack', ID: 2},], 'Name')}
 
      {
