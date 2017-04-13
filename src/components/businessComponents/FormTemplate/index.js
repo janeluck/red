@@ -21,19 +21,25 @@ class FormTemplate extends React.Component {
             }
         });
     }
-    normFile = (e) => {
+/*    normFile = (e) => {
         console.log('Upload event:', e);
         if (Array.isArray(e)) {
             return e;
         }
         return e && e.fileList;
-    }
+    }*/
 
     renderFormItem = () => {
 
     }
 
+    renderGroup = () => {
 
+    }
+
+    renderForm = () => {
+
+    }
 
     render() {
         console.log(this.props.dataSource)
