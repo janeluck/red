@@ -67,6 +67,10 @@ const complement = function (pred) {
   }
 }
 
+var zoo = {
+  name: 'awesome',
+  scale: 'max'
+}
 
 //[anyOf(T, F), allOf(T, F), anyOf(F, F), anyOf(T, T)]
 
@@ -87,6 +91,23 @@ const FP = () => <div>
     {_.map({a: 1, b: 2}, _.identity)}
     {}
     {_.filter(['a', 'b', 1, 3, 'c'], complement(_.isNumber))}
+
+    {console.log(_.defaults({Age: 22}, {Name: 'lolita'}))}
+    {/*
+     todo： 假的lodash？木有这几个方法。。。
+     {_.pluck([{Name: 'jane', ID: 0},{Name: 'janeluck', ID: 1},{Name: 'jack', ID: 2},], 'Name')}
+
+     {
+     _.pairs(zoo)
+     }
+     */}
+
+     {/*
+
+     where, findWhere
+     SQL
+
+     */}
   </div>
 </div>
 
