@@ -28,7 +28,7 @@ class FormTemplate extends React.Component {
 
     return (
       <div>
-from
+
 
       </div>
     );

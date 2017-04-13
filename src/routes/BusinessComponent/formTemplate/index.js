@@ -40,7 +40,7 @@ class FormTemplatePage extends React.Component {
 
     return (<div className="content-inner">
 
-      <h2 style={{margin: '16px 0'}}>antd component demo</h2>
+      <h2 style={{margin: '16px 0'}}>form template</h2>
       <Row>
         <Col lg={18} md={24}>
 
