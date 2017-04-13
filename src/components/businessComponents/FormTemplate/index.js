@@ -3,6 +3,8 @@
  */
 import React, {PropTypes} from 'react'
 
+import _ from 'lodash'
+
 import {
     Form, Select, InputNumber, Switch, Radio,
     Slider, Button, Upload, Icon,
@@ -65,18 +67,32 @@ class FormTemplate extends React.Component {
                     </FormItem>)
                 break;
             case 3:
-                return <InputNumber
-                    //defaultValue={1000}
-                    formatter={value => `$ ${value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
-                    parser={value => value.replace(/\$\s?|(,*)/g, '')}
-                    onChange={onChange}
-                />
+                return (<FormItem
+                    label={Label}
+                    hasFeedback
+                >
+                    <InputNumber
+                        //defaultValue={1000}
+                        formatter={value => `$ ${value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+                        parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                        onChange={onChange}
+                    />
+                </FormItem>)
+
+
                 break;
             case 4:
-                return <Input/>
+                return (<FormItem
+                    label={Label}
+                    hasFeedback
+                ><Input/></FormItem>)
                 break;
             case 5:
-                return <Input type='textarea'/>
+                return (<FormItem
+                    label={Label}
+                    hasFeedback>
+                    <Input type='textarea'/>
+                </FormItem>)
             case 8:
                 return ( <FormItem
                     label={Label}
@@ -95,22 +111,25 @@ class FormTemplate extends React.Component {
                 break;
             case 9:
                 return ( <FormItem
-                     label={Label}
+                    label={Label}
                 >
                     {getFieldDecorator('phone', {
                         rules: [{required: true, message: 'Please input your phone number!'}],
                     })(
-                        <Input addonBefore={prefixSelector}/>
+                        <Input />
                     )}
                 </FormItem>)
                 break;
+            default:
+                return null
 
         }
 
     }
 
-    renderGroup = () => {
-
+    renderGroup = (all, group) => {
+        all.concat(group.map())
+        return all
     }
 
     renderForm = () => {
@@ -118,7 +137,7 @@ class FormTemplate extends React.Component {
     }
 
     render() {
-        console.log(this.props.dataSource)
+        const {dataSource} = this.props
 
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
@@ -127,7 +146,7 @@ class FormTemplate extends React.Component {
         };
         return (
             <Form onSubmit={this.handleSubmit}>
-                <FormItem
+                {/*<FormItem
                     {...formItemLayout}
                     label="Plain Text"
                 >
@@ -259,7 +278,8 @@ class FormTemplate extends React.Component {
                             </Upload.Dragger>
                         )}
                     </div>
-                </FormItem>
+                </FormItem>*/}
+                {_.reduce(dataSource, this.renderGroup, [])}
 
                 <FormItem
                     wrapperCol={{span: 12, offset: 6}}
