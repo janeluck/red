@@ -522,7 +522,7 @@ class FormTemplatePage extends React.Component {
             <div>
                 <FormTemplate
                     dataSource={formInfo['AttrDefs']}
-                    onSubmit={this.submit}
+                    //onSubmit={this.submit}
                 />
 
             </div>

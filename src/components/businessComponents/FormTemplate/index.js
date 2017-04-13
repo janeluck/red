@@ -12,7 +12,7 @@ const Option = Select.Option;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
-class Demo extends React.Component {
+class FormTemplate extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -29,7 +29,15 @@ class Demo extends React.Component {
         return e && e.fileList;
     }
 
+    renderFormItem = () => {
+
+    }
+
+
+
     render() {
+        console.log(this.props.dataSource)
+
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
             labelCol: {span: 6},
@@ -181,29 +189,6 @@ class Demo extends React.Component {
     }
 }
 
-const WrappedDemo = Form.create()(Demo);
-
-class FormTemplate extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
-
-    componentWillMount() {
-    }
-
-
-    render() {
-
-
-        return (
-            <div>
-                <WrappedDemo />
-
-            </div>
-        );
-    }
-}
 
 
 FormTemplate.propTypes = {
@@ -211,7 +196,8 @@ FormTemplate.propTypes = {
 }
 
 
-FormTemplate.defaultProps = {};
+FormTemplate.defaultProps = {
+};
 
 
-export default FormTemplate
+export default Form.create()(FormTemplate)
