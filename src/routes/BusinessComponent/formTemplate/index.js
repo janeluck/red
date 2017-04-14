@@ -15,7 +15,7 @@ const Option = Select.Option;
 const formInfo = {
   "AttrDefs": [
     {
-      "GroupName": "U5206U7ec41",
+      "GroupName": "分组1",
       "Groupcontent": [
         {
           "AttrLen": "128",
@@ -25,7 +25,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U5ba2U6237U7b80U79f0",
+          "Label": "简称",
           "Name": "ShortName"
         },
         {
@@ -187,7 +187,7 @@ const formInfo = {
       ]
     },
     {
-      "GroupName": "U7ba1U7406U4fe1U606f",
+      "GroupName": "分组2",
       "Groupcontent": [
         {
           "AttrLen": "0",
@@ -390,7 +390,7 @@ const formInfo = {
       ]
     },
     {
-      "GroupName": "U9500U552eU4fe1U606f",
+      "GroupName": "分组3",
       "Groupcontent": [
         {
           "AttrLen": "15",
@@ -428,7 +428,7 @@ const formInfo = {
       ]
     },
     {
-      "GroupName": "U5176U4ed6U4fe1U606f",
+      "GroupName": "分组4",
       "Groupcontent": [
         {
           "AttrLen": "1000",
