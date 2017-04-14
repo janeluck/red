@@ -53,9 +53,13 @@ class FormTemplate extends React.Component {
      }*/
 
     renderFormItem = (item) => {
+        const formItemLayout = {
+            labelCol: {span: 6},
+            wrapperCol: {span: 14},
+        };
         const {getFieldDecorator} = this.props.form;
         // attrType 可为String, Number类型。 传入的时候统一处理为Number
-        const {AttrType, Label, Name} = item
+        const {AttrType, Label, Name, IsRequired} = item
 
         switch (Number(AttrType)) {
             case 1:
@@ -64,6 +68,7 @@ class FormTemplate extends React.Component {
                         key={Name}
                         label={Label}
                         hasFeedback
+                        {...formItemLayout}
                     >
                         <InputNumber />
                     </FormItem>)
@@ -73,13 +78,15 @@ class FormTemplate extends React.Component {
                     key={Name}
                     label={Label}
                     hasFeedback
+                    {...formItemLayout}
+
                 >
                     <InputNumber
 
                         //defaultValue={1000}
                         formatter={value => `$ ${value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
                         parser={value => value.replace(/\$\s?|(,*)/g, '')}
-                        onChange={onChange}
+
                     />
                 </FormItem>)
 
@@ -87,28 +94,34 @@ class FormTemplate extends React.Component {
                 break;
             case 4:
                 return (<FormItem
-                     key={Name}
+                    key={Name}
+                    {...formItemLayout}
+
                     label={Label}
                     hasFeedback
                 ><Input/></FormItem>)
                 break;
             case 5:
                 return (<FormItem
+                    {...formItemLayout}
+
                     label={Label}
                     hasFeedback>
                     <Input type='textarea'/>
                 </FormItem>)
             case 8:
                 return ( <FormItem
-                     key={Name}
+                    key={Name}
                     label={Label}
+                    {...formItemLayout}
+
                     hasFeedback
                 >
-                    {getFieldDecorator('email', {
+                    {getFieldDecorator(Name, {
                         rules: [{
                             type: 'email', message: 'The input is not valid E-mail!',
                         }, {
-                            required: true, message: 'Please input your E-mail!',
+                            required: IsRequired, message: 'Please input your E-mail!',
                         }],
                     })(
                         <Input />
@@ -117,13 +130,92 @@ class FormTemplate extends React.Component {
                 break;
             case 9:
                 return ( <FormItem
-                     key={Name}
+                    {...formItemLayout}
+
+                    key={Name}
                     label={Label}
                 >
-                    {getFieldDecorator('phone', {
-                        rules: [{required: true, message: 'Please input your phone number!'}],
+                    {getFieldDecorator(Name, {
+                        rules: [{required: IsRequired, message: 'Please input your phone number!'}],
                     })(
                         <Input />
+                    )}
+                </FormItem>)
+                break;
+            case 12:
+                return (   <FormItem
+                    {...formItemLayout}
+
+                    key={Name}
+                    label={Label}
+                    hasFeedback
+                >
+                    {getFieldDecorator(Name, {
+                        rules: [
+                            {required: IsRequired, message: 'Please select your country!'},
+                        ],
+                    })(
+                        <Select placeholder="Please select a country">
+
+                            {_.map(item['Enums'], (option, i)=> {
+
+                                return <Option key={option.k} value={option.k}>{option.v}</Option>
+
+                            })}
+
+                        </Select>
+                    )}
+                </FormItem>)
+                break;
+            case 13:
+                return (   <FormItem
+                    {...formItemLayout}
+
+                    key={Name}
+                    label={Label}
+                    hasFeedback
+                >
+                    {getFieldDecorator(Name, {
+                        rules: [
+                            {required: IsRequired, message: 'Please select your country!'},
+                        ],
+                    })(
+                        <Select placeholder="Please select a country">
+
+                            {_.map(item['Enums'], (option, i)=> {
+
+                                return <Option key={option.k} value={option.k}>{option.v}</Option>
+
+                            })}
+
+                        </Select>
+                    )}
+                </FormItem>)
+                break;
+            case 14:
+                return (   <FormItem
+                    {...formItemLayout}
+
+                    key={Name}
+                    label={Label}
+                    hasFeedback
+                >
+                    {getFieldDecorator(Name, {
+                        rules: [
+                            {required: IsRequired, message: 'Please select your country!'},
+                        ],
+                    })(
+                        <Select
+                            multiple
+                            placeholder="Please select a country">
+
+                            {_.map(item['Enums'], (option, i)=> {
+
+                                return <Option key={option.k} value={option.k}>{option.v}</Option>
+
+                            })}
+
+                        </Select>
                     )}
                 </FormItem>)
                 break;

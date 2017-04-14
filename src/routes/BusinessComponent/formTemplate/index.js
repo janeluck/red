@@ -36,7 +36,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "1",
           "IsUnique": "1",
-          "Label": "U516cU53f8U540dU79f0",
+          "Label": "名字",
           "Name": "Name"
         },
         {
@@ -47,7 +47,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U5f00U6237U94f6U884c",
+          "Label": "银行",
           "Name": "Bank"
         },
         {
@@ -58,7 +58,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U94f6U884cU8d26U53f7",
+          "Label": "银行账号",
           "Name": "BankAccount"
         },
         {
@@ -69,7 +69,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U516cU53f8U5730U5740",
+          "Label": "地址",
           "Name": "AddressList"
         },
         {
@@ -80,7 +80,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U516cU53f8U7535U8bdd",
+          "Label": "电话列表",
           "Name": "PhoneList"
         },
         {
@@ -91,7 +91,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U516cU53f8U7f51U5740",
+          "Label": "网站",
           "Name": "WebSite"
         },
         {
@@ -113,7 +113,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U5faeU4fe1",
+          "Label": "微信",
           "Name": "Wechat"
         },
         {
@@ -124,7 +124,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U65faU65faU53f7",
+          "Label": "wwww",
           "Name": "Ww"
         },
         {
@@ -135,7 +135,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U7535U5b50U90aeU4ef6",
+          "Label": "邮箱",
           "Name": "Email"
         },
         {
@@ -146,7 +146,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U4e1aU52a1U7c7bU578b",
+          "Label": "业务类型",
           "Name": "BusinessType"
         },
         {
@@ -157,7 +157,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U4e3bU8425U4ea7U54c1",
+          "Label": "主产品",
           "Name": "MainProduct"
         },
         {
@@ -181,7 +181,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U81eaU5b9aU4e49U591aU9009",
+          "Label": "aaa",
           "Name": "Acct_attrdef001"
         }
       ]
@@ -234,7 +234,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U5ba2U6237U6765U6e90",
+          "Label": "来源",
           "Name": "Source"
         },
         {
@@ -262,7 +262,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U5ba2U6237U7ea7U522b",
+          "Label": "客户级别",
           "Name": "AccountLevel"
         },
         {
@@ -290,7 +290,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U6240U5c5eU533aU57df",
+          "Label": "区域",
           "Name": "Area"
         },
         {
@@ -330,7 +330,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U884cU4e1aU5206U7c7b",
+          "Label": "工业",
           "Name": "Industry"
         },
         {
@@ -362,7 +362,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "1",
           "IsUnique": "0",
-          "Label": "U5ba2U6237U89c4U6a21",
+          "Label": "规模",
           "Name": "Scale"
         },
         {
@@ -373,7 +373,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U5ba2U6237U7b80U4ecb",
+          "Label": "描述",
           "Name": "Descriptions"
         },
         {
@@ -384,7 +384,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U516cU53f8U8d1fU8d23U4eba",
+          "Label": "消费者",
           "Name": "Customer"
         }
       ]
@@ -438,7 +438,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U5907U6ce8U5b57U6bb5",
+          "Label": "备注",
           "Name": "Beizhu"
         },
         {
@@ -460,7 +460,7 @@ const formInfo = {
           "IsEdited": "1",
           "IsRequired": "0",
           "IsUnique": "0",
-          "Label": "U516cU53f8U7535U8bdd",
+          "Label": "手机列表",
           "Name": "PhoneList"
         }
       ]
