@@ -502,8 +502,8 @@ class FormTemplatePage extends React.Component {
         })
     }
 
-    submit = () => {
-
+    submit = (values) => {
+        console.log(values)
     }
     render() {
 
@@ -521,6 +521,7 @@ class FormTemplatePage extends React.Component {
 
             <div>
                 <FormTemplate
+                    onSubmit={this.submit}
                     dataSource={formInfo['AttrDefs']}
                     //onSubmit={this.submit}
                 />
