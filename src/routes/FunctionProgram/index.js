@@ -84,6 +84,7 @@ var globalThis = function () {
 var nopeThis = _.bind(globalThis, 'nope')
 console.log(nopeThis.call('wat'))
 
+// todo: 深拷贝的实现和immutable共享数据结构原理
 
 
 const FP = () => <div>
