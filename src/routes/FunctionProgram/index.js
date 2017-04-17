@@ -80,7 +80,7 @@ var globalThis = function () {
 }
 
 
-
+// todo: bind source code
 var nopeThis = _.bind(globalThis, 'nope')
 console.log(nopeThis.call('wat'))
 
