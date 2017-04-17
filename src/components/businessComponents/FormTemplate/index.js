@@ -6,8 +6,8 @@ import React, {PropTypes} from 'react'
 import _ from 'lodash'
 
 import {
-    Form, Select, Input, InputNumber, Switch, Radio,
-    Slider, Button, Upload, Icon,
+  Form, Select, Input, InputNumber, Switch, Radio,
+  Slider, Button, Upload, Icon,
 } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -36,375 +36,410 @@ const RadioGroup = Radio.Group;
 
 
 class FormTemplate extends React.Component {
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-                this.props.onSubmit(values)
-            }
-
-        });
-    }
-    /*    normFile = (e) => {
-     console.log('Upload event:', e);
-     if (Array.isArray(e)) {
-     return e;
-     }
-     return e && e.fileList;
-     }*/
-
-    renderFormItem = (item) => {
-        const formItemLayout = {
-            labelCol: {span: 6},
-            wrapperCol: {span: 14},
-        };
-        const {getFieldDecorator} = this.props.form;
-        // attrType 可为String, Number类型。 传入的时候统一处理为Number
-        const {AttrType, Label, Name,} = item
-
-        const IsRequired = false
-        switch (Number(AttrType)) {
-            case 1:
-                return (
-                    <FormItem
-                        key={Name}
-                        label={Label}
-                        hasFeedback
-                        {...formItemLayout}
-                    >
-                        <InputNumber />
-                    </FormItem>)
-                break;
-            case 3:
-                return (<FormItem
-                    key={Name}
-                    label={Label}
-                    hasFeedback
-                    {...formItemLayout}
-
-                >
-                    <InputNumber
-
-                        //defaultValue={1000}
-                        formatter={value => `$ ${value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
-                        parser={value => value.replace(/\$\s?|(,*)/g, '')}
-
-                    />
-                </FormItem>)
 
 
-                break;
-            case 4:
-                return (<FormItem
-                    key={Name}
-                    {...formItemLayout}
+  handleReset = (e) => {
+    e.preventDefault();
+    this.props.form.resetFields();
+  }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+        this.props.onSubmit(values)
+      }
 
-                    label={Label}
-                    hasFeedback
-                ><Input/></FormItem>)
-                break;
-            case 5:
-                return (<FormItem
-                    {...formItemLayout}
+    });
+  }
+  /*    normFile = (e) => {
+   console.log('Upload event:', e);
+   if (Array.isArray(e)) {
+   return e;
+   }
+   return e && e.fileList;
+   }*/
 
-                    label={Label}
-                    hasFeedback>
-                    <Input type='textarea'/>
-                </FormItem>)
-            case 8:
-                return ( <FormItem
-                    key={Name}
-                    label={Label}
-                    {...formItemLayout}
+  renderFormItem = (item) => {
+    const formItemLayout = {
+      labelCol: {span: 6},
+      wrapperCol: {span: 14},
+    };
+    const {getFieldDecorator} = this.props.form;
+    // attrType 可为String, Number类型。 传入的时候统一处理为Number
+    const {AttrType, Label, Name,} = item
 
-                    hasFeedback
-                >
-                    {getFieldDecorator(Name, {
-                        rules: [{
-                            type: 'email', message: 'The input is not valid E-mail!',
-                        }, {
-                            required: IsRequired, message: 'Please input your E-mail!',
-                        }],
-                    })(
-                        <Input />
-                    )}
-                </FormItem>)
-                break;
-            case 9:
-                return ( <FormItem
-                    {...formItemLayout}
-
-                    key={Name}
-                    label={Label}
-                >
-                    {getFieldDecorator(Name, {
-                        rules: [{required: IsRequired, message: 'Please input your phone number!'}],
-                    })(
-                        <Input />
-                    )}
-                </FormItem>)
-                break;
-            case 12:
-                return (   <FormItem
-                    {...formItemLayout}
-
-                    key={Name}
-                    label={Label}
-                    hasFeedback
-                >
-                    {getFieldDecorator(Name, {
-                        rules: [
-                            {required: IsRequired, message: 'Please select your country!'},
-                        ],
-                    })(
-                        <Select placeholder="Please select a country">
-
-                            {_.map(item['Enums'], (option, i)=> {
-
-                                return <Option key={option.k} value={option.k}>{option.v}</Option>
-
-                            })}
-
-                        </Select>
-                    )}
-                </FormItem>)
-                break;
-            case 13:
-                return (   <FormItem
-                    {...formItemLayout}
-
-                    key={Name}
-                    label={Label}
-                    hasFeedback
-                >
-                    {getFieldDecorator(Name, {
-                        rules: [
-                            {required: IsRequired, message: 'Please select your country!'},
-                        ],
-                    })(
-                        <Select placeholder="Please select a country">
-
-                            {_.map(item['Enums'], (option, i)=> {
-
-                                return <Option key={option.k} value={option.k}>{option.v}</Option>
-
-                            })}
-
-                        </Select>
-                    )}
-                </FormItem>)
-                break;
-            case 14:
-                return (   <FormItem
-                    {...formItemLayout}
-
-                    key={Name}
-                    label={Label}
-                    hasFeedback
-                >
-                    {getFieldDecorator(Name, {
-                        rules: [
-                            {required: IsRequired, message: 'Please select your country!'},
-                        ],
-                    })(
-                        <Select
-                            multiple
-                            placeholder="Please select a country">
-
-                            {_.map(item['Enums'], (option, i)=> {
-
-                                return <Option key={option.k} value={option.k}>{option.v}</Option>
-
-                            })}
-
-                        </Select>
-                    )}
-                </FormItem>)
-                break;
-            default:
-                return null
-
-        }
-
-    }
-
-    renderGroup = (group, index) => {
-        return (<div key={index}>
-
-            <div>
-                {group.GroupName}
-                <div>
-                    {_.map(group.Groupcontent, this.renderFormItem)}
-
-                </div>
-            </div>
-        </div>)
-
-    }
-
-    renderForm = () => {
-
-    }
-
-    render() {
-        const {dataSource} = this.props
-
-        const {getFieldDecorator} = this.props.form;
-        const formItemLayout = {
-            labelCol: {span: 6},
-            wrapperCol: {span: 14},
-        };
+    const IsRequired = false
+    switch (Number(AttrType)) {
+      case 1:
         return (
-            <Form onSubmit={this.handleSubmit}>
-                {/*<FormItem
-                 {...formItemLayout}
-                 label="Plain Text"
-                 >
-                 <span className="ant-form-text">China</span>
-                 </FormItem>
-                 <FormItem
-                 {...formItemLayout}
-                 label="Select"
-                 hasFeedback
-                 >
-                 {getFieldDecorator('select', {
-                 rules: [
-                 {required: true, message: 'Please select your country!'},
-                 ],
-                 })(
-                 <Select placeholder="Please select a country">
-                 <Option value="china">China</Option>
-                 <Option value="use">U.S.A</Option>
-                 </Select>
-                 )}
-                 </FormItem>
+          <FormItem
+            key={Name}
+            label={Label}
+            hasFeedback
+            {...formItemLayout}
+          >
+            <InputNumber />
+          </FormItem>)
+        break;
+      case 3:
+        return (<FormItem
+          key={Name}
+          label={Label}
+          hasFeedback
+          {...formItemLayout}
 
-                 <FormItem
-                 {...formItemLayout}
-                 label="Select[multiple]"
-                 >
-                 {getFieldDecorator('select-multiple', {
-                 rules: [
-                 {required: true, message: 'Please select your favourite colors!', type: 'array'},
-                 ],
-                 })(
-                 <Select mode="multiple"
-                 multiple
-                 placeholder="Please select favourite colors">
-                 <Option value="red">Red</Option>
-                 <Option value="green">Green</Option>
-                 <Option value="blue">Blue</Option>
-                 </Select>
-                 )}
-                 </FormItem>
+        >
+          <InputNumber
 
-                 <FormItem
-                 {...formItemLayout}
-                 label="InputNumber"
-                 >
-                 {getFieldDecorator('input-number', {initialValue: 3})(
-                 <InputNumber min={1} max={10}/>
-                 )}
-                 <span className="ant-form-text"> machines</span>
-                 </FormItem>
+            //defaultValue={1000}
+            formatter={value => `$ ${value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+            parser={value => value.replace(/\$\s?|(,*)/g, '')}
 
-                 <FormItem
-                 {...formItemLayout}
-                 label="Switch"
-                 >
-                 {getFieldDecorator('switch', {valuePropName: 'checked'})(
-                 <Switch />
-                 )}
-                 </FormItem>
+          />
+        </FormItem>)
 
-                 <FormItem
-                 {...formItemLayout}
-                 label="Slider"
-                 >
-                 {getFieldDecorator('slider')(
-                 <Slider marks={{0: 'A', 20: 'B', 40: 'C', 60: 'D', 80: 'E', 100: 'F'}}/>
-                 )}
-                 </FormItem>
 
-                 <FormItem
-                 {...formItemLayout}
-                 label="Radio.Group"
-                 >
-                 {getFieldDecorator('radio-group')(
-                 <RadioGroup>
-                 <Radio value="a">item 1</Radio>
-                 <Radio value="b">item 2</Radio>
-                 <Radio value="c">item 3</Radio>
-                 </RadioGroup>
-                 )}
-                 </FormItem>
+        break;
+      case 4:
+        return (<FormItem
+          key={Name}
+          {...formItemLayout}
 
-                 <FormItem
-                 {...formItemLayout}
-                 label="Radio.Button"
-                 >
-                 {getFieldDecorator('radio-button')(
-                 <RadioGroup>
-                 <RadioButton value="a">item 1</RadioButton>
-                 <RadioButton value="b">item 2</RadioButton>
-                 <RadioButton value="c">item 3</RadioButton>
-                 </RadioGroup>
-                 )}
-                 </FormItem>
+          label={Label}
+          hasFeedback
+        ><Input/></FormItem>)
+        break;
+      case 5:
+        return (<FormItem
+          {...formItemLayout}
 
-                 <FormItem
-                 {...formItemLayout}
-                 label="Upload"
-                 extra="longgggggggggggggggggggggggggggggggggg"
-                 >
-                 {getFieldDecorator('upload', {
-                 valuePropName: 'fileList',
-                 getValueFromEvent: this.normFile,
-                 })(
-                 <Upload name="logo" action="/upload.do" listType="picture">
-                 <Button>
-                 <Icon type="upload"/> Click to upload
-                 </Button>
-                 </Upload>
-                 )}
-                 </FormItem>
+          label={Label}
+          hasFeedback>
+          <Input type='textarea'/>
+        </FormItem>)
+      case 8:
+        return ( <FormItem
+          key={Name}
+          label={Label}
+          {...formItemLayout}
 
-                 <FormItem
-                 {...formItemLayout}
-                 label="Dragger"
-                 >
-                 <div className="dropbox">
-                 {getFieldDecorator('dragger', {
-                 valuePropName: 'fileList',
-                 getValueFromEvent: this.normFile,
-                 })(
-                 <Upload.Dragger name="files" action="/upload.do">
-                 <p className="ant-upload-drag-icon">
-                 <Icon type="inbox"/>
-                 </p>
-                 <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                 <p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit
-                 from uploading company data or other band files</p>
-                 </Upload.Dragger>
-                 )}
-                 </div>
-                 </FormItem>*/}
-                {_.map(dataSource, this.renderGroup)}
+          hasFeedback
+        >
+          {getFieldDecorator(Name, {
+            rules: [{
+              type: 'email', message: 'The input is not valid E-mail!',
+            }, {
+              required: IsRequired, message: 'Please input your E-mail!',
+            }],
+          })(
+            <Input />
+          )}
+        </FormItem>)
+        break;
+      case 9:
+        return ( <FormItem
+          {...formItemLayout}
 
-                <FormItem
-                    wrapperCol={{span: 12, offset: 6}}
-                >
-                    <Button type="primary" htmlType="submit">Submit</Button>
-                </FormItem>
-            </Form>
-        );
+          key={Name}
+          label={Label}
+        >
+          {getFieldDecorator(Name, {
+            rules: [{required: IsRequired, message: 'Please input your phone number!'}],
+          })(
+            <Input />
+          )}
+        </FormItem>)
+        break;
+      case 12:
+        return (   <FormItem
+          {...formItemLayout}
+
+          key={Name}
+          label={Label}
+          hasFeedback
+        >
+          {getFieldDecorator(Name, {
+            rules: [
+              {required: IsRequired, message: 'Please select your country!'},
+            ],
+          })(
+            <Select placeholder="Please select a country">
+
+              {_.map(item['Enums'], (option, i)=> {
+
+                return <Option key={option.k} value={option.k}>{option.v}</Option>
+
+              })}
+
+            </Select>
+          )}
+        </FormItem>)
+        break;
+      case 13:
+        return (   <FormItem
+          {...formItemLayout}
+
+          key={Name}
+          label={Label}
+          hasFeedback
+        >
+          {getFieldDecorator(Name, {
+            rules: [
+              {required: IsRequired, message: 'Please select your country!'},
+            ],
+          })(
+            <Select placeholder="Please select a country">
+
+              {_.map(item['Enums'], (option, i)=> {
+
+                return <Option key={option.k} value={option.k}>{option.v}</Option>
+
+              })}
+
+            </Select>
+          )}
+        </FormItem>)
+        break;
+      case 14:
+        return (   <FormItem
+          {...formItemLayout}
+
+          key={Name}
+          label={Label}
+          hasFeedback
+        >
+          {getFieldDecorator(Name, {
+            rules: [
+              {required: IsRequired, message: 'Please select your country!'},
+            ],
+          })(
+            <Select
+              multiple
+              placeholder="Please select a country">
+
+              {_.map(item['Enums'], (option, i)=> {
+
+                return <Option key={option.k} value={option.k}>{option.v}</Option>
+
+              })}
+
+            </Select>
+          )}
+        </FormItem>)
+        break;
+      case 15:
+        return (     <FormItem
+          {...formItemLayout}
+          key={Name}
+          label={Label}
+          hasFeedback
+        >
+          {getFieldDecorator(Name, {
+            rules: [{type: 'object', required: IsRequired, message: 'Please select time!'}],
+          })(
+            <DatePicker />
+          )}
+        </FormItem>)
+        break;
+      case 16:
+        return (     <FormItem
+          {...formItemLayout}
+          key={Name}
+          label={Label}
+          hasFeedback
+        >
+          {getFieldDecorator(Name, {
+            rules: [{type: 'object', required: IsRequired, message: 'Please select time!'}],
+          })(
+            <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+          )}
+        </FormItem>)
+        break;
+      default:
+        return null
+
     }
+
+  }
+
+  renderGroup = (group, index) => {
+    return (<div key={index}>
+
+      <div>
+        {group.GroupName}
+        <div>
+          {_.map(group.Groupcontent, this.renderFormItem)}
+
+        </div>
+      </div>
+    </div>)
+
+  }
+
+  renderForm = () => {
+
+  }
+
+  render() {
+    const {dataSource} = this.props
+
+    const {getFieldDecorator} = this.props.form;
+    const formItemLayout = {
+      labelCol: {span: 6},
+      wrapperCol: {span: 14},
+    };
+    return (
+      <Form onSubmit={this.handleSubmit}>
+        {/*<FormItem
+         {...formItemLayout}
+         label="Plain Text"
+         >
+         <span className="ant-form-text">China</span>
+         </FormItem>
+         <FormItem
+         {...formItemLayout}
+         label="Select"
+         hasFeedback
+         >
+         {getFieldDecorator('select', {
+         rules: [
+         {required: true, message: 'Please select your country!'},
+         ],
+         })(
+         <Select placeholder="Please select a country">
+         <Option value="china">China</Option>
+         <Option value="use">U.S.A</Option>
+         </Select>
+         )}
+         </FormItem>
+
+         <FormItem
+         {...formItemLayout}
+         label="Select[multiple]"
+         >
+         {getFieldDecorator('select-multiple', {
+         rules: [
+         {required: true, message: 'Please select your favourite colors!', type: 'array'},
+         ],
+         })(
+         <Select mode="multiple"
+         multiple
+         placeholder="Please select favourite colors">
+         <Option value="red">Red</Option>
+         <Option value="green">Green</Option>
+         <Option value="blue">Blue</Option>
+         </Select>
+         )}
+         </FormItem>
+
+         <FormItem
+         {...formItemLayout}
+         label="InputNumber"
+         >
+         {getFieldDecorator('input-number', {initialValue: 3})(
+         <InputNumber min={1} max={10}/>
+         )}
+         <span className="ant-form-text"> machines</span>
+         </FormItem>
+
+         <FormItem
+         {...formItemLayout}
+         label="Switch"
+         >
+         {getFieldDecorator('switch', {valuePropName: 'checked'})(
+         <Switch />
+         )}
+         </FormItem>
+
+         <FormItem
+         {...formItemLayout}
+         label="Slider"
+         >
+         {getFieldDecorator('slider')(
+         <Slider marks={{0: 'A', 20: 'B', 40: 'C', 60: 'D', 80: 'E', 100: 'F'}}/>
+         )}
+         </FormItem>
+
+         <FormItem
+         {...formItemLayout}
+         label="Radio.Group"
+         >
+         {getFieldDecorator('radio-group')(
+         <RadioGroup>
+         <Radio value="a">item 1</Radio>
+         <Radio value="b">item 2</Radio>
+         <Radio value="c">item 3</Radio>
+         </RadioGroup>
+         )}
+         </FormItem>
+
+         <FormItem
+         {...formItemLayout}
+         label="Radio.Button"
+         >
+         {getFieldDecorator('radio-button')(
+         <RadioGroup>
+         <RadioButton value="a">item 1</RadioButton>
+         <RadioButton value="b">item 2</RadioButton>
+         <RadioButton value="c">item 3</RadioButton>
+         </RadioGroup>
+         )}
+         </FormItem>
+
+         <FormItem
+         {...formItemLayout}
+         label="Upload"
+         extra="longgggggggggggggggggggggggggggggggggg"
+         >
+         {getFieldDecorator('upload', {
+         valuePropName: 'fileList',
+         getValueFromEvent: this.normFile,
+         })(
+         <Upload name="logo" action="/upload.do" listType="picture">
+         <Button>
+         <Icon type="upload"/> Click to upload
+         </Button>
+         </Upload>
+         )}
+         </FormItem>
+
+         <FormItem
+         {...formItemLayout}
+         label="Dragger"
+         >
+         <div className="dropbox">
+         {getFieldDecorator('dragger', {
+         valuePropName: 'fileList',
+         getValueFromEvent: this.normFile,
+         })(
+         <Upload.Dragger name="files" action="/upload.do">
+         <p className="ant-upload-drag-icon">
+         <Icon type="inbox"/>
+         </p>
+         <p className="ant-upload-text">Click or drag file to this area to upload</p>
+         <p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit
+         from uploading company data or other band files</p>
+         </Upload.Dragger>
+         )}
+         </div>
+         </FormItem>*/}
+        {_.map(dataSource, this.renderGroup)}
+
+        <FormItem
+          wrapperCol={{span: 12, offset: 6}}
+        >
+          <Button type="primary" htmlType="submit">Submit</Button>
+          <Button type="ghost" onClick={this.handleReset}>Reset</Button>
+        </FormItem>
+      </Form>
+    );
+  }
 }
 
 
 FormTemplate.propTypes = {
-    onSubmit: PropTypes.func,
+  onSubmit: PropTypes.func,
 }
 
 
