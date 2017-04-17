@@ -73,6 +73,19 @@ var zoo = {
 
 //[anyOf(T, F), allOf(T, F), anyOf(F, F), anyOf(T, T)]
 
+
+
+var globalThis = function () {
+  return this
+}
+
+
+
+var nopeThis = _.bind(globalThis, 'nope')
+console.log(nopeThis.call('wat'))
+
+
+
 const FP = () => <div>
   <div>string: {str}</div>
 
@@ -92,6 +105,7 @@ const FP = () => <div>
     {_.filter(['a', 'b', 1, 3, 'c'], complement(_.isNumber))}
 
     {console.log(_.defaults({Age: 22}, {Name: 'lolita'}))}
+
     {/*
      underscore有的方法, lodash不包括
      {_.pluck([{Name: 'jane', ID: 0},{Name: 'janeluck', ID: 1},{Name: 'jack', ID: 2},], 'Name')}
