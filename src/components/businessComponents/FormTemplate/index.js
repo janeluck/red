@@ -6,7 +6,7 @@ import React, {PropTypes} from 'react'
 import _ from 'lodash'
 
 import {
-  Form, Select, Input, InputNumber, Switch, Radio,
+  Form, Select, Input, InputNumber, DatePicker, Switch, Radio,
   Slider, Button, Upload, Icon,
 } from 'antd';
 const FormItem = Form.Item;

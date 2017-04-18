@@ -159,6 +159,24 @@ const formInfo = {
           "IsUnique": "0",
           "Label": "主产品",
           "Name": "MainProduct"
+        },{
+          "AttrLen": "1000",
+          "AttrPrec": "0",
+          "AttrType": "15",
+          "IsEdited": "1",
+          "IsRequired": "0",
+          "IsUnique": "0",
+          "Label": "日期",
+          "Name": "date"
+        },{
+          "AttrLen": "1000",
+          "AttrPrec": "0",
+          "AttrType": "16",
+          "IsEdited": "1",
+          "IsRequired": "0",
+          "IsUnique": "0",
+          "Label": "日期时间",
+          "Name": "datetime"
         },
         {
           "AttrLen": "50",
