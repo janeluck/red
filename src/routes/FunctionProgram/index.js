@@ -57,7 +57,9 @@ function F() {
 }
 
 
-// todo: lodash中的谓词函数
+// lodash中的谓词函数
+// 使用Object.prototype.toString区分, 注意和Object.toString的区别
+
 
 // 反转谓词
 const complement = function (pred) {
