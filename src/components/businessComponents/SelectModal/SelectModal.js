@@ -221,7 +221,7 @@ class SelectModal extends React.Component {
 
 
               {/*--已选择--*/}
-              <div className="styles.selectedResult">
+              <div className={styles.selectedResult}>
                 <div>已选择</div>
                 <div>
                   <ul>
