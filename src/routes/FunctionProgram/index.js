@@ -89,6 +89,7 @@ console.log(nopeThis.call('wat'))
 // todo: 深拷贝的实现和immutable共享数据结构原理
 
 
+console.log(window.performance.timing)
 const FP = () => <div>
   <div>string: {str}</div>
 
