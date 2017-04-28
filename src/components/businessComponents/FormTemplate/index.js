@@ -49,6 +49,7 @@ class FormTemplate extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
+      console.log('Received values of form: ', values);
       if (!err) {
         console.log('Received values of form: ', values);
         this.props.onSubmit(values)
@@ -71,9 +72,9 @@ class FormTemplate extends React.Component {
     };
     const {getFieldDecorator} = this.props.form;
     // attrType 可为String, Number类型。 传入的时候统一处理为Number
-    const {AttrType, Label, Name, IsRequired} = item
+    const {AttrType, Label, Name} = item
 
-    //const IsRequired = false
+    const IsRequired = false
     switch (Number(AttrType)) {
       case 1:
         return (

@@ -22,7 +22,7 @@ export  default  class SelectPerson extends React.Component {
     const {selection} = this.state
     this.setState({
       selection: selection.filter(item => item.ID != ID)
-    })
+    }, this.handleChange)
   }
   renderTag = () => {
     const {selection} = this.state
@@ -35,15 +35,22 @@ export  default  class SelectPerson extends React.Component {
     this.setState({
       selection,
       visible: false
-    })
+    }, this.handleChange)
+  }
+
+  handleChange = () => {
+    const {onChange} = this.props
+    const {selection} = this.state
+    // 触发表单系列行为
+    onChange(selection.length ? selection : undefined)
   }
 
   render() {
 
     const {visible} = this.state
     const {value, onChange} = this.props
-    console.dir(this.props)
-    console.log(this.props['data-__meta'])
+    //console.dir(this.props)
+    //console.log(this.props['data-__meta'])
     const that = this
     return (
       <div>
