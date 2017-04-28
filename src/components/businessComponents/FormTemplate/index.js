@@ -9,10 +9,14 @@ import {
   Form, Select, Input, InputNumber, DatePicker, Switch, Radio,
   Slider, Button, Upload, Icon,
 } from 'antd';
+
+
+import SelectPerson from './SelectPerson'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
+
 
 /*
  注: AttrType值对应的字段属性
@@ -67,19 +71,23 @@ class FormTemplate extends React.Component {
     };
     const {getFieldDecorator} = this.props.form;
     // attrType 可为String, Number类型。 传入的时候统一处理为Number
-    const {AttrType, Label, Name,} = item
+    const {AttrType, Label, Name, IsRequired} = item
 
-    const IsRequired = false
+    //const IsRequired = false
     switch (Number(AttrType)) {
       case 1:
         return (
           <FormItem
+            {...formItemLayout}
+
             key={Name}
             label={Label}
-            hasFeedback
-            {...formItemLayout}
           >
-            <InputNumber />
+            {getFieldDecorator(Name, {
+              rules: [{required: IsRequired, message: 'Please input your number!'}],
+            })(
+              <InputNumber />
+            )}
           </FormItem>)
         break;
       case 3:
@@ -90,13 +98,28 @@ class FormTemplate extends React.Component {
           {...formItemLayout}
 
         >
-          <InputNumber
 
-            //defaultValue={1000}
-            formatter={value => `$ ${value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
-            parser={value => value.replace(/\$\s?|(,*)/g, '')}
 
-          />
+          {getFieldDecorator(Name, {
+            rules: [{required: IsRequired, message: 'Please input your number!'}],
+          })(
+            <InputNumber
+
+              //defaultValue={1000}
+              formatter={value => `$ ${value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+              parser={value => value.replace(/\$\s?|(,*)/g, '')}
+
+            />
+          )}
+
+
+          {/*  <InputNumber
+
+           //defaultValue={1000}
+           formatter={value => `$ ${value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+           parser={value => value.replace(/\$\s?|(,*)/g, '')}
+
+           />*/}
         </FormItem>)
 
 
@@ -252,12 +275,25 @@ class FormTemplate extends React.Component {
           {getFieldDecorator(Name, {
             rules: [{type: 'object', required: IsRequired, message: 'Please select time!'}],
           })(
-            <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+            <DatePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
           )}
         </FormItem>)
         break;
       default:
-        return null
+        return (<FormItem
+          {...formItemLayout}
+          key={Name}
+          label={Label}
+          hasFeedback
+        >
+          {getFieldDecorator(Name, {
+            rules: [{required: IsRequired, message: 'Please select person!'}],
+          })(
+            <SelectPerson/>
+          )}
+
+
+        </FormItem>)
 
     }
 
@@ -425,6 +461,7 @@ class FormTemplate extends React.Component {
          </div>
          </FormItem>*/}
         {_.map(dataSource, this.renderGroup)}
+
 
         <FormItem
           wrapperCol={{span: 12, offset: 6}}

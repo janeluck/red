@@ -6,7 +6,7 @@
  */
 import React from 'react'
 
-import {Row, Col, Select, Modal} from 'antd'
+import {Row, Col, Select, Modal, Input, Tag} from 'antd'
 const Option = Select.Option;
 
 const children = [];
@@ -51,7 +51,7 @@ class SelectModalPage extends React.Component {
       </Row>
 
       <div>
-        <Modal visible={true}>
+        <Modal visible={false}>
           <div id="selectWrap">
             <Select
               labelInValue
@@ -59,7 +59,6 @@ class SelectModalPage extends React.Component {
               mode="multiple"
               style={{width: '100%'}}
               placeholder="Please select"
-
               onChange={handleChange}
               getPopupContainer = {()=> document.getElementById('selectWrap')}
             >
@@ -67,6 +66,8 @@ class SelectModalPage extends React.Component {
             </Select>
           </div>
         </Modal>
+
+
       </div>
     </div>)
   }
