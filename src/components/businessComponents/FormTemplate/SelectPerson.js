@@ -14,7 +14,6 @@ export  default  class SelectPerson extends React.Component {
       isMultiple: true,
       visible: false,
       selection: [],
-      value: 'dsdsdsd',
     }
   }
 
@@ -49,7 +48,7 @@ export  default  class SelectPerson extends React.Component {
 
     const {visible, selection} = this.state
     const {value, onChange} = this.props
-    //console.dir(this.props)
+    console.dir(this.props)
     //console.log(this.props['data-__meta'])
     const that = this
     return (

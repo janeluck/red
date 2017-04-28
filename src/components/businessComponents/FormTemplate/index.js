@@ -44,6 +44,7 @@ class FormTemplate extends React.Component {
 
   handleReset = (e) => {
     e.preventDefault();
+    debugger
     this.props.form.resetFields();
   }
   handleSubmit = (e) => {
