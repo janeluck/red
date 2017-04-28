@@ -21,6 +21,7 @@ const generatorTree = (data) => {
 class SelectModal extends React.Component {
   constructor(props) {
     super(props);
+    const value = this.props.value
     this.state = {
       loading: true,
       deptTree: {
@@ -29,7 +30,8 @@ class SelectModal extends React.Component {
       },
       users: [],
       keyword: '',
-      $$checkedList: Immutable.Map(),
+      // 先只考虑多选
+      $$checkedList: value ? Immutable.Map(value.map(item => [item.ID, item])) : Immutable.Map(),
     }
   }
 

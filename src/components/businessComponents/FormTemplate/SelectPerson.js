@@ -47,7 +47,7 @@ export  default  class SelectPerson extends React.Component {
 
   render() {
 
-    const {visible} = this.state
+    const {visible, selection} = this.state
     const {value, onChange} = this.props
     //console.dir(this.props)
     //console.log(this.props['data-__meta'])
@@ -65,7 +65,7 @@ export  default  class SelectPerson extends React.Component {
           onOk={
             that.setSelection
           }
-
+          value={selection}
           onCancel={()=> {
             that.setState({
               visible: false
