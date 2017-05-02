@@ -66,7 +66,6 @@ class FormTemplate extends React.Component {
    }*/
 
   renderFormItem = (item) => {
-    //console.count('renderTime:')
     const formItemLayout = {
       labelCol: {span: 6},
       wrapperCol: {span: 14},
@@ -204,21 +203,7 @@ class FormTemplate extends React.Component {
         </FormItem>)
         break;
       case 13:
-        console.log(getFieldDecorator(Name, {
-            rules: [
-              {required: IsRequired, message: 'Please select your country!'},
-            ],
-          })(
-            <Select placeholder="Please select a country">
 
-              {_.map(item['Enums'], (option, i)=> {
-
-                return <Option key={option.k} value={option.k}>{option.v}</Option>
-
-              })}
-
-            </Select>
-          ))
         return (   <FormItem
           {...formItemLayout}
 
@@ -306,8 +291,10 @@ class FormTemplate extends React.Component {
           hasFeedback
         >
           {getFieldDecorator(Name, {
-            rules: [{required: IsRequired, message: 'Please select person!'}],
-          })(
+              rules: [{required: IsRequired, message: 'Please select person!'}],
+             // initialValue: [{Name: 'jane', ID: 1}]
+            },
+          )(
             <SelectPerson/>
           )}
 
@@ -485,8 +472,8 @@ class FormTemplate extends React.Component {
         <FormItem
           wrapperCol={{span: 12, offset: 6}}
         >
-          <Button type="primary" htmlType="submit">Submit</Button>
-          <Button type="ghost" onClick={this.handleReset}>Reset</Button>
+          <Button type="primary" htmlType="submit">提交</Button>
+          <Button type="ghost" onClick={this.handleReset}>重置</Button>
         </FormItem>
       </Form>
     );

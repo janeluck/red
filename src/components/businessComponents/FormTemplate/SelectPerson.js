@@ -21,6 +21,8 @@ export  default  class SelectPerson extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     // Should be a controlled component.
+    console.log('nextProps:')
+    console.log(nextProps)
     if ('value' in nextProps) {
       const value = nextProps.value;
       this.setState({
