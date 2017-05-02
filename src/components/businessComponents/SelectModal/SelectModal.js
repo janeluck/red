@@ -6,7 +6,7 @@ import {Modal, Input, Button, Tree, Checkbox, Spin} from 'antd'
 import Immutable from 'immutable'
 import reqwest from 'reqwest'
 import styles from './SelectModal.less'
-
+import _ from 'lodash'
 
 const TreeNode = Tree.TreeNode
 const generatorTree = (data) => {
@@ -33,7 +33,7 @@ class SelectModal extends React.Component {
       keyword: '',
       visible: visible || false,
       // 先只考虑多选
-      $$checkedList: value ? Immutable.Map(value.map(item => [item.ID, item])) : Immutable.Map(),
+      $$checkedList:  _.isArray(value) ? Immutable.Map(value.map(item => [item.ID, item])) : Immutable.Map(),
     }
   }
 
@@ -55,7 +55,7 @@ class SelectModal extends React.Component {
     if ('value' in nextProps) {
       const value = nextProps.value;
       this.setState({
-        $$checkedList: Immutable.Map(value.map(item => [item.ID, item]))
+        $$checkedList: _.isArray(value) ? Immutable.Map(value.map(item => [item.ID, item])) : Immutable.Map(),
       });
 
     }
