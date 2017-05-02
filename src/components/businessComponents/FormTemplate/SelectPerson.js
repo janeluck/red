@@ -19,10 +19,9 @@ export  default  class SelectPerson extends React.Component {
     }
   }
 
+
   componentWillReceiveProps(nextProps) {
     // Should be a controlled component.
-    console.log('nextProps:')
-    console.log(nextProps)
     if ('value' in nextProps) {
       const value = nextProps.value;
       this.setState({
@@ -41,8 +40,9 @@ export  default  class SelectPerson extends React.Component {
   }
   renderTag = () => {
     const {selection} = this.state
-    return _.isArray(selection) && selection.map(tag => <Tag color="blue" onClose={this.deleteTag.bind(this, tag.ID)} closable
-                                     key={tag.ID}>{tag.Name}</Tag>)
+    return _.isArray(selection) && selection.map(tag => <Tag color="blue" onClose={this.deleteTag.bind(this, tag.ID)}
+                                                             closable
+                                                             key={tag.ID}>{tag.Name}</Tag>)
 
 
   }
@@ -64,8 +64,6 @@ export  default  class SelectPerson extends React.Component {
 
     const {visible, selection} = this.state
     const {value, onChange} = this.props
-    console.dir(this.props)
-    //console.log(this.props['data-__meta'])
     const that = this
     return (
       <div {...this.props}>
@@ -76,7 +74,8 @@ export  default  class SelectPerson extends React.Component {
             visible: true
           })
         }}>选择人员</Button>
-        {visible ? <SelectModal
+        <SelectModal
+          visible={visible}
           onOk={
             that.setSelection
           }
@@ -85,7 +84,7 @@ export  default  class SelectPerson extends React.Component {
             that.setState({
               visible: false
             })
-          }}/> : null}
+          }}/>
 
       </div>
 

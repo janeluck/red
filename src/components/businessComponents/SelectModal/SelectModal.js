@@ -21,8 +21,9 @@ const generatorTree = (data) => {
 class SelectModal extends React.Component {
   constructor(props) {
     super(props);
-    const value = this.props.value
+    const {value, visible}= this.props
     this.state = {
+
       loading: true,
       deptTree: {
         Name: '',
@@ -30,14 +31,36 @@ class SelectModal extends React.Component {
       },
       users: [],
       keyword: '',
+      visible: visible || false,
       // 先只考虑多选
       $$checkedList: value ? Immutable.Map(value.map(item => [item.ID, item])) : Immutable.Map(),
     }
   }
 
+
   componentWillMount() {
     this.getDeptTree()
   }
+
+  componentWillReceiveProps(nextProps) {
+    // Should be a controlled component.
+    if ('visible' in nextProps) {
+      const visible = nextProps.visible;
+      this.setState({
+        visible
+      });
+
+    }
+
+    if ('value' in nextProps) {
+      const value = nextProps.value;
+      this.setState({
+        $$checkedList: Immutable.Map(value.map(item => [item.ID, item]))
+      });
+
+    }
+  }
+
 
   getDeptTree = () => {
     const that = this
@@ -186,7 +209,7 @@ class SelectModal extends React.Component {
   render() {
 
 
-    const {deptTree, users, $$checkedList, keyword, loading} = this.state
+    const {deptTree, users, $$checkedList, keyword, loading, visible} = this.state
     const {multiple} = this.props
     const checkedList = [...$$checkedList.values()]
     const userids = users.map(user=>user.ID)
@@ -198,7 +221,7 @@ class SelectModal extends React.Component {
       <Modal
         width={514}
         title={"选择人员"}
-        visible={true}
+        visible={visible}
         onOk={this.onOk}
         maskClosable={false}
         onCancel={this.onCancel}
