@@ -6,26 +6,41 @@ import {
   Button, Tag
 } from  'antd'
 import {SelectModal} from '../../../components/businessComponents'
+import _ from 'lodash'
 export  default  class SelectPerson extends React.Component {
   constructor(props) {
     super(props)
+    const selection = this.props.value || [];
     this.state = {
       // 先处理多选的情况
       isMultiple: true,
       visible: false,
-      selection: [],
+      selection
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Should be a controlled component.
+    if ('value' in nextProps) {
+      const value = nextProps.value;
+      this.setState({
+        selection: value
+      });
+
     }
   }
 
   deleteTag = (ID) => {
     const {selection} = this.state
+    const newSelection = selection.filter(item => item.ID != ID)
     this.setState({
-      selection: selection.filter(item => item.ID != ID)
-    }, this.handleChange)
+      selection: newSelection
+    }, this.handleChange.bind(this, newSelection))
   }
   renderTag = () => {
     const {selection} = this.state
-    return selection.map(tag => <Tag color="blue" onClose={this.deleteTag.bind(this, tag.ID)} closable key={tag.ID}>{tag.Name}</Tag>)
+    return _.isArray(selection) && selection.map(tag => <Tag color="blue" onClose={this.deleteTag.bind(this, tag.ID)} closable
+                                     key={tag.ID}>{tag.Name}</Tag>)
 
 
   }
@@ -34,14 +49,13 @@ export  default  class SelectPerson extends React.Component {
     this.setState({
       selection,
       visible: false
-    }, this.handleChange)
+    }, this.handleChange.bind(this, selection))
   }
 
-  handleChange = () => {
+  handleChange = (changedValue) => {
     const {onChange} = this.props
-    const {selection} = this.state
     // 触发表单系列行为
-    onChange(selection.length ? selection : undefined)
+    onChange(changedValue.length ? changedValue : undefined)
   }
 
   render() {
@@ -52,7 +66,7 @@ export  default  class SelectPerson extends React.Component {
     //console.log(this.props['data-__meta'])
     const that = this
     return (
-      <div>
+      <div {...this.props}>
         <input type="hidden"/>
         {this.renderTag()}
         <Button onClick={()=> {

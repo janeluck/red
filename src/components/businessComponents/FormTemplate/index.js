@@ -44,7 +44,6 @@ class FormTemplate extends React.Component {
 
   handleReset = (e) => {
     e.preventDefault();
-    debugger
     this.props.form.resetFields();
   }
   handleSubmit = (e) => {
@@ -67,6 +66,7 @@ class FormTemplate extends React.Component {
    }*/
 
   renderFormItem = (item) => {
+    //console.count('renderTime:')
     const formItemLayout = {
       labelCol: {span: 6},
       wrapperCol: {span: 14},
@@ -177,6 +177,8 @@ class FormTemplate extends React.Component {
         </FormItem>)
         break;
       case 12:
+
+
         return (   <FormItem
           {...formItemLayout}
 
@@ -202,6 +204,21 @@ class FormTemplate extends React.Component {
         </FormItem>)
         break;
       case 13:
+        console.log(getFieldDecorator(Name, {
+            rules: [
+              {required: IsRequired, message: 'Please select your country!'},
+            ],
+          })(
+            <Select placeholder="Please select a country">
+
+              {_.map(item['Enums'], (option, i)=> {
+
+                return <Option key={option.k} value={option.k}>{option.v}</Option>
+
+              })}
+
+            </Select>
+          ))
         return (   <FormItem
           {...formItemLayout}
 
