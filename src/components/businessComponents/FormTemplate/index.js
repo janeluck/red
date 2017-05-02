@@ -156,6 +156,7 @@ class FormTemplate extends React.Component {
             }, {
               required: IsRequired, message: 'Please input your E-mail!',
             }],
+            initialValue: 'jane@gmail.com'
           })(
             <Input />
           )}
@@ -291,8 +292,8 @@ class FormTemplate extends React.Component {
           hasFeedback
         >
           {getFieldDecorator(Name, {
-              rules: [{required: IsRequired, message: 'Please select person!'}],
-             // initialValue: [{Name: 'jane', ID: 1}]
+              rules: [{required: false, message: 'Please select person!'}],
+              initialValue: [{Name: 'jane', ID: 1}]
             },
           )(
             <SelectPerson/>
