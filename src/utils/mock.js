@@ -3,7 +3,8 @@ const users = require('../../mock/users')
 const app = require('../../mock/app')
 const dashboard = require('../../mock/dashboard')
 const selectModal = require('../../mock/selectModal')
-const mockData = [users, app, dashboard, selectModal]
+const region = require('../../mock/region')
+const mockData = [users, app, dashboard, selectModal, region]
 
 function serialize (str) {
   let paramArray = str.split('&')
