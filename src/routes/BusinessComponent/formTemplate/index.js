@@ -480,6 +480,16 @@ const formInfo = {
           "IsUnique": "0",
           "Label": "手机列表",
           "Name": "PhoneList"
+        },{
+          "AttrLen": "0",
+          "AttrPrec": "0",
+          "AttrType": "101",
+          "Enums": [],
+          "IsEdited": "1",
+          "IsRequired": "0",
+          "IsUnique": "0",
+          "Label": "行政区域",
+          "Name": "District"
         }
       ]
     }

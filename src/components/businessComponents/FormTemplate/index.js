@@ -12,6 +12,7 @@ import {
 
 
 import SelectPerson from './SelectPerson'
+import DistrictSelect from './DistrictSelect'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioButton = Radio.Button;
@@ -75,6 +76,8 @@ class FormTemplate extends React.Component {
     const {AttrType, Label, Name} = item
 
     const IsRequired = false
+
+
     switch (Number(AttrType)) {
       case 1:
         return (
@@ -90,7 +93,6 @@ class FormTemplate extends React.Component {
               <InputNumber />
             )}
           </FormItem>)
-        break;
       case 3:
         return (<FormItem
           key={Name}
@@ -124,7 +126,6 @@ class FormTemplate extends React.Component {
         </FormItem>)
 
 
-        break;
       case 4:
         return (<FormItem
           key={Name}
@@ -133,7 +134,6 @@ class FormTemplate extends React.Component {
           label={Label}
           hasFeedback
         ><Input/></FormItem>)
-        break;
       case 5:
         return (<FormItem
           {...formItemLayout}
@@ -161,7 +161,6 @@ class FormTemplate extends React.Component {
             <Input />
           )}
         </FormItem>)
-        break;
       case 9:
         return ( <FormItem
           {...formItemLayout}
@@ -175,7 +174,6 @@ class FormTemplate extends React.Component {
             <Input />
           )}
         </FormItem>)
-        break;
       case 12:
 
 
@@ -202,7 +200,6 @@ class FormTemplate extends React.Component {
             </Select>
           )}
         </FormItem>)
-        break;
       case 13:
 
         return (   <FormItem
@@ -228,7 +225,6 @@ class FormTemplate extends React.Component {
             </Select>
           )}
         </FormItem>)
-        break;
       case 14:
         return (   <FormItem
           {...formItemLayout}
@@ -255,7 +251,6 @@ class FormTemplate extends React.Component {
             </Select>
           )}
         </FormItem>)
-        break;
       case 15:
         return (     <FormItem
           {...formItemLayout}
@@ -269,7 +264,6 @@ class FormTemplate extends React.Component {
             <DatePicker />
           )}
         </FormItem>)
-        break;
       case 16:
         return (     <FormItem
           {...formItemLayout}
@@ -283,8 +277,9 @@ class FormTemplate extends React.Component {
             <DatePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
           )}
         </FormItem>)
-        break;
-      default:
+
+
+      case 101:
         return (<FormItem
           {...formItemLayout}
           key={Name}
@@ -292,7 +287,24 @@ class FormTemplate extends React.Component {
           hasFeedback
         >
           {getFieldDecorator(Name, {
-              rules: [{required: false, message: 'Please select person!'}],
+              rules: [{required: IsRequired, message: 'Please select district!'}]
+            },
+          )(
+            <DistrictSelect/>
+          )}
+
+
+        </FormItem>)
+
+      default:
+        return ( <FormItem
+          {...formItemLayout}
+          key={Name}
+          label={Label}
+          hasFeedback
+        >
+          {getFieldDecorator(Name, {
+              rules: [{required: IsRequired, message: 'Please select person!'}],
               initialValue: [{Name: 'jane', ID: 1}]
             },
           )(
@@ -300,7 +312,7 @@ class FormTemplate extends React.Component {
           )}
 
 
-        </FormItem>)
+        </FormItem> )
 
     }
 
