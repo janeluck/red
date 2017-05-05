@@ -33,7 +33,7 @@ class SelectModal extends React.Component {
       keyword: '',
       visible: visible || false,
       // 先只考虑多选
-      $$checkedList:  _.isArray(value) ? Immutable.Map(value.map(item => [item.ID, item])) : Immutable.Map(),
+      $$checkedList: _.isArray(value) ? Immutable.Map(value.map(item => [item.ID, item])) : Immutable.Map(),
     }
   }
 
@@ -49,11 +49,9 @@ class SelectModal extends React.Component {
     // todo: react是以什么为标准去判断是放入队列还是立即执行?
 
 
-
     // Should be a controlled component.
 
     if ('visible' in nextProps) {
-      debugger
       const visible = nextProps.visible;
       this.setState({
         visible
@@ -71,25 +69,36 @@ class SelectModal extends React.Component {
   }
 
 
- /* shouldComponentUpdate(){
-    //return false
-    // 可以在这里提升效率
-  }*/
+  /* shouldComponentUpdate(){
+   //return false
+   // 可以在这里提升效率
+   }*/
 
 
   getDeptTree = () => {
     const that = this
 
     // todo 这里的组织树的数据是否需要缓存(与行政区域的数据不同, 不能放入localStorage中, 可以放在当前window里window.chaokeCache.selectModalTree)?
-    reqwest({
-      url: location.origin + '/api/deptTree',
-      type: 'json'
-    }).then(data=> {
+    // 这样写是么有用的。。。
+    if (top.window.antdAdminCache_selectModalTree) {
       that.setState({
-        deptTree: data.data,
+        deptTree: top.window.antdAdminCache_selectModalTree,
         loading: false
       })
-    })
+    } else {
+      debugger
+      reqwest({
+        url: location.origin + '/api/deptTree',
+        type: 'json'
+      }).then(data=> {
+        top.window.antdAdminCache_selectModalTree = data.data
+        that.setState({
+          deptTree: data.data,
+          loading: false
+        })
+      })
+    }
+
   }
 
   getList = (id) => {

@@ -5,8 +5,9 @@
  * Created by janeluck on 3/31/17.
  */
 import React from 'react'
+import { isString } from 'lodash'
 
-import {Row, Col, Select, Modal, Input, Tag} from 'antd'
+import {Row, Col, Select, Modal, Button, Input, Tag} from 'antd'
 const Option = Select.Option;
 
 const children = [];
@@ -18,16 +19,65 @@ function handleChange(value) {
   console.log(`selected ${value}`);
 }
 
+
+
+
+
+
+
+
+function formGroup(Component, config) {
+  const FormGroup = React.createClass({
+    __renderLabel() {
+      // check if the passed value is a string using Lodash#isString
+      if (isString(this.props.label)) {
+        return(
+          <label className="form-label" htmlFor={ this.props.name }>
+            { this.props.label }
+          </label>
+        );
+      }
+    },
+
+    __renderElement() {
+      // We need to see if we passed a Component or an Element
+      // such as Profile vs. <input type="text" />
+      if (React.isValidElement(Component)) return React.cloneElement(Component, this.props);
+      return( <Component { ...this.props } />);
+    },
+
+    render() {
+      return(
+        <div className="form-group">
+          { this.__renderLabel() }
+          { this.__renderElement() }
+        </div>
+      );
+    }
+  });
+
+  return(<FormGroup { ...config } />);
+}
+
+
+
 class SelectModalPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       filterCase: {
         gender: '',
-      }
+      },
+      isChanged: false
     }
   }
 
+  change = () =>{
+    const {isChanged} = this.state
+    this.setState({
+      isChanged: !isChanged
+    })
+  }
   handleSelectChange = (gender) => {
     this.setState({
       filterCase: {
@@ -51,7 +101,12 @@ class SelectModalPage extends React.Component {
       </Row>
 
       <div>
-        <Modal visible={false}>
+        <div key={Math.random(0, 1)}>{Math.random(0, 1)}</div>
+        <div key={Math.random(0, 1)}>11111111</div>
+        <Button onClick={this.change}>change</Button>
+
+      </div>
+      <Modal visible={false}>
           <div id="selectWrap">
             <Select
               labelInValue
@@ -66,9 +121,6 @@ class SelectModalPage extends React.Component {
             </Select>
           </div>
         </Modal>
-
-
-      </div>
     </div>)
   }
 }
