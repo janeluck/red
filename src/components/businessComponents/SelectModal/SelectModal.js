@@ -80,6 +80,7 @@ class SelectModal extends React.Component {
 
     // todo 这里的组织树的数据是否需要缓存(与行政区域的数据不同, 不能放入localStorage中, 可以放在当前window里window.chaokeCache.selectModalTree)?
     // 这样写是么有用的。。。
+     // 放在表单动态渲染时,最好还是由form层取数据
     if (top.window.antdAdminCache_selectModalTree) {
       that.setState({
         deptTree: top.window.antdAdminCache_selectModalTree,

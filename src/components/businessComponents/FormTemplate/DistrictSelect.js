@@ -18,6 +18,7 @@ export  default  class DistrictSelect extends React.Component {
 
   componentWillMount() {
     // 判断localStorage是否已经存有'行政区域'数据
+    // 放在表单动态渲染时,最好还是由form层取数据
     const that = this
     if (top.window.localStorage['antdAdminRegion']) {
       that.region = JSON.parse(top.window.localStorage['antdAdminRegion'])
