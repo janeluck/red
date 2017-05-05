@@ -71,10 +71,10 @@ class SelectModal extends React.Component {
   }
 
 
-  shouldComponentUpdate(){
+ /* shouldComponentUpdate(){
     //return false
     // 可以在这里提升效率
-  }
+  }*/
 
 
   getDeptTree = () => {
