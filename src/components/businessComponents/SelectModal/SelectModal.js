@@ -43,8 +43,17 @@ class SelectModal extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+
+
+    // Q: react内部会把下面两个setState放入了同一个enqueueSetState事务队列中
+    // todo: react是以什么为标准去判断是放入队列还是立即执行?
+
+
+
     // Should be a controlled component.
+
     if ('visible' in nextProps) {
+      debugger
       const visible = nextProps.visible;
       this.setState({
         visible
@@ -62,9 +71,16 @@ class SelectModal extends React.Component {
   }
 
 
+  shouldComponentUpdate(){
+    //return false
+    // 可以在这里提升效率
+  }
+
+
   getDeptTree = () => {
     const that = this
 
+    // todo 这里的组织树的数据是否需要缓存(与行政区域的数据不同, 不能放入localStorage中, 可以放在当前window里window.chaokeCache.selectModalTree)?
     reqwest({
       url: location.origin + '/api/deptTree',
       type: 'json'
