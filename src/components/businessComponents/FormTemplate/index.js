@@ -19,6 +19,10 @@ const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
 
+
+
+ // 在表单层拿到通用组件(SelectModal, DistrictSelect)所需要的数据
+
 /*
  注: AttrType值对应的字段属性
  1. 数值型
@@ -42,7 +46,17 @@ const RadioGroup = Radio.Group;
 
 class FormTemplate extends React.Component {
 
+  constructor(props){
+    super(props)
+    this.state = {
+      loading: true
+    }
+  }
 
+  componentWillMount(){
+    const {dataSource} = this.props
+
+  }
   handleReset = (e) => {
     e.preventDefault();
     this.props.form.resetFields();
@@ -336,7 +350,13 @@ class FormTemplate extends React.Component {
 
   }
 
+
+  getGeneralData = () => {
+
+  }
+
   render() {
+
     const {dataSource} = this.props
 
     const {getFieldDecorator} = this.props.form;

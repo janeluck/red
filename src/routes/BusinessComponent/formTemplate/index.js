@@ -501,8 +501,6 @@ const formInfo = {
 
 
 
-
-
 class FormTemplatePage extends React.Component {
     constructor(props) {
         super(props)
