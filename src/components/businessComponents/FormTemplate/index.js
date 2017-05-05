@@ -55,6 +55,7 @@ class FormTemplate extends React.Component {
 
   componentWillMount(){
     const {dataSource} = this.props
+    //const AllAttrType = _.reduce(dataSource, (a, b) => a.concat(b) ,[])
 
   }
   handleReset = (e) => {
