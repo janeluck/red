@@ -47,6 +47,14 @@ const Routers = function ({history, app}) {
             }, 'BusinessComponent-formTemplate')
           },
         }, {
+          path: 'EnterScience/ChineseDoubleHours',
+          name: 'EnterScience/ChineseDoubleHours',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              cb(null, require('./routes/EnterScience/ChineseDoubleHours'))
+            }, 'EnterScience-ChineseDoubleHours')
+          },
+        }, {
           path: 'dashboard',
           name: 'dashboard',
           getComponent (nextState, cb) {
