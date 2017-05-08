@@ -90,6 +90,21 @@ console.log(nopeThis.call('wat'))
 
 
 console.log(window.performance.timing)
+
+
+
+
+
+//closure
+function A() {
+  const a = 'Closure: a'
+  return function () {
+    console.log(a)
+  }
+}
+
+A()()
+
 const FP = () => <div>
   <div>string: {str}</div>
 
