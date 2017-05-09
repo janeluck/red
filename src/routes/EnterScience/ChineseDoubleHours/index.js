@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import {Card, Row, Col, Select} from 'antd'
-
+import _ from 'lodash'
 
 const jsonInfo = '[["chen","hours","associatedanimal","associateddirection"],' +
   '["zi (tzu)","11 pm–1 am","rat","N"],' +
@@ -107,8 +107,14 @@ class ChineseDoubleHours extends React.Component {
   }
 
 
-  renderCard = () => {
+  renderCard = (item, index) => {
+    return <Card title={item.name} key={index}>
+      <p>{item.spell}</p>
+      <p>{item.hours}</p>
+      <p>{item.associatedanimal}</p>
+      <p>{item.associateddirection}</p>
 
+    </Card>
   }
 
   render() {
@@ -116,11 +122,7 @@ class ChineseDoubleHours extends React.Component {
 
     return (
       <div style={{background: '#ECECEC', padding: '30px'}}>
-        <Card title="Card title" bordered={false} style={{width: 300}}>
-          <p>Card content</p>
-          <p>Card content</p>
-          <p>Card content</p>
-        </Card>
+        {_.map(doubleHoursInfo, this.renderCard)}
       </div>
     )
   }
@@ -129,19 +131,6 @@ class ChineseDoubleHours extends React.Component {
 class ChineseDoubleHoursPage extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      filterCase: {
-        gender: '',
-      }
-    }
-  }
-
-  handleSelectChange = (gender) => {
-    this.setState({
-      filterCase: {
-        gender,
-      },
-    })
   }
 
   render() {
