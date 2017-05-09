@@ -34,13 +34,13 @@ const doubleHoursInfo = [
     hours: '1–3 am',
     associatedanimal: 'ox',
     associateddirection: 'NNE',
-  },  {
+  }, {
     name: '寅',
     spell: 'yin',
     hours: '3–5 am',
     associatedanimal: 'tiger',
     associateddirection: 'ENE',
-  },{
+  }, {
     name: '卯',
     spell: 'mao',
     hours: '5-7 am',
@@ -53,13 +53,13 @@ const doubleHoursInfo = [
     hours: '7–9 am',
     associatedanimal: 'dragon',
     associateddirection: 'ESE',
-  },  {
+  }, {
     name: '巳',
     spell: 'si',
     hours: '9-11 am',
     associatedanimal: 'snake',
     associateddirection: 'SSE',
-  },{
+  }, {
     name: '午',
     spell: 'wu',
     hours: '11 am-1 pm',
@@ -72,13 +72,13 @@ const doubleHoursInfo = [
     hours: '1–3 pm',
     associatedanimal: 'sheep',
     associateddirection: 'NNE',
-  },  {
+  }, {
     name: '申',
     spell: 'shen',
     hours: '3–5 pm',
     associatedanimal: 'monkey',
     associateddirection: 'WSW',
-  },{
+  }, {
     name: '酉',
     spell: 'you',
     hours: '5-7 pm',
@@ -91,7 +91,7 @@ const doubleHoursInfo = [
     hours: '7–9 pm',
     associatedanimal: 'dog',
     associateddirection: 'WNW',
-  },  {
+  }, {
     name: '亥',
     spell: 'hai',
     hours: '9-11 pm',
@@ -108,13 +108,14 @@ class ChineseDoubleHours extends React.Component {
 
 
   renderCard = (item, index) => {
-    return <Card title={item.name} key={index}>
-      <p>{item.spell}</p>
-      <p>{item.hours}</p>
-      <p>{item.associatedanimal}</p>
-      <p>{item.associateddirection}</p>
-
-    </Card>
+    return <Col key={index} xs={24} sm={12} md={8} lg={6} style={{paddingLeft: 16, paddingRight: 16}}>
+      <Card title={item.name}>
+        <p>{item.spell}</p>
+        <p>{item.hours}</p>
+        <p>{item.associatedanimal}</p>
+        <p>{item.associateddirection}</p>
+      </Card>
+    </Col>
   }
 
   render() {
@@ -122,7 +123,9 @@ class ChineseDoubleHours extends React.Component {
 
     return (
       <div style={{background: '#ECECEC', padding: '30px'}}>
-        {_.map(doubleHoursInfo, this.renderCard)}
+        <Row style={{marginLeft: -16, marginRight: -16}}>
+          {_.map(doubleHoursInfo, this.renderCard)}
+        </Row>
       </div>
     )
   }
