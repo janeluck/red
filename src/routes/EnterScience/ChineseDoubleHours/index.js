@@ -108,7 +108,7 @@ class ChineseDoubleHours extends React.Component {
 
 
   renderCard = (item, index) => {
-    return <Col key={index} xs={24} sm={12} md={8} lg={6} style={{paddingLeft: 16, paddingRight: 16}}>
+    return <Col key={index}  sm={12} md={8} lg={6} style={{paddingLeft: 16, paddingRight: 16}}>
       <Card title={item.name}>
         <p>{item.spell}</p>
         <p>{item.hours}</p>
