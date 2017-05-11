@@ -46,6 +46,14 @@ const Routers = function ({history, app}) {
               cb(null, require('./routes/BusinessComponent/formTemplate'))
             }, 'BusinessComponent-formTemplate')
           },
+        },{
+          path: 'BusinessComponent/antdStyle',
+          name: 'BusinessComponent/antdStyle',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              cb(null, require('./routes/BusinessComponent/antdStyle'))
+            }, 'BusinessComponent-antdStyle')
+          },
         }, {
           path: 'EnterScience/ChineseDoubleHours',
           name: 'EnterScience/ChineseDoubleHours',

@@ -76,6 +76,11 @@ module.exports = [
         key: 'formTemplate',
         name: 'formTemplate',
         icon: 'file-text',
+      },
+      {
+        key: 'antdStyle',
+        name: 'antdStyle',
+        icon: 'file-text',
       }
     ],
   },{
