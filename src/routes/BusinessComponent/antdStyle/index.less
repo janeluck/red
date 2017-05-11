@@ -1,0 +1,31 @@
+/*
+@prefix: jane;
+
+.@{prefix} {
+  &-pagination-item {
+    float: left;
+  }
+}
+*/
+.jane {
+  &-pagination {
+
+    &:after {
+      content: " ";
+      display: block;
+      height: 0;
+      clear: both;
+      overflow: hidden;
+      visibility: hidden;
+    }
+    &-item {
+      float: left;
+      margin-right: 8px;
+      min-width: 28px;
+
+      a {
+
+      }
+    }
+  }
+}
