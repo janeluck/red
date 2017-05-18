@@ -88,13 +88,6 @@ module.exports = [
     name: 'EnterScience',
     icon: 'laptop',
     clickable: false,
-    child: [
-      {
-        key: 'ChineseDoubleHours',
-        name: 'ChineseDoubleHours',
-        icon: 'bars',
-      }
-    ],
   },
   {
     key: 'chart',

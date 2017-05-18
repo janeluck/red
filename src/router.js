@@ -55,12 +55,12 @@ const Routers = function ({history, app}) {
             }, 'BusinessComponent-antdStyle')
           },
         }, {
-          path: 'EnterScience/ChineseDoubleHours',
-          name: 'EnterScience/ChineseDoubleHours',
+          path: 'EnterScience',
+          name: 'EnterScience',
           getComponent (nextState, cb) {
             require.ensure([], require => {
-              cb(null, require('./routes/EnterScience/ChineseDoubleHours'))
-            }, 'EnterScience-ChineseDoubleHours')
+              cb(null, require('./routes/EnterScience/index'))
+            }, 'EnterScience')
           },
         }, {
           path: 'dashboard',
