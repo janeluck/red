@@ -108,7 +108,7 @@ class ChineseDoubleHours extends React.Component {
 
 
   renderCard = (item, index) => {
-    return <Col key={index}  sm={12} md={8} lg={6} style={{paddingLeft: 16, paddingRight: 16}}>
+    return <Col key={index} sm={12} md={8} lg={6} style={{paddingLeft: 16, paddingRight: 16}}>
       <Card title={item.name}>
         <p>{item.spell}</p>
         <p>{item.hours}</p>
@@ -131,23 +131,6 @@ class ChineseDoubleHours extends React.Component {
   }
 }
 
-class ChineseDoubleHoursPage extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
 
 
-    return (<div className="content-inner">
-
-      <h2 style={{margin: '16px 0'}}>ChineseDoubleHoursPage</h2>
-
-      <ChineseDoubleHours />
-
-    </div>)
-  }
-}
-
-
-export default ChineseDoubleHoursPage
+export default ChineseDoubleHours
