@@ -105,6 +105,24 @@ function A() {
 
 A()()
 
+
+
+// 遮蔽 shadowing
+var shadowed = 0
+function argShadow(shadowed) {
+  return ['Value is', shadowed].join(' ')
+}
+
+argShadow()
+
+
+// repeat
+function repeat(times, value) {
+  return _.map(_.range(times), function () {
+    return value
+  })
+}
+
 const FP = () => <div>
   <div>string: {str}</div>
 
