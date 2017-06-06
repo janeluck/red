@@ -69,10 +69,12 @@ class MappingTablePage extends React.Component {
     const u = row.U
     const rowSpan = u.length
 
+    // 超客信息导入U订货: 一对一, 一对无则自动生成一条
     if (rowSpan == 1) {
-      const utdCls = {
+      const utdCls = classNames({
+        // 一对无, 标记出自动生成的信息
         [style.autoCorelated]: row.AutoCorelated == 1
-      }
+      })
       return (<tr key={`${rowIndex}-0`}>
         <td>
           {row.Name}
@@ -83,23 +85,26 @@ class MappingTablePage extends React.Component {
         <td>
           {row.Mail}
         </td>
-        <td className={classNames(utdCls)}>
+        <td className={utdCls}>
           {u[0].Name}
         </td>
-        <td className={classNames(utdCls)}>
+        <td className={utdCls}>
           {u[0].Phone}
         </td>
-        <td className={classNames(utdCls)}>
+        <td className={utdCls}>
           {u[0].Mail}
         </td>
         <td>
           ok
         </td>
       </tr>)
-    } else {
-
-
     }
+
+    // 一对多
+
+
+
+
 
 
   }
