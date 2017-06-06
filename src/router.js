@@ -63,6 +63,14 @@ const Routers = function ({history, app}) {
             }, 'EnterScience')
           },
         }, {
+          path: 'BusinessPage',
+          name: 'BusinessPage',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              cb(null, require('./routes/BusinessPage/index'))
+            }, 'BusinessPage')
+          },
+        }, {
           path: 'dashboard',
           name: 'dashboard',
           getComponent (nextState, cb) {

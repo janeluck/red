@@ -88,6 +88,11 @@ module.exports = [
     name: 'EnterScience',
     icon: 'laptop',
     clickable: false,
+  },{
+    key: 'BusinessPage',
+    name: 'BusinessPage',
+    icon: 'laptop',
+    clickable: false,
   },
   {
     key: 'chart',
