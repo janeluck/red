@@ -7,6 +7,7 @@ import Immutable from 'immutable'
 import style from './index.less'
 import classNames from 'classnames';
 
+//todo: 每条数据id
 const data = [
   {
     Name: 'alex',
@@ -16,9 +17,9 @@ const data = [
       Name: 'alex',
       Phone: '13512345678',
       Mail: 'alex@qq.com',
-      IsCorelated: 1
+      IsCorrelated: 1
     }],
-    AutoCorelated: 0
+    AutoCorrelated: 0
   },
   {
     Name: 'lucy',
@@ -28,19 +29,40 @@ const data = [
       Name: 'lucy',
       Phone: '13512345678',
       Mail: 'lucy@qq.com',
-      IsCorelated: 1
+      IsCorrelated: 1
     }, {
       Name: 'lucy002',
       Phone: '13522345678',
       Mail: 'lucy002@qq.com',
-      IsCorelated: 0
+      IsCorrelated: 0
     }, {
       Name: 'lucy003',
       Phone: '13532345678',
       Mail: 'lucy003@qq.com',
-      IsCorelated: 0
+      IsCorrelated: 0
     },],
-    AutoCorelated: 0
+    AutoCorrelated: 0
+  },{
+    Name: 'rose',
+    Phone: '13012345678',
+    Mail: 'rose@qq.com',
+    U: [{
+      Name: 'rose',
+      Phone: '13012349678',
+      Mail: 'rose@qq.com',
+      IsCorrelated: 0
+    }, {
+      Name: 'rose002',
+      Phone: '13022341678',
+      Mail: 'rose002@qq.com',
+      IsCorrelated: 0
+    }, {
+      Name: 'rose003',
+      Phone: '13032340678',
+      Mail: 'rose003@qq.com',
+      IsCorrelated: 0
+    },],
+    AutoCorrelated: 0
   },
   {
     Name: 'tom',
@@ -50,9 +72,9 @@ const data = [
       Name: 'tom',
       Phone: '13812345678',
       Mail: 'tom@qq.com',
-      IsCorelated: 1
+      IsCorrelated: 1
     }],
-    AutoCorelated: 1
+    AutoCorrelated: 1
   },
 ]
 
@@ -73,7 +95,7 @@ class MappingTablePage extends React.Component {
     if (rowSpan == 1) {
       const utdCls = classNames({
         // 一对无, 标记出自动生成的信息
-        [style.autoCorelated]: row.AutoCorelated == 1
+        [style.autoCorrelated]: row.AutoCorrelated == 1
       })
       return (<tr key={`${rowIndex}-0`}>
         <td>
@@ -98,13 +120,70 @@ class MappingTablePage extends React.Component {
           ok
         </td>
       </tr>)
+    } else {
+
+      // 是否还未对应
+      const isUnCorrelating = _.every(u, item => item.IsCorrelated == '0')
+      if (isUnCorrelating) {
+
+
+
+        return _.map(u, (item, index) => {
+
+          const tdCls = classNames({
+                [style.selectDisabled]: !isUnCorrelating && item.IsCorrelated == '0'
+              })
+          if (index == 0) {
+            return (<tr key={`${rowIndex}-0`}>
+              <td rowSpan={rowSpan}>
+                {row.Name}
+              </td>
+              <td rowSpan={rowSpan}>
+                {row.Phone}
+              </td>
+              <td rowSpan={rowSpan}>
+                {row.Mail}
+              </td>
+              <td  className={tdCls}>
+                {u[0].Name}
+              </td>
+              <td className={tdCls}>
+                {u[0].Phone}
+              </td>
+              <td className={tdCls}>
+                {u[0].Mail}
+              </td>
+              <td>
+
+              </td>
+            </tr>)
+          }
+
+          return (<tr key={`${rowIndex}-${index}`}>
+
+            <td >
+              {u[index].Name}
+            </td>
+            <td >
+              {u[index].Phone}
+            </td>
+            <td >
+              {u[index].Mail}
+            </td>
+            <td>
+              请选择
+            </td>
+          </tr>)
+
+        })
+      }else{
+
+      }
+
+
     }
 
     // 一对多
-
-
-
-
 
 
   }
