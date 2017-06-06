@@ -15,7 +15,7 @@ class BusinessPage extends React.Component {
   render() {
     return (<div className="content-inner">
 
-      <h2 style={{margin: '16px 0'}}>EnterSciencePage</h2>
+      <h2 style={{margin: '16px 0'}}>BusinessPage</h2>
       <div>
         <Tabs defaultActiveKey="1" >
           <TabPane tab="Tab 1" key="1"><MappingTable /></TabPane>
