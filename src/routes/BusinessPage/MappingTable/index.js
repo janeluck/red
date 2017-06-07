@@ -6,6 +6,7 @@ import _ from 'lodash'
 import Immutable from 'immutable'
 import style from './index.less'
 import classNames from 'classnames';
+import {Spin} from 'antd'
 
 //todo: 每条数据id
 const oData = [
@@ -83,7 +84,8 @@ class MappingTablePage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      $$data: Immutable.fromJS(oData)
+      $$data: Immutable.fromJS(oData),
+      loading: false
     }
   }
 
@@ -94,14 +96,18 @@ class MappingTablePage extends React.Component {
       const $$data = this.state.$$data
       this.setState({
         // 切换该条数据对应状态
-        $$data: $$data.updateIn([rowIndex, 'U', uIndex, 'IsCorrelated'], v => v ^ 1)
+        $$data: $$data.updateIn([rowIndex, 'U', uIndex, 'IsCorrelated'], v => v ^ 1),
+        loading: false
       })
     }).bind(this)
 
 
     if (prevState == '0') {
       //todo: ajax true then
-      new Promise((resolve, reject)=>{
+      new Promise((resolve, reject)=> {
+        this.setState({
+          loading: true
+        })
         setTimeout(resolve, 1000)
       }).then(toggleCorrelated)
 
@@ -126,8 +132,9 @@ class MappingTablePage extends React.Component {
 
     const rowSpan = u.length
 
-    // 超客信息导入U订货: 一对一, 一对无则自动生成一条
+
     if (rowSpan == 1) {
+      // 超客信息导入U订货: 一对一, 一对无则自动生成一条
       const utdCls = classNames({
         // 一对无, 标记出自动生成的信息
         [style.autoCorrelated]: row.AutoCorrelated == '1'
@@ -156,6 +163,7 @@ class MappingTablePage extends React.Component {
         </td>
       </tr>)
     } else {
+      // 一对多
 
       // 是否还未对应
       const isUnCorrelating = _.every(u, item => item.IsCorrelated == '0')
@@ -226,13 +234,13 @@ class MappingTablePage extends React.Component {
               <td rowSpan={rowSpan}>
                 {row.Mail}
               </td>
-              <td className={classNames(tdCls)}>
+              <td className={tdCls}>
                 {u[0].Name}
               </td>
-              <td className={classNames(tdCls)}>
+              <td className={tdCls}>
                 {u[0].Phone}
               </td>
-              <td className={classNames(tdCls)}>
+              <td className={tdCls}>
                 {u[0].Mail}
               </td>
               <td>
@@ -244,13 +252,13 @@ class MappingTablePage extends React.Component {
 
           return (<tr key={`${rowIndex}-${index}`}>
 
-            <td className={classNames(tdCls)}>
+            <td className={tdCls}>
               {u[index].Name}
             </td>
-            <td className={classNames(tdCls)}>
+            <td className={tdCls}>
               {u[index].Phone}
             </td>
-            <td className={classNames(tdCls)}>
+            <td className={tdCls}>
               {u[index].Mail}
             </td>
             <td>
@@ -266,86 +274,43 @@ class MappingTablePage extends React.Component {
 
     }
 
-    // 一对多
-
 
   }
 
   render() {
 
-    const data = this.state.$$data.toJS()
+    const {$$data, loading} = this.state
+    const data = $$data.toJS()
     return (
       <div style={{padding: '30px'}}>
-        <table className={style.mappingTable}>
-          <thead>
-          <tr>
-            <th colSpan="3">超客</th>
-            <th colSpan="4">U订货</th>
 
-          </tr>
-          <tr>
-            <th>姓名</th>
-            <th>手机号</th>
-            <th>邮箱</th>
-            <th>姓名</th>
-            <th>手机号</th>
-            <th>邮箱</th>
-            <th>是否对应</th>
-          </tr>
-          </thead>
-          <tbody>
+        <div>
 
-          {_.map(data, this.renderRow)}
 
-          {/*    <tr >
-           <td rowSpan="3">
-           alex
-           </td>
+          <Spin tip="加载中..." spinning={loading}>
+            <table className={style.mappingTable}>
+              <thead>
+              <tr>
+                <th colSpan="3">超客</th>
+                <th colSpan="4">U订货</th>
+              </tr>
+              <tr>
+                <th>姓名</th>
+                <th>手机号</th>
+                <th>邮箱</th>
+                <th>姓名</th>
+                <th>手机号</th>
+                <th>邮箱</th>
+                <th>是否对应</th>
+              </tr>
+              </thead>
+              <tbody>
+              {_.map(data, this.renderRow)}
+              </tbody>
+            </table>
+          </Spin>
 
-           <td rowSpan="3">
-           12312345678
-           </td>
-           <td rowSpan="3">
-           12312345678@gmail.com
-           </td>
-           <td>
-           wang001
-           </td>
-           <td>
-           13512345678
-           </td>
-           <td>
-           wang001@qq.com
-           </td>
-           <td>重新选择</td>
-           </tr>
-           <tr>
-           <td>
-           wang002
-           </td>
-           <td>
-           13512345677
-           </td>
-           <td>
-           wang002@qq.com
-           </td>
-           <td></td>
-           </tr>
-           <tr>
-           <td>
-           wang003
-           </td>
-           <td>
-           13512345671
-           </td>
-           <td>
-           wang003@qq.com
-           </td>
-           <td></td>
-           </tr>*/}
-          </tbody>
-        </table>
-
+        </div>
       </div>
     )
   }
