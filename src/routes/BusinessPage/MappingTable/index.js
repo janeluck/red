@@ -88,7 +88,9 @@ class MappingTablePage extends React.Component {
   }
 
   renderRow = (row, rowIndex) => {
-    const u = row.U
+    // 容错处理
+    const u = _.isArray(row.U) && row.U || []
+
     const rowSpan = u.length
 
     // 超客信息导入U订货: 一对一, 一对无则自动生成一条
