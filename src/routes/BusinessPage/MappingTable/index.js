@@ -103,12 +103,12 @@ class MappingTablePage extends React.Component {
 
 
     if (prevState == '0') {
-      //todo: ajax true then
+      //模拟ajax, todo
       new Promise((resolve, reject)=> {
         this.setState({
           loading: true
-        })
-        setTimeout(resolve, 1000)
+        }, resolve)
+
       }).then(toggleCorrelated)
 
 
