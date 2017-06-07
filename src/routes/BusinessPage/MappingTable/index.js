@@ -8,7 +8,7 @@ import style from './index.less'
 import classNames from 'classnames';
 
 //todo: 每条数据id
-const data = [
+const oData = [
   {
     Name: 'alex',
     Phone: '13512345678',
@@ -42,7 +42,7 @@ const data = [
       IsCorrelated: 0
     },],
     AutoCorrelated: 0
-  },{
+  }, {
     Name: 'rose',
     Phone: '13012345678',
     Mail: 'rose@qq.com',
@@ -83,11 +83,44 @@ class MappingTablePage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      $$data: Immutable.fromJS(data)
+      $$data: Immutable.fromJS(oData)
     }
   }
 
+  // 选择或者重置超客对应到U订货的数据
+  setCorrelated = (rowIndex, uIndex, prevState) => {
+
+    const toggleCorrelated = (()=> {
+      const $$data = this.state.$$data
+      this.setState({
+        // 切换该条数据对应状态
+        $$data: $$data.updateIn([rowIndex, 'U', uIndex, 'IsCorrelated'], v => v ^ 1)
+      })
+    }).bind(this)
+
+
+    if (prevState == '0') {
+      //todo: ajax true then
+      new Promise((resolve, reject)=>{
+        setTimeout(resolve, 1000)
+      }).then(toggleCorrelated)
+
+
+    } else {
+      toggleCorrelated()
+    }
+
+
+  }
+
+  // 保存超客对应到U订货的已选择条目
+  saveCorrelated = () => {
+
+  }
+
   renderRow = (row, rowIndex) => {
+
+
     // 容错处理
     const u = _.isArray(row.U) && row.U || []
 
@@ -97,7 +130,7 @@ class MappingTablePage extends React.Component {
     if (rowSpan == 1) {
       const utdCls = classNames({
         // 一对无, 标记出自动生成的信息
-        [style.autoCorrelated]: row.AutoCorrelated == 1
+        [style.autoCorrelated]: row.AutoCorrelated == '1'
       })
       return (<tr key={`${rowIndex}-0`}>
         <td>
@@ -129,12 +162,8 @@ class MappingTablePage extends React.Component {
       if (isUnCorrelating) {
 
 
-
         return _.map(u, (item, index) => {
 
-          const tdCls = classNames({
-                [style.selectDisabled]: !isUnCorrelating && item.IsCorrelated == '0'
-              })
           if (index == 0) {
             return (<tr key={`${rowIndex}-0`}>
               <td rowSpan={rowSpan}>
@@ -146,17 +175,18 @@ class MappingTablePage extends React.Component {
               <td rowSpan={rowSpan}>
                 {row.Mail}
               </td>
-              <td  className={tdCls}>
+              <td  >
                 {u[0].Name}
               </td>
-              <td className={tdCls}>
+              <td >
                 {u[0].Phone}
               </td>
-              <td className={tdCls}>
+              <td >
                 {u[0].Mail}
               </td>
               <td>
-
+                <a href="javascript:;"
+                   onClick={this.setCorrelated.bind(this, rowIndex, index, item.IsCorrelated)}>请选择</a>
               </td>
             </tr>)
           }
@@ -173,12 +203,63 @@ class MappingTablePage extends React.Component {
               {u[index].Mail}
             </td>
             <td>
-              请选择
+              <a href="javascript:;" onClick={this.setCorrelated.bind(this, rowIndex, index, item.IsCorrelated)}>请选择</a>
             </td>
           </tr>)
 
         })
-      }else{
+      } else {
+        return _.map(u, (item, index) => {
+
+          // 未被选中的置灰显示
+          const tdCls = classNames({
+            [style.selectDisabled]: item.IsCorrelated == '0'
+          })
+          if (index == 0) {
+            return (<tr key={`${rowIndex}-0`}>
+              <td rowSpan={rowSpan}>
+                {row.Name}
+              </td>
+              <td rowSpan={rowSpan}>
+                {row.Phone}
+              </td>
+              <td rowSpan={rowSpan}>
+                {row.Mail}
+              </td>
+              <td className={classNames(tdCls)}>
+                {u[0].Name}
+              </td>
+              <td className={classNames(tdCls)}>
+                {u[0].Phone}
+              </td>
+              <td className={classNames(tdCls)}>
+                {u[0].Mail}
+              </td>
+              <td>
+                {item.IsCorrelated == '0' ? '' : (
+                  <a href="javascript:;" onClick={this.setCorrelated.bind(this, rowIndex, index, item.IsCorrelated)}>重新选择</a>)}
+              </td>
+            </tr>)
+          }
+
+          return (<tr key={`${rowIndex}-${index}`}>
+
+            <td className={classNames(tdCls)}>
+              {u[index].Name}
+            </td>
+            <td className={classNames(tdCls)}>
+              {u[index].Phone}
+            </td>
+            <td className={classNames(tdCls)}>
+              {u[index].Mail}
+            </td>
+            <td>
+              {item.IsCorrelated == '0' ? '' : (<a href="javascript:;"
+                                                   onClick={this.setCorrelated.bind(this, rowIndex, index, item.IsCorrelated)}>重新选择</a>)}
+            </td>
+          </tr>)
+
+        })
 
       }
 
@@ -216,52 +297,52 @@ class MappingTablePage extends React.Component {
 
           {_.map(data, this.renderRow)}
 
-          <tr >
-            <td rowSpan="3">
-              alex
-            </td>
+          {/*    <tr >
+           <td rowSpan="3">
+           alex
+           </td>
 
-            <td rowSpan="3">
-              12312345678
-            </td>
-            <td rowSpan="3">
-              12312345678@gmail.com
-            </td>
-            <td>
-              wang001
-            </td>
-            <td>
-              13512345678
-            </td>
-            <td>
-              wang001@qq.com
-            </td>
-            <td>重新选择</td>
-          </tr>
-          <tr>
-            <td>
-              wang002
-            </td>
-            <td>
-              13512345677
-            </td>
-            <td>
-              wang002@qq.com
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>
-              wang003
-            </td>
-            <td>
-              13512345671
-            </td>
-            <td>
-              wang003@qq.com
-            </td>
-            <td></td>
-          </tr>
+           <td rowSpan="3">
+           12312345678
+           </td>
+           <td rowSpan="3">
+           12312345678@gmail.com
+           </td>
+           <td>
+           wang001
+           </td>
+           <td>
+           13512345678
+           </td>
+           <td>
+           wang001@qq.com
+           </td>
+           <td>重新选择</td>
+           </tr>
+           <tr>
+           <td>
+           wang002
+           </td>
+           <td>
+           13512345677
+           </td>
+           <td>
+           wang002@qq.com
+           </td>
+           <td></td>
+           </tr>
+           <tr>
+           <td>
+           wang003
+           </td>
+           <td>
+           13512345671
+           </td>
+           <td>
+           wang003@qq.com
+           </td>
+           <td></td>
+           </tr>*/}
           </tbody>
         </table>
 
