@@ -76,6 +76,138 @@ const oData = [
       IsCorrelated: 1
     }],
     AutoCorrelated: 1
+  }, {
+    Name: 'alex',
+    Phone: '13512345678',
+    Mail: 'alex@qq.com',
+    U: [{
+      Name: 'alex',
+      Phone: '13512345678',
+      Mail: 'alex@qq.com',
+      IsCorrelated: 1
+    }],
+    AutoCorrelated: 0
+  },
+  {
+    Name: 'lucy',
+    Phone: '13612345678',
+    Mail: 'lucy@qq.com',
+    U: [{
+      Name: 'lucy',
+      Phone: '13512345678',
+      Mail: 'lucy@qq.com',
+      IsCorrelated: 1
+    }, {
+      Name: 'lucy002',
+      Phone: '13522345678',
+      Mail: 'lucy002@qq.com',
+      IsCorrelated: 0
+    }, {
+      Name: 'lucy003',
+      Phone: '13532345678',
+      Mail: 'lucy003@qq.com',
+      IsCorrelated: 0
+    },],
+    AutoCorrelated: 0
+  }, {
+    Name: 'rose',
+    Phone: '13012345678',
+    Mail: 'rose@qq.com',
+    U: [{
+      Name: 'rose',
+      Phone: '13012349678',
+      Mail: 'rose@qq.com',
+      IsCorrelated: 0
+    }, {
+      Name: 'rose002',
+      Phone: '13022341678',
+      Mail: 'rose002@qq.com',
+      IsCorrelated: 0
+    }, {
+      Name: 'rose003',
+      Phone: '13032340678',
+      Mail: 'rose003@qq.com',
+      IsCorrelated: 0
+    },],
+    AutoCorrelated: 0
+  },
+  {
+    Name: 'tom',
+    Phone: '13812345678',
+    Mail: 'alex@qq.com',
+    U: [{
+      Name: 'tom',
+      Phone: '13812345678',
+      Mail: 'tom@qq.com',
+      IsCorrelated: 1
+    }],
+    AutoCorrelated: 1
+  }, {
+    Name: 'alex',
+    Phone: '13512345678',
+    Mail: 'alex@qq.com',
+    U: [{
+      Name: 'alex',
+      Phone: '13512345678',
+      Mail: 'alex@qq.com',
+      IsCorrelated: 1
+    }],
+    AutoCorrelated: 0
+  },
+  {
+    Name: 'lucy',
+    Phone: '13612345678',
+    Mail: 'lucy@qq.com',
+    U: [{
+      Name: 'lucy',
+      Phone: '13512345678',
+      Mail: 'lucy@qq.com',
+      IsCorrelated: 1
+    }, {
+      Name: 'lucy002',
+      Phone: '13522345678',
+      Mail: 'lucy002@qq.com',
+      IsCorrelated: 0
+    }, {
+      Name: 'lucy003',
+      Phone: '13532345678',
+      Mail: 'lucy003@qq.com',
+      IsCorrelated: 0
+    },],
+    AutoCorrelated: 0
+  }, {
+    Name: 'rose',
+    Phone: '13012345678',
+    Mail: 'rose@qq.com',
+    U: [{
+      Name: 'rose',
+      Phone: '13012349678',
+      Mail: 'rose@qq.com',
+      IsCorrelated: 0
+    }, {
+      Name: 'rose002',
+      Phone: '13022341678',
+      Mail: 'rose002@qq.com',
+      IsCorrelated: 0
+    }, {
+      Name: 'rose003',
+      Phone: '13032340678',
+      Mail: 'rose003@qq.com',
+      IsCorrelated: 0
+    },],
+    AutoCorrelated: 0
+  },
+  {
+    Name: 'tom',
+    Phone: '13812345678',
+    Mail: 'alex@qq.com',
+    U: [{
+      Name: 'tom',
+      Phone: '13812345678',
+      Mail: '1111tom@qq.com',
+      IsCorrelated: 1
+    }],
+    AutoCorrelated: 1
   },
 ]
 
@@ -282,32 +414,57 @@ class MappingTablePage extends React.Component {
     const {$$data, loading} = this.state
     const data = $$data.toJS()
     return (
-      <div style={{padding: '30px'}}>
+      <div style={{padding: '0 10px'}}>
 
-        <div>
+        <div >
 
 
           <Spin tip="加载中..." spinning={loading}>
-            <table className={style.mappingTable}>
-              <thead>
-              <tr>
-                <th colSpan="3">超客</th>
-                <th colSpan="4">U订货</th>
-              </tr>
-              <tr>
-                <th>姓名</th>
-                <th>手机号</th>
-                <th>邮箱</th>
-                <th>姓名</th>
-                <th>手机号</th>
-                <th>邮箱</th>
-                <th>是否对应</th>
-              </tr>
-              </thead>
-              <tbody>
-              {_.map(data, this.renderRow)}
-              </tbody>
-            </table>
+            <div style={{width: 800, paddingTop: 48, position: 'relative'}}>
+
+              <div style={{height: 200, overflowY: 'auto'}}>
+                <table className={style.mappingTable}>
+                  <thead>
+                  <tr>
+                    <th colSpan="3">
+                      <div>超客</div>
+                    </th>
+                    <th colSpan="4">
+                      <div>
+                        U订货
+                      </div>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>
+                      <div>姓名</div>
+                    </th>
+                    <th>
+                      <div>手机号</div>
+                    </th>
+                    <th>
+                      <div>邮箱</div>
+                    </th>
+                    <th>
+                      <div>姓名</div>
+                    </th>
+                    <th>
+                      <div>手机号</div>
+                    </th>
+                    <th>
+                      <div>邮箱</div>
+                    </th>
+                    <th>
+                      <div>是否对应</div>
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {_.map(data, this.renderRow)}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </Spin>
 
         </div>

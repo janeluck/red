@@ -1,4 +1,30 @@
+@mainColor: #1eb7bc;
+
 .mappingTable {
+  border-spacing: 0;
+  thead {
+
+    left: 0;
+    tr:first-child {
+      div {
+        color: @mainColor;
+      }
+    }
+
+    div {
+      position: absolute;
+      top: 0;
+      padding: 6px 8px;
+    }
+
+
+    tr:nth-child(2) {
+      div {
+        top: 24px;
+      }
+    }
+
+  }
   tbody {
     vertical-align: top;
     tr:hover {
@@ -6,10 +32,15 @@
     }
   }
 
+  td {
+    text-align: left;
+    padding: 6px 8px;
+  }
+
 }
 
 .autoCorrelated {
-  color: #1eb7bc;
+  color: @mainColor;
 }
 
 .selectDisabled {
