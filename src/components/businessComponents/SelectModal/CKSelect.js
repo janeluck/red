@@ -12,41 +12,36 @@ import styles from './SelectModal.less'
 import _ from 'lodash'
 
 
-
 const TreeNode = Tree.TreeNode
 const generatorTree = (data) => {
   /*if (data.Children && data.Children.length != 0) {
-    return <TreeNode key={data.ID} title={data.Name}>
-      {data.Children.map(generatorTree)}
-    </TreeNode>
-  }
-  return <TreeNode key={data.ID} title={data.Name}/>*/
+   return <TreeNode key={data.ID} title={data.Name}>
+   {data.Children.map(generatorTree)}
+   </TreeNode>
+   }
+   return <TreeNode key={data.ID} title={data.Name}/>*/
 
   // 后端数据类型传入不稳定(Children字段可能不传或者传回null或数组)。抛弃上面的写法, 利用_.map的容错处理
   return <TreeNode key={data.ID} title={data.Name}>
-      {_.map(data.Children, generatorTree)}
-    </TreeNode>
+    {_.map(data.Children, generatorTree)}
+  </TreeNode>
 }
-
-
-
 
 
 // 传入值的类型要求
 const valueObjectShape = PropTypes.shape({
   Name: PropTypes.string,
-  ID:  PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  ID: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 })
-
-
-
-
 
 
 class CKSelect extends React.Component {
   constructor(props) {
     super(props);
-    const {value, visible}= this.props
+
+    // 单选时可只传入对象, 这里统一处理为数组
+    const value = _.toArray(props.values)
+
     this.state = {
 
       loading: true,
@@ -54,11 +49,13 @@ class CKSelect extends React.Component {
         Name: '',
         ID: 0
       },
+      value,
       users: [],
       keyword: '',
-      visible: visible || false,
-      // 先只考虑多选
-      $$checkedList: _.isArray(value) ? Immutable.Map(value.map(item => [item.ID, item])) : Immutable.Map(),
+      visible: props.visible,
+
+      // todo: 外部传入的value打上标记, 不许在组件内部删除
+      $$checkedList: Immutable.Map(_.map(value, item => [item.ID, item])),
     }
   }
 
@@ -387,9 +384,15 @@ class CKSelect extends React.Component {
 
 
 CKSelect.propTypes = {
-  multiple: PropTypes.bool,
+
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
+
+
+
+
+  multiple: PropTypes.bool,
+  visible: PropTypes.bool,
   value: PropTypes.oneOfType([
     valueObjectShape,
     PropTypes.arrayOf(valueObjectShape),
@@ -401,7 +404,8 @@ CKSelect.propTypes = {
 
 
 CKSelect.defaultProps = {
-  multiple: true
+  multiple: true,
+  visible: false
 };
 
 
