@@ -28,7 +28,6 @@ const generatorTree = (data) => {
 }
 
 
-
 const toArray = (value) => {
   let ret = value;
   if (value === undefined) {
@@ -48,6 +47,8 @@ const valueObjectShape = PropTypes.shape({
 
 
 class CKSelect extends React.Component {
+
+
   constructor(props) {
     super(props);
 
@@ -111,13 +112,36 @@ class CKSelect extends React.Component {
    }*/
 
 
+  getDataOption = (property) => {
+
+    // 获取部门树和人员列表的默认url
+    const defaultDataOptions = {
+      // 获取部门树
+      deptUrl: location.origin + '/api/deptTree',
+      // deptParams: {},
+
+      // 通过部门id获取人员列表
+      personUrl: location.origin + '/api/personList',
+      // personParams: {},
+
+      // 通过关键字获取人员列表
+      searchUrl: location.origin + '/api/searchUser',
+      //searchParams
+
+    }
+
+    return _.get(this.props.dataOptions, property) || defaultDataOptions[property]
+
+  }
+
+
   getDeptTree = () => {
     const that = this
 
-
     reqwest({
-      url: location.origin + '/api/deptTree',
-      type: 'json'
+      url: that.getDataOption('deptUrl'),
+      type: 'json',
+      data: that.getDataOption('deptParams')
     }).then(data=> {
       that.setState({
         deptTree: data.data,
@@ -135,12 +159,10 @@ class CKSelect extends React.Component {
 
     }, ()=> {
       reqwest({
-        url: location.origin + '/api/personList',
+        url: that.getDataOption('personUrl'),
         type: 'json',
         method: 'post',
-        data: {
-          id
-        }
+        data: _.extend(that.getDataOption('personParams'), {deptid: id})
       }).then(data=> {
         that.setState({
           users: data.data,
@@ -168,12 +190,10 @@ class CKSelect extends React.Component {
       loading: true
     }, ()=> {
       reqwest({
-        url: location.origin + '/api/searchUser',
+        url: that.getDataOption('searchUrl'),
         type: 'json',
         method: 'post',
-        data: {
-          keyword
-        }
+        data: _.extend(that.getDataOption('searchParams'), {keyword: keyword})
       }).then(function (data) {
 
         if (data.rs) {
@@ -264,7 +284,6 @@ class CKSelect extends React.Component {
 
     const {deptTree, users, $$value, keyword, loading, visible} = this.state
     const {multiple} = this.props
-
 
 
     const value = [...$$value.values()]
@@ -394,13 +413,21 @@ CKSelect.propTypes = {
 
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
-  mode:  PropTypes.oneOf(['dept', 'person']),
+  mode: PropTypes.oneOf(['dept', 'person']),
   multiple: PropTypes.bool,
   visible: PropTypes.bool,
   value: PropTypes.oneOfType([
     valueObjectShape,
     PropTypes.arrayOf(valueObjectShape),
   ]),
+  // 获取部门树和人员列表的url和参数
+  dataOptions: PropTypes.object
+
+
+
+
+
+
   /* menuOptions: PropTypes.array.isRequired,
    buttonStyle: PropTypes.object,
    dropdownProps: PropTypes.object,*/
