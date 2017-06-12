@@ -1,5 +1,8 @@
 /**
  * Created by janeluck on 3/31/17.
+ * 超客业务组件
+ * 选人和选部门两种模式
+ * 支持单多选
  */
 import React, {PropTypes} from 'react'
 import {Modal, Input, Button, Tree, Checkbox, Spin} from 'antd'
@@ -8,17 +11,39 @@ import reqwest from 'reqwest'
 import styles from './SelectModal.less'
 import _ from 'lodash'
 
+
+
 const TreeNode = Tree.TreeNode
 const generatorTree = (data) => {
-  if (data.Children && data.Children.length != 0) {
+  /*if (data.Children && data.Children.length != 0) {
     return <TreeNode key={data.ID} title={data.Name}>
       {data.Children.map(generatorTree)}
     </TreeNode>
   }
-  return <TreeNode key={data.ID} title={data.Name}/>
+  return <TreeNode key={data.ID} title={data.Name}/>*/
+
+  // 后端数据类型传入不稳定(Children字段可能不传或者传回null或数组)。抛弃上面的写法, 利用_.map的容错处理
+  return <TreeNode key={data.ID} title={data.Name}>
+      {_.map(data.Children, generatorTree)}
+    </TreeNode>
 }
 
-class SelectModal extends React.Component {
+
+
+
+
+// 传入值的类型要求
+const valueObjectShape = PropTypes.shape({
+  Name: PropTypes.string,
+  ID:  PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+})
+
+
+
+
+
+
+class CKSelect extends React.Component {
   constructor(props) {
     super(props);
     const {value, visible}= this.props
@@ -80,7 +105,7 @@ class SelectModal extends React.Component {
 
     // todo 这里的组织树的数据是否需要缓存(与行政区域的数据不同, 不能放入localStorage中, 可以放在当前window里window.chaokeCache.selectModalTree)?
     // 这样写是么有用的。。。
-     // 放在表单动态渲染时,最好还是由form层取数据
+    // 放在表单动态渲染时,最好还是由form层取数据
     if (top.window.antdAdminCache_selectModalTree) {
       that.setState({
         deptTree: top.window.antdAdminCache_selectModalTree,
@@ -240,134 +265,144 @@ class SelectModal extends React.Component {
     const checkedList = [...$$checkedList.values()]
     const userids = users.map(user=>user.ID)
 
-
     return (
 
 
-      <Modal
-        width={514}
-        title={"选择人员"}
-        visible={visible}
-        onOk={this.onOk}
-        maskClosable={false}
-        onCancel={this.onCancel}
-      >
+      <div>
 
 
-        <Spin spinning={loading}>
-          <div className={styles.wrap}>
-
-            {/*--搜索栏--*/}
-            <div className={styles.searchBar}>
-              <span>搜索人员:</span>
-
-
-              <Input style={{width: 200}} onPressEnter={this.search} value={keyword}
-                     onChange={this.keywordChange}/>
-
-              <Button type="primary" onClick={this.search}>搜 索</Button>
-
-            </div>
-            {/*--搜索栏--*/}
+        {this.props.children}
+        <Modal
+          width={514}
+          title={"选择人员"}
+          visible={visible}
+          onOk={this.onOk}
+          maskClosable={false}
+          onCancel={this.onCancel}
+        >
 
 
-            {/*--已选择--*/}
-            <div className={styles.selectedResult}>
-              <div>已选择</div>
-              <div>
-                <ul>
+          <Spin spinning={loading}>
+            <div className={styles.wrap}>
+
+              {/*--搜索栏--*/}
+              <div className={styles.searchBar}>
+                <span>搜索人员:</span>
 
 
-                  {checkedList.map(checkedUser => (<li key={checkedUser.ID}><img
-                    src={checkedUser.Avatar}/><strong >{checkedUser.Name}</strong><span
-                    onClick={this.deleteCheckedUser.bind(this, checkedUser.ID)}>x</span></li>))}
-                </ul>
-              </div>
+                <Input style={{width: 200}} onPressEnter={this.search} value={keyword}
+                       onChange={this.keywordChange}/>
 
-            </div>
-            {/*--已选择--*/}
-
-
-            {/*--部门人员双栏--*/}
-
-            <div className={styles.selectWrap}>
-              <div className={styles.selectDept}>
-                <div>部门</div>
-                <div className={styles.deptTreeWrap}>
-
-                  <Tree
-                    onSelect={this.onSelect}
-
-                  >
-                    {generatorTree(deptTree)}
-                  </Tree>
-
-
-                </div>
+                <Button type="primary" onClick={this.search}>搜 索</Button>
 
               </div>
+              {/*--搜索栏--*/}
 
-              <div className={styles.selectPerson}>
-                <div>人员</div>
 
+              {/*--已选择--*/}
+              <div className={styles.selectedResult}>
+                <div>已选择</div>
                 <div>
-
-                  {multiple && userids.length ? (<div>
-                    <Checkbox onChange={this.toogleCheckAll}
-                              checked={userids.length != 0 && Immutable.Set(userids).isSubset(Immutable.Set($$checkedList.keys()))}/>全选
-                  </div>) : null}
-
-                  <ul className={styles.personListWrap}>
-                    {users.map(user=><li key={user.ID}>
-                      <Checkbox onChange={this.checkChange.bind(this, user)}
-                                checked={$$checkedList.has(user.ID)}/>
-                      <img src={user.Avatar} alt={user.Name}/>
-                      {user.Name}
+                  <ul>
 
 
-                    </li>)}
-
+                    {checkedList.map(checkedUser => (<li key={checkedUser.ID}><img
+                      src={checkedUser.Avatar}/><strong >{checkedUser.Name}</strong><span
+                      onClick={this.deleteCheckedUser.bind(this, checkedUser.ID)}>x</span></li>))}
                   </ul>
+                </div>
 
+              </div>
+              {/*--已选择--*/}
+
+
+              {/*--部门人员双栏--*/}
+
+              <div className={styles.selectWrap}>
+                <div className={styles.selectDept}>
+                  <div>部门</div>
+                  <div className={styles.deptTreeWrap}>
+
+                    <Tree
+                      onSelect={this.onSelect}
+
+                    >
+                      {generatorTree(deptTree)}
+                    </Tree>
+
+
+                  </div>
 
                 </div>
+
+                <div className={styles.selectPerson}>
+                  <div>人员</div>
+
+                  <div>
+
+                    {multiple && userids.length ? (<div>
+                      <Checkbox onChange={this.toogleCheckAll}
+                                checked={userids.length != 0 && Immutable.Set(userids).isSubset(Immutable.Set($$checkedList.keys()))}/>全选
+                    </div>) : null}
+
+                    <ul className={styles.personListWrap}>
+                      {users.map(user=><li key={user.ID}>
+                        <Checkbox onChange={this.checkChange.bind(this, user)}
+                                  checked={$$checkedList.has(user.ID)}/>
+                        <img src={user.Avatar} alt={user.Name}/>
+                        {user.Name}
+
+
+                      </li>)}
+
+                    </ul>
+
+
+                  </div>
+                </div>
+
+
+              </div>
+              {/*--部门人员双栏--*/}
+
+
+              <div>
+
+
               </div>
 
 
             </div>
-            {/*--部门人员双栏--*/}
+          </Spin>
 
 
-            <div>
+        </Modal>
+      </div>
 
 
-            </div>
-
-
-          </div>
-        </Spin>
-
-
-      </Modal>
 
     );
   }
 }
 
 
-SelectModal.propTypes = {
+CKSelect.propTypes = {
   multiple: PropTypes.bool,
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
+  value: PropTypes.oneOfType([
+    valueObjectShape,
+    PropTypes.arrayOf(valueObjectShape),
+  ]),
   /* menuOptions: PropTypes.array.isRequired,
    buttonStyle: PropTypes.object,
    dropdownProps: PropTypes.object,*/
 }
 
 
-SelectModal.defaultProps = {
+CKSelect.defaultProps = {
   multiple: true
 };
 
 
-export default SelectModal
+export default CKSelect

@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import {SelectModal} from '../../../components/businessComponents'
-import {Table, Row, Col, Card, Select} from 'antd'
+import CKSelect from '../../../components/businessComponents/SelectModal/CKSelect'
+import {Table, Row, Col, Card, Select, Button} from 'antd'
 
 class SelectModalPage extends React.Component {
   constructor(props) {
@@ -31,7 +32,18 @@ class SelectModalPage extends React.Component {
       <h2 style={{margin: '16px 0'}}>选人选部门组件demo</h2>
       <Row>
         <Col lg={18} md={24}>
-          <SelectModal />
+         {/* <SelectModal visible />*/}
+
+
+         <Button>请选择</Button>
+          <CKSelect visible />
+
+          {/*
+          <CKSelect>
+          <Button>请选择</Button>
+          </CKSelect>
+          */}
+
         </Col>
       </Row>
     </div>)
