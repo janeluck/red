@@ -28,6 +28,18 @@ const generatorTree = (data) => {
 }
 
 
+
+const toArray = (value) => {
+  let ret = value;
+  if (value === undefined) {
+    ret = [];
+  } else if (!_.isArray(value)) {
+    ret = [value];
+  }
+  return ret;
+}
+
+
 // 传入值的类型要求
 const valueObjectShape = PropTypes.shape({
   Name: PropTypes.string,
@@ -39,8 +51,8 @@ class CKSelect extends React.Component {
   constructor(props) {
     super(props);
 
-    // 单选时可只传入对象, 这里统一处理为数组
-    const value = _.toArray(props.values)
+
+    const $$value = this.getOriginalValue(props.value)
 
     this.state = {
 
@@ -49,24 +61,26 @@ class CKSelect extends React.Component {
         Name: '',
         ID: 0
       },
-      value,
+      $$value,
       users: [],
       keyword: '',
-      visible: props.visible,
+      visible: props.visible
 
-      // todo: 外部传入的value打上标记, 不许在组件内部删除
-      $$checkedList: Immutable.Map(_.map(value, item => [item.ID, item])),
+
     }
   }
 
+  getOriginalValue = (value) => {
+    // 单选时可只传入对象, 这里统一处理为数组, 生成以ID为key的Map结构数据
+    return Immutable.Map(_.map(toArray(value), item => [item.ID, item]))
+  }
 
   componentWillMount() {
+    console.time('mountTimes')
     this.getDeptTree()
   }
 
   componentWillReceiveProps(nextProps) {
-
-
     // Q: react内部会把下面两个setState放入了同一个enqueueSetState事务队列中
     // todo: react是以什么为标准去判断是放入队列还是立即执行?
 
@@ -82,9 +96,9 @@ class CKSelect extends React.Component {
     }
 
     if ('value' in nextProps) {
-      const value = nextProps.value;
+      const $$value = this.getOriginalValue(nextProps.value);
       this.setState({
-        $$checkedList: _.isArray(value) ? Immutable.Map(value.map(item => [item.ID, item])) : Immutable.Map(),
+        $$value
       });
 
     }
@@ -103,24 +117,17 @@ class CKSelect extends React.Component {
     // todo 这里的组织树的数据是否需要缓存(与行政区域的数据不同, 不能放入localStorage中, 可以放在当前window里window.chaokeCache.selectModalTree)?
     // 这样写是么有用的。。。
     // 放在表单动态渲染时,最好还是由form层取数据
-    if (top.window.antdAdminCache_selectModalTree) {
+    debugger
+    reqwest({
+      url: location.origin + '/api/deptTree',
+      type: 'json'
+    }).then(data=> {
       that.setState({
-        deptTree: top.window.antdAdminCache_selectModalTree,
+        deptTree: data.data,
         loading: false
       })
-    } else {
+    })
 
-      reqwest({
-        url: location.origin + '/api/deptTree',
-        type: 'json'
-      }).then(data=> {
-        top.window.antdAdminCache_selectModalTree = data.data
-        that.setState({
-          deptTree: data.data,
-          loading: false
-        })
-      })
-    }
 
   }
 
@@ -156,7 +163,8 @@ class CKSelect extends React.Component {
 
   search = ()=> {
     const that = this
-    const keyword = that.state.keyword.replace(/(^\s*)|(\s*$)/g, "")
+    //const keyword = that.state.keyword.replace(/(^\s*)|(\s*$)/g, "")
+    const keyword = _.trim(that.state.keyword)
 
     if (keyword == '') return
     that.setState({
@@ -211,31 +219,31 @@ class CKSelect extends React.Component {
     const checked = e.target.checked
     const {multiple}= this.props
 
-    const $$checkedList = this.state.$$checkedList
+    const $$value = this.state.$$value
     this.setState({
-      $$checkedList: checked ? (multiple ? $$checkedList : Immutable.Map())['set'](user.ID, user) : $$checkedList.delete(user.ID)
+      $$value: checked ? (multiple ? $$value : Immutable.Map())['set'](user.ID, user) : $$value.delete(user.ID)
     })
   }
 
   deleteCheckedUser = (ID, e) => {
 
-    const $$checkedList = this.state.$$checkedList
+    const $$value = this.state.$$value
     this.setState({
-      $$checkedList: $$checkedList.delete(ID)
+      $$value: $$value.delete(ID)
     })
   }
 
   toogleCheckAll = (e)=> {
     const checked = e.target.checked
 
-    const {$$checkedList, users} = this.state
+    const {$$value, users} = this.state
 
     const userids = users.map(user=>user.ID)
     const $$usersGroup = Immutable.Map(users.map(user => [user.ID, user]))
 
 
     this.setState({
-      $$checkedList: checked ? $$checkedList.merge($$usersGroup) : $$checkedList.filter((obj, keyName)=> userids.indexOf(keyName) < 0)
+      $$value: checked ? $$value.merge($$usersGroup) : $$value.filter((obj, keyName)=> userids.indexOf(keyName) < 0)
 
     })
 
@@ -244,10 +252,10 @@ class CKSelect extends React.Component {
 
 
   onOk = () => {
-    const {$$checkedList} = this.state
+    const {$$value} = this.state
     const {multiple} = this.props
 
-    this.props.onOk && this.props.onOk(multiple ? [...$$checkedList.values()] : $$checkedList.first())
+    this.props.onOk && this.props.onOk(multiple ? [...$$value.values()] : $$value.first())
 
   }
   onCancel = () => {
@@ -257,9 +265,12 @@ class CKSelect extends React.Component {
   render() {
 
 
-    const {deptTree, users, $$checkedList, keyword, loading, visible} = this.state
+    const {deptTree, users, $$value, keyword, loading, visible} = this.state
     const {multiple} = this.props
-    const checkedList = [...$$checkedList.values()]
+
+
+
+    const value = [...$$value.values()]
     const userids = users.map(user=>user.ID)
 
     return (
@@ -303,7 +314,7 @@ class CKSelect extends React.Component {
                   <ul>
 
 
-                    {checkedList.map(checkedUser => (<li key={checkedUser.ID}><img
+                    {value.map(checkedUser => (<li key={checkedUser.ID}><img
                       src={checkedUser.Avatar}/><strong >{checkedUser.Name}</strong><span
                       onClick={this.deleteCheckedUser.bind(this, checkedUser.ID)}>x</span></li>))}
                   </ul>
@@ -339,13 +350,13 @@ class CKSelect extends React.Component {
 
                     {multiple && userids.length ? (<div>
                       <Checkbox onChange={this.toogleCheckAll}
-                                checked={userids.length != 0 && Immutable.Set(userids).isSubset(Immutable.Set($$checkedList.keys()))}/>全选
+                                checked={userids.length != 0 && Immutable.Set(userids).isSubset(Immutable.Set($$value.keys()))}/>全选
                     </div>) : null}
 
                     <ul className={styles.personListWrap}>
                       {users.map(user=><li key={user.ID}>
                         <Checkbox onChange={this.checkChange.bind(this, user)}
-                                  checked={$$checkedList.has(user.ID)}/>
+                                  checked={$$value.has(user.ID)}/>
                         <img src={user.Avatar} alt={user.Name}/>
                         {user.Name}
 
@@ -360,7 +371,6 @@ class CKSelect extends React.Component {
 
 
               </div>
-              {/*--部门人员双栏--*/}
 
 
               <div>
@@ -387,8 +397,6 @@ CKSelect.propTypes = {
 
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
-
-
 
 
   multiple: PropTypes.bool,
