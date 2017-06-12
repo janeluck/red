@@ -114,10 +114,7 @@ class CKSelect extends React.Component {
   getDeptTree = () => {
     const that = this
 
-    // todo 这里的组织树的数据是否需要缓存(与行政区域的数据不同, 不能放入localStorage中, 可以放在当前window里window.chaokeCache.selectModalTree)?
-    // 这样写是么有用的。。。
-    // 放在表单动态渲染时,最好还是由form层取数据
-    debugger
+
     reqwest({
       url: location.origin + '/api/deptTree',
       type: 'json'
@@ -397,8 +394,7 @@ CKSelect.propTypes = {
 
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
-
-
+  mode:  PropTypes.oneOf(['dept', 'person']),
   multiple: PropTypes.bool,
   visible: PropTypes.bool,
   value: PropTypes.oneOfType([
@@ -413,7 +409,9 @@ CKSelect.propTypes = {
 
 CKSelect.defaultProps = {
   multiple: true,
-  visible: false
+  visible: false,
+  // 默认为选人模式
+  mode: 'person'
 };
 
 
