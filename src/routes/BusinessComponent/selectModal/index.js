@@ -11,7 +11,7 @@ class SelectModalPage extends React.Component {
     super(props)
     this.state = {
       visible: false,
-      values: {ID: 1, Name: 'jane'}
+      values: {ID: '109999', Name: 'jane'}
 
     }
   }
@@ -39,22 +39,17 @@ class SelectModalPage extends React.Component {
           {/* <SelectModal visible />*/}
 
 
-
-
-          <Button onClick={this.changeVisible.bind(this, true)}>请选择</Button>
           <ul>
 
             {_.map(_.isArray(values) ? values : [values], item => <li key={item.ID}>{item.Name}</li>)}
 
           </ul>
-          <CKSelect mode="dept" multiple={false} visible={visible} value={values} onCancel={this.changeVisible.bind(this, false)}
-                    onOk={this.setValue}/>
 
-          {/*
-           <CKSelect>
-           <Button>请选择</Button>
-           </CKSelect>
-           */}
+
+
+          <CKSelect visible={visible} value={values} onCancel={this.changeVisible.bind(this, false)}
+                    onOk={this.setValue}/>
+          <Button onClick={this.changeVisible.bind(this, true)}>请选择</Button>
 
         </Col>
       </Row>

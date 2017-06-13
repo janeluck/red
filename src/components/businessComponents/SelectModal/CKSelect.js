@@ -346,7 +346,7 @@ class CKSelect extends React.Component {
         {this.props.children}
         <Modal
           width={514}
-          title={"选择人员"}
+          title={`选择${mode == 'person' ? '人员' : '部门'}`}
           visible={visible}
           onOk={this.onOk}
           maskClosable={false}
@@ -360,10 +360,10 @@ class CKSelect extends React.Component {
               {/*--搜索栏--*/}
 
               {mode == 'person' && (<div className={styles.searchBar}>
-                <span>搜索人员:</span>
+                <span >搜索人员:</span>
 
 
-                <Input style={{width: 200}} onPressEnter={this.search} value={keyword}
+                <Input className={styles.searchBarInput} style={{width: 200}} onPressEnter={this.search} value={keyword}
                        onChange={this.keywordChange}/>
 
                 <Button type="primary" onClick={this.search}>搜 索</Button>
@@ -376,7 +376,7 @@ class CKSelect extends React.Component {
 
               {/*--已选择--*/}
               <div className={styles.selectedResult}>
-                <div>已选择</div>
+                <div>已选择:</div>
                 <div>
                   <ul>
 
