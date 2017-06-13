@@ -14,14 +14,8 @@ import _ from 'lodash'
 
 const TreeNode = Tree.TreeNode
 const generatorTree = (data) => {
-  /*if (data.Children && data.Children.length != 0) {
-   return <TreeNode key={data.ID} title={data.Name}>
-   {data.Children.map(generatorTree)}
-   </TreeNode>
-   }
-   return <TreeNode key={data.ID} title={data.Name}/>*/
 
-  // 后端数据类型传入不稳定(Children字段可能不传或者传回null或数组)。抛弃上面的写法, 利用_.map的容错处理
+  // 后端数据类型传入不稳定(Children字段可能不传或者传回null或数组)。利用_.map的容错处理
   return <TreeNode key={data.ID} title={data.Name}>
     {_.map(data.Children, generatorTree)}
   </TreeNode>
@@ -232,7 +226,20 @@ class CKSelect extends React.Component {
   }
 
 
-  checkChange = (user, e)=> {
+
+
+  deptCheckChange = (dept, e)=> {
+    const checked = e.target.checked
+    const {multiple}= this.props
+
+    const $$value = this.state.$$value
+    this.setState({
+      $$value: checked ? (multiple ? $$value : Immutable.Map())['set'](user.ID, user) : $$value.delete(user.ID)
+    })
+  }
+
+
+  personCheckChange = (user, e)=> {
     const checked = e.target.checked
     const {multiple}= this.props
 
@@ -283,11 +290,28 @@ class CKSelect extends React.Component {
 
 
     const {deptTree, users, $$value, keyword, loading, visible} = this.state
-    const {multiple} = this.props
+    const {multiple, mode} = this.props
 
 
     const value = [...$$value.values()]
     const userids = users.map(user=>user.ID)
+
+
+
+    // 选择部门时, 树节点为checkable
+    // 选择人员时, 数节点为selectable
+    let treeProps
+
+    if (mode == '1person') {
+      treeProps = {
+        onSelect: this.onSelect
+      }
+    } else {
+      treeProps = {
+        checkable: true,
+        checkStrictly: true,
+      }
+    }
 
     return (
 
@@ -348,7 +372,7 @@ class CKSelect extends React.Component {
                   <div className={styles.deptTreeWrap}>
 
                     <Tree
-                      onSelect={this.onSelect}
+                      {...treeProps}
 
                     >
                       {generatorTree(deptTree)}
@@ -371,7 +395,7 @@ class CKSelect extends React.Component {
 
                     <ul className={styles.personListWrap}>
                       {users.map(user=><li key={user.ID}>
-                        <Checkbox onChange={this.checkChange.bind(this, user)}
+                        <Checkbox onChange={this.personCheckChange.bind(this, user)}
                                   checked={$$value.has(user.ID)}/>
                         <img src={user.Avatar} alt={user.Name}/>
                         {user.Name}
