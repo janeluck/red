@@ -2,7 +2,9 @@
  * Created by janeluck on 3/31/17.
  * 超客业务组件
  * 选人和选部门两种模式
+ * 支持单多根(后端传回的部门树结构可为Object或者Array)
  * 支持单多选
+ * todo: 1. 缓存部门人员列表数据, 2. 关联上下级, 半选状态等
  */
 import React, {PropTypes} from 'react'
 import {Modal, Input, Button, Tree, Checkbox, Spin} from 'antd'
@@ -13,13 +15,12 @@ import _ from 'lodash'
 
 
 const TreeNode = Tree.TreeNode
-const generatorTree = (data) => {
-
-  // 后端数据类型传入不稳定(Children字段可能不传或者传回null或数组)。利用_.map的容错处理
-  return <TreeNode key={data.ID} title={data.Name}>
-    {_.map(data.Children, generatorTree)}
+// 后端数据类型传入不稳定(Children字段可能不传或者传回null或数组)。利用_.map的容错处理
+const generatorTree = (data) => _.map(data, (item)=> {
+  return <TreeNode key={item.ID} title={item.Name}>
+    {generatorTree(item.Children)}
   </TreeNode>
-}
+})
 
 
 const toArray = (value) => {
@@ -52,15 +53,17 @@ class CKSelect extends React.Component {
     this.state = {
 
       loading: true,
-      deptTree: {
-        Name: '',
-        ID: 0
-      },
+      deptTree: [{
+        Name: '部门1',
+        ID: '0'
+      }, {
+        Name: '部门2',
+        ID: '232'
+      }],
       $$value,
       users: [],
       keyword: '',
-      visible: props.visible
-
+      visible: props.visible,
 
     }
   }
@@ -71,7 +74,6 @@ class CKSelect extends React.Component {
   }
 
   componentWillMount() {
-    console.time('mountTimes')
     this.getDeptTree()
   }
 
@@ -138,7 +140,7 @@ class CKSelect extends React.Component {
       data: that.getDataOption('deptParams')
     }).then(data=> {
       that.setState({
-        deptTree: data.data,
+        deptTree: toArray(data.data),
         loading: false
       })
     })
@@ -220,21 +222,22 @@ class CKSelect extends React.Component {
 
   onSelect = (selectedKeys, e) => {
     //selected: bool, selectedNodes, node, event
-    const id = e.node.props.eventKey
-    this.getList(id)
+    // const id = e.node.props.eventKey
+    this.getList(e.node.props.eventKey)
 
   }
 
 
-
-
-  deptCheckChange = (dept, e)=> {
-    const checked = e.target.checked
+  deptCheckChange = (checkedKeys, e)=> {
+    const checked = e.checked
+    const deptProps = e.node.props
     const {multiple}= this.props
-
     const $$value = this.state.$$value
     this.setState({
-      $$value: checked ? (multiple ? $$value : Immutable.Map())['set'](user.ID, user) : $$value.delete(user.ID)
+      $$value: checked ? (multiple ? $$value : Immutable.Map())['set'](deptProps['eventKey'], {
+        ID: deptProps['eventKey'],
+        Name: deptProps['title']
+      }) : $$value.delete(deptProps['eventKey'])
     })
   }
 
@@ -286,6 +289,17 @@ class CKSelect extends React.Component {
     this.props.onCancel && this.props.onCancel()
   }
 
+
+  getDefaultExpandedKeys = (deptTree) => {
+    if (deptTree.length > 1) {
+      return []
+    }
+    return _.reduce(deptTree[0]['Children'], function (prev, cur) {
+      prev.push(cur['ID'])
+      return prev
+    }, [deptTree[0]['ID']])
+  }
+
   render() {
 
 
@@ -295,7 +309,6 @@ class CKSelect extends React.Component {
 
     const value = [...$$value.values()]
     const userids = users.map(user=>user.ID)
-
 
 
     // 选择部门时, 树节点为checkable
@@ -310,6 +323,11 @@ class CKSelect extends React.Component {
       treeProps = {
         checkable: true,
         checkStrictly: true,
+        onCheck: this.deptCheckChange,
+        checkedKeys: {checked: [...$$value.keys()]},
+
+        // 单根情况下默认展开根的第一子级, 多根的时候不需要
+        defaultExpandedKeys: this.getDefaultExpandedKeys(deptTree)
       }
     }
 

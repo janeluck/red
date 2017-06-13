@@ -45,7 +45,7 @@ class SelectModalPage extends React.Component {
             {_.map(_.isArray(values) ? values : [values], item => <li key={item.ID}>{item.Name}</li>)}
 
           </ul>
-          <CKSelect visible={visible} value={values} onCancel={this.changeVisible.bind(this, false)}
+          <CKSelect multiple={false} visible={visible} value={values} onCancel={this.changeVisible.bind(this, false)}
                     onOk={this.setValue}/>
 
           {/*
