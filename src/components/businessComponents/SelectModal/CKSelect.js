@@ -359,7 +359,7 @@ class CKSelect extends React.Component {
 
               {/*--搜索栏--*/}
 
-              {mode == 'person' ? (<div className={styles.searchBar}>
+              {mode == 'person' && (<div className={styles.searchBar}>
                 <span>搜索人员:</span>
 
 
@@ -368,7 +368,7 @@ class CKSelect extends React.Component {
 
                 <Button type="primary" onClick={this.search}>搜 索</Button>
 
-              </div>) : null}
+              </div>) }
 
 
               {/*--搜索栏--*/}
@@ -415,10 +415,10 @@ class CKSelect extends React.Component {
 
                   <div>
 
-                    {multiple && userids.length ? (<div>
+                    {multiple && !!userids.length && (<div>
                       <Checkbox onChange={this.toogleCheckAll}
                                 checked={userids.length != 0 && Immutable.Set(userids).isSubset(Immutable.Set($$value.keys()))}/>全选
-                    </div>) : null}
+                    </div>)}
 
                     <ul className={styles.personListWrap}>
                       {users.map(user=><li key={user.ID}>
