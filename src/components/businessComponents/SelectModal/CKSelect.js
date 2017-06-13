@@ -15,12 +15,16 @@ import _ from 'lodash'
 
 
 const TreeNode = Tree.TreeNode
-// 后端数据类型传入不稳定(Children字段可能不传或者传回null或数组)。利用_.map的容错处理
-const generatorTree = (data) => _.map(data, (item)=> {
-  return <TreeNode key={item.ID} title={item.Name}>
-    {generatorTree(item.Children)}
-  </TreeNode>
-})
+
+const generatorTree = (data) => {
+  // 因为空数组也会使TreeNode渲染出可展开的图标, 此处作处理返回false
+  if (data && data.length == 0) return false
+  return _.map(data, (item)=> {
+    return <TreeNode key={item.ID} title={item.Name}>
+      {generatorTree(item.Children)}
+    </TreeNode>
+  })
+}
 
 
 const toArray = (value) => {
@@ -31,6 +35,18 @@ const toArray = (value) => {
     ret = [value];
   }
   return ret;
+}
+
+
+// 后端传回的ID类型有时为Number, 统一处理成字符串
+const IDtoString = (data) => {
+  // 后端数据类型传入不稳定(Children字段可能不传或者传回null或数组)。利用_.map的容错处理
+  return _.map(data, item => {
+    return _.extend(item, {
+      ID: item.ID + '',
+      Children: IDtoString(item.Children)
+    })
+  })
 }
 
 
@@ -140,7 +156,7 @@ class CKSelect extends React.Component {
       data: that.getDataOption('deptParams')
     }).then(data=> {
       that.setState({
-        deptTree: toArray(data.data),
+        deptTree: IDtoString(toArray(data.data)),
         loading: false
       })
     })
@@ -290,16 +306,6 @@ class CKSelect extends React.Component {
   }
 
 
-  getDefaultExpandedKeys = (deptTree) => {
-    if (deptTree.length > 1) {
-      return []
-    }
-    return _.reduce(deptTree[0]['Children'], function (prev, cur) {
-      prev.push(cur['ID'])
-      return prev
-    }, [deptTree[0]['ID']])
-  }
-
   render() {
 
 
@@ -312,10 +318,10 @@ class CKSelect extends React.Component {
 
 
     // 选择部门时, 树节点为checkable
-    // 选择人员时, 数节点为selectable
+    // 选择人员时, 树节点为selectable
     let treeProps
 
-    if (mode == '1person') {
+    if (mode == 'person') {
       treeProps = {
         onSelect: this.onSelect
       }
@@ -326,8 +332,8 @@ class CKSelect extends React.Component {
         onCheck: this.deptCheckChange,
         checkedKeys: {checked: [...$$value.keys()]},
 
-        // 单根情况下默认展开根的第一子级, 多根的时候不需要
-        defaultExpandedKeys: this.getDefaultExpandedKeys(deptTree)
+        // 单根情况下默认展开根, 多根的时候不需要
+        defaultExpandedKeys: deptTree.length > 1 ? [] : [deptTree[0]['ID']]
       }
     }
 
@@ -352,7 +358,8 @@ class CKSelect extends React.Component {
             <div className={styles.wrap}>
 
               {/*--搜索栏--*/}
-              <div className={styles.searchBar}>
+
+              {mode == 'person' ? (<div className={styles.searchBar}>
                 <span>搜索人员:</span>
 
 
@@ -361,7 +368,9 @@ class CKSelect extends React.Component {
 
                 <Button type="primary" onClick={this.search}>搜 索</Button>
 
-              </div>
+              </div>) : null}
+
+
               {/*--搜索栏--*/}
 
 
