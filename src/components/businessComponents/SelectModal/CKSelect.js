@@ -4,7 +4,7 @@
  * 选人和选部门两种模式
  * 支持单多根(后端传回的部门树结构可为Object或者Array)
  * 支持单多选
- * todo: 1. 缓存部门人员列表数据, 2. 关联上下级, 半选状态等
+ * todo: 1. 是否需要缓存部门人员列表数据?(在包含下级的条件下,全公司会有大量的数据), 2. 关联上下级, 半选状态等(还是按照之前的模式, 仅支持自动选中下级?)
  */
 import React, {PropTypes} from 'react'
 import {Modal, Input, Button, Tree, Checkbox, Spin} from 'antd'
