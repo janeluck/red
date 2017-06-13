@@ -13,7 +13,6 @@ import reqwest from 'reqwest'
 import styles from './SelectModal.less'
 import _ from 'lodash'
 
-
 const TreeNode = Tree.TreeNode
 
 const generatorTree = (data) => {
@@ -30,6 +29,7 @@ const generatorTree = (data) => {
 const toArray = (value) => {
   let ret = value;
   if (value === undefined) {
+    //处理null, undefined
     ret = [];
   } else if (!_.isArray(value)) {
     ret = [value];
