@@ -1,4 +1,6 @@
 
+
+@cellPx: 8px;
 .wrap {
   height: 555px;
   border-radius: 2px;
@@ -12,28 +14,45 @@
 }
 
 .searchBarInput{
-  margin: 0 8px;
+  margin: 0 2*@cellPx;
   width: 200px;
 }
 
 .selectedResult{
-  margin: 16px 0;
+
+  margin: 2*@cellPx 0;
   ul{
+    border: 1px solid #eaeaea;
     height: 140px;
+    overflow: auto;
+    margin-top: @cellPx;
   }
   li{
     float: left;
   }
 
 }
+
+.selectDept{
+  margin-right: 2*@cellPx;
+}
 .selectDept, .selectPerson {
   float: left;
   border: 1px solid #ddd;
   height: 336px;
-  width: 50%;
+  width: 233px;
   padding: 10px 25px;
 
 }
+
+
+.selectAllPerson{
+
+}
+
+
+
+
 
 .deptTreeWrap {
   height: 300px;

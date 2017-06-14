@@ -377,15 +377,12 @@ class CKSelect extends React.Component {
               {/*--已选择--*/}
               <div className={styles.selectedResult}>
                 <div>已选择:</div>
-                <div>
-                  <ul>
+                <ul>
+                  {value.map(checkedUser => (<li key={checkedUser.ID}><img
+                    src={checkedUser.Avatar}/><strong >{checkedUser.Name}</strong><span
+                    onClick={this.deleteCheckedUser.bind(this, checkedUser.ID)}>x</span></li>))}
+                </ul>
 
-
-                    {value.map(checkedUser => (<li key={checkedUser.ID}><img
-                      src={checkedUser.Avatar}/><strong >{checkedUser.Name}</strong><span
-                      onClick={this.deleteCheckedUser.bind(this, checkedUser.ID)}>x</span></li>))}
-                  </ul>
-                </div>
 
               </div>
               {/*--已选择--*/}
@@ -411,13 +408,13 @@ class CKSelect extends React.Component {
                 </div>
 
                 <div className={styles.selectPerson}>
-                  <div>人员</div>
-
                   <div>
 
                     {multiple && !!userids.length && (<div>
                       <Checkbox onChange={this.toogleCheckAll}
-                                checked={userids.length != 0 && Immutable.Set(userids).isSubset(Immutable.Set($$value.keys()))}/>全选
+                                checked={userids.length != 0 && Immutable.Set(userids).isSubset(Immutable.Set($$value.keys()))}/>
+                      <span>全选</span>
+
                     </div>)}
 
                     <ul className={styles.personListWrap}>
