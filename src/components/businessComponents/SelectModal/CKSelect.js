@@ -7,7 +7,7 @@
  * todo: 1. 是否需要缓存部门人员列表数据?(在包含下级的条件下,全公司会有大量的数据), 2. 关联上下级, 半选状态等(还是按照之前的模式, 仅支持自动选中下级?)
  */
 import React, {PropTypes} from 'react'
-import {Modal, Input, Button, Tree, Checkbox, Spin} from 'antd'
+import {Modal, Input, Button, Tree, Checkbox, Spin, Icon} from 'antd'
 import Immutable from 'immutable'
 import reqwest from 'reqwest'
 import styles from './SelectModal.less'
@@ -378,9 +378,18 @@ class CKSelect extends React.Component {
               <div className={styles.selectedResult}>
                 <div>已选择:</div>
                 <ul>
-                  {value.map(checkedUser => (<li key={checkedUser.ID}><img
-                    src={checkedUser.Avatar}/><strong >{checkedUser.Name}</strong><span
-                    onClick={this.deleteCheckedUser.bind(this, checkedUser.ID)}>x</span></li>))}
+                  {value.map(checkedUser => (<li key={checkedUser.ID}>
+
+                    <Icon className={styles.deleteIcon} onClick={this.deleteCheckedUser.bind(this, checkedUser.ID)} type="cross"/>
+
+                    <div><img className={styles.selectedItemAvatar} src={checkedUser.Avatar}/></div>
+
+                    <div className={styles.selectedItemName} >{checkedUser.Name}</div>
+
+                    {/*       <span >x</span>*/}
+
+
+                  </li>))}
                 </ul>
 
 
@@ -421,8 +430,8 @@ class CKSelect extends React.Component {
                       {users.map(user=><li key={user.ID}>
                         <Checkbox onChange={this.personCheckChange.bind(this, user)}
                                   checked={$$value.has(user.ID)}/>
-                        <img src={user.Avatar} alt={user.Name}/>
-                        {user.Name}
+                        <img className={styles.selectPersonAvatar}  src={user.Avatar} alt={user.Name}/>
+                        <span>{user.Name}</span>
 
 
                       </li>)}

@@ -1,41 +1,62 @@
-
-
 @cellPx: 8px;
 .wrap {
   height: 555px;
   border-radius: 2px;
 }
 
-//@primary-color          : #2db7f5;
+@primary-color          : #2db7f5;
 
-@primary-color: #1eb7bc;
+//@primary-color: #1eb7bc;
 
 .selectWrap {
 }
 
-.searchBarInput{
+.searchBarInput {
   margin: 0 2*@cellPx;
   width: 200px;
 }
 
-.selectedResult{
+.selectedResult {
 
   margin: 2*@cellPx 0;
-  ul{
+  ul {
     border: 1px solid #eaeaea;
     height: 140px;
     overflow: auto;
     margin-top: @cellPx;
+    padding-left: @cellPx;
   }
-  li{
+  li {
     float: left;
+    position: relative;
+    margin: 0 @cellPx;
+
   }
 
 }
 
-.selectDept{
+.selectedItemAvatar {
+  width: 48px;
+  height: 48px;
+}
+
+.selectedItemName {
+  text-align: center;
+}
+
+.deleteIcon {
+  position: relative;
+  top: 8px;
+  right: -8px;
+  float: right;
+  color: @primary-color;
+  font-size: 16px;
+}
+
+.selectDept {
   margin-right: 2*@cellPx;
 }
+
 .selectDept, .selectPerson {
   float: left;
   border: 1px solid #ddd;
@@ -45,14 +66,9 @@
 
 }
 
-
-.selectAllPerson{
+.selectAllPerson {
 
 }
-
-
-
-
 
 .deptTreeWrap {
   height: 300px;
@@ -63,4 +79,8 @@
 .personListWrap {
   height: 280px;
   overflow: auto;
+}
+.selectPersonAvatar{
+  width: 26px;
+  height: 26px;
 }
