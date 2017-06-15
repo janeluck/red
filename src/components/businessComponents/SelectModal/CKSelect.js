@@ -73,13 +73,7 @@ class CKSelect extends React.Component {
     this.state = {
 
       loading: true,
-      deptTree: [{
-        Name: '部门1',
-        ID: '0'
-      }, {
-        Name: '部门2',
-        ID: '232'
-      }],
+      deptTree: null,
       $$value,
       users: [],
       keyword: '',
