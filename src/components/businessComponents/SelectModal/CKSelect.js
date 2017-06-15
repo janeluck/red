@@ -13,6 +13,10 @@ import reqwest from 'reqwest'
 import styles from './SelectModal.less'
 import _ from 'lodash'
 
+
+debugger
+console.log(styles)
+
 const TreeNode = Tree.TreeNode
 
 const generatorTree = (data) => {
@@ -332,8 +336,7 @@ class CKSelect extends React.Component {
         onCheck: this.deptCheckChange,
         checkedKeys: {checked: [...$$value.keys()]},
 
-        // 单根情况下默认展开根, 多根的时候不需要
-        defaultExpandedKeys: deptTree.length > 1 ? [] : [deptTree[0]['ID']]
+
       }
     }
 
@@ -380,11 +383,12 @@ class CKSelect extends React.Component {
                 <ul>
                   {value.map(checkedUser => (<li key={checkedUser.ID}>
 
-                    <Icon className={styles.deleteIcon} onClick={this.deleteCheckedUser.bind(this, checkedUser.ID)} type="cross"/>
+                    <Icon className={styles.deleteIcon} onClick={this.deleteCheckedUser.bind(this, checkedUser.ID)}
+                          type="cross"/>
 
                     <div><img className={styles.selectedItemAvatar} src={checkedUser.Avatar}/></div>
 
-                    <div className={styles.selectedItemName} >{checkedUser.Name}</div>
+                    <div className={styles.selectedItemName}>{checkedUser.Name}</div>
 
                     {/*       <span >x</span>*/}
 
@@ -404,12 +408,12 @@ class CKSelect extends React.Component {
                   <div>部门</div>
                   <div className={styles.deptTreeWrap}>
 
-                    <Tree
-                      {...treeProps}
-
-                    >
+                    { deptTree && <Tree
+                      // 单根情况下默认展开根, 多根的时候不需要
+                      defaultExpandedKeys = {deptTree.length> 1 ? [] : [deptTree[0]['ID']]}
+                      {...treeProps}>
                       {generatorTree(deptTree)}
-                    </Tree>
+                    </Tree>}
 
 
                   </div>
@@ -430,7 +434,7 @@ class CKSelect extends React.Component {
                       {users.map(user=><li key={user.ID}>
                         <Checkbox onChange={this.personCheckChange.bind(this, user)}
                                   checked={$$value.has(user.ID)}/>
-                        <img className={styles.selectPersonAvatar}  src={user.Avatar} alt={user.Name}/>
+                        <img className={styles.selectPersonAvatar} src={user.Avatar} alt={user.Name}/>
                         <span>{user.Name}</span>
 
 
@@ -479,15 +483,6 @@ CKSelect.propTypes = {
   ]),
   // 获取部门树和人员列表的url和参数
   dataOptions: PropTypes.object
-
-
-
-
-
-
-  /* menuOptions: PropTypes.array.isRequired,
-   buttonStyle: PropTypes.object,
-   dropdownProps: PropTypes.object,*/
 }
 
 
