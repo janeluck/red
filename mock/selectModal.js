@@ -91,15 +91,15 @@ module.exports = {
 
   'GET /api/deptTree' (req, res) {
 
-    res.json({success: true, data: deptTreeData})
+    res.json({rs: true, data: deptTreeData})
   },
 
   'POST /api/personList' (req, res) {
 
     const deptID = Number(req.body.slice(7))
-    res.json({
-      success: true, data: Mock.mock({
-        'users|0-30': [
+    res.json(Mock.mock({
+        'rs': true,
+        'data|0-30': [
           {
             "ID|+1": deptID * 10,
             "Name": "@cname",
@@ -108,16 +108,14 @@ module.exports = {
             },
           }
         ]
-      })['users']
-    })
+      }))
   },
 
   'POST /api/searchUser' (req, res) {
     const randomNumber = Mock.Random.integer(1, 1000)
-    res.json({
-      rs: true, data: Mock.mock({
-
-        'list|0-10': [
+    res.json(Mock.mock({
+        'rs': true,
+        'data|0-10': [
           {
             "ID|+1": randomNumber,
             "Name": "@cname",
@@ -126,8 +124,9 @@ module.exports = {
             },
           }
         ]
-      })
-    })
+      }
+      )
+    )
   }
 
 
