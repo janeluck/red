@@ -412,7 +412,7 @@ class CKSelect extends React.Component {
 
               {/*--部门人员双栏--*/}
 
-              <div className={styles.selectWrap}>
+              <div className="clearfix">
                 <div className={styles.selectDept}
                      style={{width: isSelectPerson ? '233px' : '100%'}}>
 
@@ -463,9 +463,6 @@ class CKSelect extends React.Component {
                     </div>) }
 
                 </div>)}
-
-
-                <div style={{clear: 'both'}}></div>
               </div>
 
 
