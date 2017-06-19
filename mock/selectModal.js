@@ -103,7 +103,7 @@ module.exports = {
           {
             "ID|+1": deptID * 10,
             "Name": "@cname",
-            Avatar () {
+            "img": function () {
               return Mock.Random.image('20x20', Mock.Random.color(), '#757575', 'png', this.Name.substr(0, 1))
             },
           }
@@ -121,7 +121,7 @@ module.exports = {
           {
             "ID|+1": randomNumber,
             "Name": "@cname",
-            Avatar () {
+            "img": function () {
               return Mock.Random.image('20x20', Mock.Random.color(), '#757575', 'png', this.Name.substr(0, 1))
             },
           }

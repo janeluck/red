@@ -1,14 +1,12 @@
 @cellPx: 8px;
+@primary-color: #108ee9;
+
 .wrap {
-  height: 555px;
   border-radius: 2px;
 }
 
-@primary-color          : #2db7f5;
-
-//@primary-color: #1eb7bc;
-
-.selectWrap {
+.searchBar {
+  margin-bottom: @cellPx;
 }
 
 .searchBarInput {
@@ -18,39 +16,48 @@
 
 .selectedResult {
 
-  margin: 2*@cellPx 0;
+  margin: 0 0 2*@cellPx 0;
   ul {
+
     border: 1px solid #eaeaea;
-    height: 140px;
+    height: 96px;
     overflow: auto;
     margin-top: @cellPx;
+    padding-top: @cellPx;
     padding-left: @cellPx;
   }
   li {
     float: left;
     position: relative;
-    margin: 0 @cellPx;
-
+    margin: @cellPx;
+    text-align: center;
   }
 
 }
 
 .selectedItemAvatar {
-  width: 48px;
-  height: 48px;
+  width: 5 * @cellPx;
+  height: 5 * @cellPx;
 }
 
-.selectedItemName {
-  text-align: center;
+.selectedDeptName {
+  border: 1px solid #eaeaea;
+  color: @primary-color;
+  padding: @cellPx;
+
 }
 
 .deleteIcon {
-  position: relative;
-  top: 8px;
+  position: absolute;
+  top: -8px;
   right: -8px;
   float: right;
-  color: @primary-color;
-  font-size: 16px;
+  color: white;
+  height: 2*@cellPx;
+  width: 2*@cellPx;
+  text-align: center;
+  background: @primary-color;
+  border-radius: 50%;
 }
 
 .selectDept {
@@ -62,12 +69,11 @@
   border: 1px solid #ddd;
   height: 336px;
   width: 233px;
-  padding: 10px 25px;
-
 }
 
 .selectAllPerson {
-
+  padding: @cellPx 2*@cellPx;
+  border-bottom: 1px solid #ebe9ea;
 }
 
 .deptTreeWrap {
@@ -79,8 +85,29 @@
 .personListWrap {
   height: 280px;
   overflow: auto;
+  padding: @cellPx 2*@cellPx;
+  li {
+    padding-top: @cellPx;
+  }
 }
-.selectPersonAvatar{
-  width: 26px;
-  height: 26px;
+
+.selectPersonAvatar {
+  width: 3*@cellPx;
+  height: 3*@cellPx;
+  margin: 0 @cellPx;
+  vertical-align: middle;
+
 }
+
+.selectPersonName {
+  vertical-align: middle;
+
+}
+
+.empty {
+  text-align: center;
+  position: relative;
+  top: 50%;
+  margin: 0 auto;
+}
+
