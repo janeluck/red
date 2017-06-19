@@ -95,7 +95,8 @@ module.exports = {
   },
 
   'POST /api/personList' (req, res) {
-    const deptID = Number(req.body.slice(3))
+
+    const deptID = Number(req.body.slice(7))
     res.json({
       success: true, data: Mock.mock({
         'users|0-30': [

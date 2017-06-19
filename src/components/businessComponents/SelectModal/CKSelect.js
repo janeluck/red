@@ -14,9 +14,6 @@ import styles from './SelectModal.less'
 import _ from 'lodash'
 
 
-debugger
-console.log(styles)
-
 const TreeNode = Tree.TreeNode
 
 const generatorTree = (data) => {
