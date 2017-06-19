@@ -104,7 +104,7 @@ module.exports = {
             "ID|+1": deptID * 10,
             "Name": "@cname",
             "img": function () {
-              return Mock.Random.image('20x20', Mock.Random.color(), '#757575', 'png', this.Name.substr(0, 1))
+              return Mock.Random.image('320x320', Mock.Random.color(), '#757575', 'png', this.Name.substr(0, 1))
             },
           }
         ]
@@ -122,7 +122,7 @@ module.exports = {
             "ID|+1": randomNumber,
             "Name": "@cname",
             "img": function () {
-              return Mock.Random.image('20x20', Mock.Random.color(), '#757575', 'png', this.Name.substr(0, 1))
+              return Mock.Random.image('320x320', Mock.Random.color(), '#757575', 'png', this.Name.substr(0, 1))
             },
           }
         ]

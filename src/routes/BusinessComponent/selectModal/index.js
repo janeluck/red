@@ -11,7 +11,7 @@ class SelectModalPage extends React.Component {
     super(props)
     this.state = {
       visible: false,
-      values: {ID: '109999', Name: 'jane'}
+      values: {ID: '109999', Name: 'jane', img: 'https://dummyimage.com/320x320/79e3f2/757575.png&text=jane'}
 
     }
   }
@@ -47,7 +47,7 @@ class SelectModalPage extends React.Component {
 
 
 
-          <CKSelect mode="dept" visible={true} value={values} onCancel={this.changeVisible.bind(this, false)}
+          <CKSelect  visible={true} value={values} onCancel={this.changeVisible.bind(this, false)}
                     onOk={this.setValue}/>
           <Button onClick={this.changeVisible.bind(this, true)}>请选择</Button>
 
