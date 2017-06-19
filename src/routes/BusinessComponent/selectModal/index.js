@@ -47,7 +47,7 @@ class SelectModalPage extends React.Component {
 
 
 
-          <CKSelect visible={true} value={values} onCancel={this.changeVisible.bind(this, false)}
+          <CKSelect mode="dept" visible={true} value={values} onCancel={this.changeVisible.bind(this, false)}
                     onOk={this.setValue}/>
           <Button onClick={this.changeVisible.bind(this, true)}>请选择</Button>
 

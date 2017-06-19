@@ -1,5 +1,6 @@
 @cellPx: 8px;
 @primary-color: #108ee9;
+@border-style: 1px solid #eaeaea;
 
 .wrap {
   border-radius: 2px;
@@ -19,7 +20,7 @@
   margin: 0 0 2*@cellPx 0;
   ul {
 
-    border: 1px solid #eaeaea;
+    border: @border-style;
     height: 96px;
     overflow: auto;
     margin-top: @cellPx;
@@ -41,7 +42,7 @@
 }
 
 .selectedDeptName {
-  border: 1px solid #eaeaea;
+  border: @border-style;
   color: @primary-color;
   padding: @cellPx;
 
@@ -66,14 +67,14 @@
 
 .selectDept, .selectPerson {
   float: left;
-  border: 1px solid #ddd;
+  border: @border-style;
   height: 336px;
   width: 233px;
 }
 
 .selectAllPerson {
   padding: @cellPx 2*@cellPx;
-  border-bottom: 1px solid #ebe9ea;
+  border-bottom: @border-style;
 }
 
 .deptTreeWrap {
