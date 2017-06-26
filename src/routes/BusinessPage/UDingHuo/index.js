@@ -35,6 +35,7 @@ export default class extends React.Component {
     this.state = {
       current: 0,
     }
+
   }
 
   prev = () => {
